@@ -45,8 +45,8 @@ behavior, or release readiness.
 ## Provenance and validation
 
 This target contains original foundation documentation and Rust governance tooling under the MIT
-license. Planning documents and `sts2-harness-rust` were read-only structural or decision inputs;
-their product source, historical implementation, proprietary game files, saves, credentials, and
+license. Planning documents were read-only structural or decision inputs; product source,
+historical implementation, proprietary game files, saves, credentials, and
 generated output are not copied here. Future schemas and fixtures must record source, license,
 generator, version/profile, and digest, and must not contain machine paths or private data.
 
