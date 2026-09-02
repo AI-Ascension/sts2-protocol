@@ -6,10 +6,10 @@ artifact is release-like and local-only; no public release or runtime compatibil
 ## Ownership and consumers
 
 Protocol maintainers own only genuinely shared, language-neutral, transport-neutral contract
-artifacts. Named prospective consumers are `sts2-game-core`, `sts2-gateway`, `sts2-mcp-server`,
-and `sts2-harness`, each consuming an explicitly accepted artifact rather than importing another
-boundary's implementation. `sts2-game-mod` remains authoritative for host access and game
-mutation; it may consume a published neutral artifact only after a separate ownership decision.
+artifacts. The accepted `poc-v1` artifact consumers are `sts2-game-core`, `sts2-game-mod`,
+`sts2-gateway`, `sts2-harness`, and `sts2-mcp-server`, each consuming an explicitly accepted artifact
+rather than importing another boundary's implementation. `sts2-game-mod` remains authoritative for
+host access and game mutation; its artifact consumption is limited to local representation mapping.
 
 The current build-completion instruction accepts this repository as a sixth target. The narrow
 `poc-v1` contract is documented in [ADR 0004](docs/decisions/0004-minimal-poc-contract.md). It does

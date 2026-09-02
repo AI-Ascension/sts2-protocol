@@ -32,7 +32,9 @@ This target must not own:
 
 ## Consumer and evidence boundary
 
-Named prospective consumers are `sts2-game-core`, `sts2-gateway`, `sts2-mcp-server`, and
-`sts2-harness`. The game-mod remains the host authority and is not a direct protocol consumer unless
-that need is separately accepted. No live consumer, host, gateway, MCP peer, harness run, provider,
-package publication, or release has been exercised; those claims remain unverified.
+The accepted `poc-v1` artifact consumers are `sts2-game-core`, `sts2-game-mod`, `sts2-gateway`,
+`sts2-harness`, and `sts2-mcp-server`. The game-mod consumes only the inert representation artifact
+for its local host translation mapping; it remains the host and mutation authority, and this does not
+authorize a Cargo path dependency or runtime compatibility claim. No live consumer, host, gateway,
+MCP peer, harness run, provider, package publication, or release has been exercised; those claims
+remain unverified.

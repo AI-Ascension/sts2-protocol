@@ -10,14 +10,17 @@ pub const POC_SCHEMA_SOURCE: &str = "schemas/poc-v1.schema.json";
 pub const POC_GENERATOR: &str = "hand-authored";
 /// SHA-256 of the canonical schema source bytes.
 pub const POC_SCHEMA_DIGEST: &str =
-    "adb434d119a51b00d968e71bf0bf774f2a08de7c875a5479900aa34b3c02e027";
+    "242b8f9233e915a55ea8d2e72ca476c1258169a67e62de72ee5aed848a6a0a19";
 /// Maximum number of units represented by the bounded fake observation/action.
 pub const POC_MAX_UNITS: u16 = 8;
 /// Maximum settled-effect count represented by the bounded fake observation.
 pub const POC_MAX_SETTLED_EFFECTS: u16 = 4;
+/// Maximum generation that remains exact in common JSON number implementations.
+pub const POC_MAX_GENERATION: u64 = 9_007_199_254_740_991;
 
 /// The schema and provenance metadata carried by every POC message.
 #[derive(Clone, Debug, serde::Deserialize, Eq, PartialEq, serde::Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct PocMetadata {
     pub protocol_version: String,
     pub schema_digest: String,
@@ -49,6 +52,7 @@ impl PocMetadata {
 
 /// Provenance that identifies the inert release-like artifact without granting authority.
 #[derive(Clone, Debug, serde::Deserialize, Eq, PartialEq, serde::Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct PocProvenance {
     pub artifact: String,
     pub source: String,
