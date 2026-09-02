@@ -43,3 +43,13 @@ Use `confirmed`, `source-derived`, `inferred`, `proposed`, `unverified`, and `un
 consistently. Protocol-only evidence can establish static artifact properties. It cannot establish a
 live game load, host-thread behavior, gateway lifecycle, MCP handshake, harness experiment, provider
 call, package installation, or release verification.
+
+## Runtime profile matrix
+
+| Profile | Consumers | Current evidence | Unverified boundary |
+| --- | --- | --- | --- |
+| `runtime-v1` | game-mod, gateway, harness, MCP | Schema, artifact bytes, goldens, and conformance are confirmed | Host callback, network route, disposable profile, and game compatibility |
+
+`runtime-v1` is contract-compatible only when the exact schema digest, provenance, bounds, and
+unknown-field behavior are preserved. Its accepted action is a host-visible probe; it is not a
+compatibility claim for gameplay mutation.

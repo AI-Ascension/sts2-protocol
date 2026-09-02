@@ -14,11 +14,14 @@ Semantic Versioning once a protocol artifact or repository release exists.
   implementation-neutral conformance test.
 - The narrow `poc-v1` contract, release-like artifact directory, invalid action fixture, and
   deterministic conformance tests for downstream artifact consumers.
+- The bounded `runtime-v1` contract, release-like artifact, golden messages, fixed
+  `show_runtime_probe` action, effect witness, and stale-generation conformance tests.
 
 ### Changed
 
 - No transport, host, game, gateway, MCP, model, provider, storage, or harness behavior was added;
   consumer mappings use copied release-like files rather than protocol implementation dependencies.
+  The runtime profile remains an inert contract; live execution is unverified.
 
 ### Deprecated
 
