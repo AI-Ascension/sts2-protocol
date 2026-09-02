@@ -43,6 +43,12 @@ identity. Run the normal foundation commands from this root; the runtime-specifi
 is reproduced. The safe action is `show_runtime_probe`, which witnesses a visible status overlay and
 does not claim a game-rule transition.
 
+`runtime_v2_conformance.rs` validates the separate `runtime-v2` schema/artifact byte identity, all
+deterministic request and receipt goldens, bounded observation fields, outcome-specific receipt shape,
+unknown-field rejection, stable operation identity, duplicate replay, idempotency conflict, and the
+unknown-to-settled reconciliation vector. The contract vector is `confirmed` for this inert target;
+consumer, host, transport, and live gameplay settlement remain `unverified`.
+
 ## Test discipline
 
 Use deterministic in-memory inputs, bounded sizes, synthetic identifiers, injected clocks where time

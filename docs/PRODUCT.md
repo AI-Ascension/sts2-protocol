@@ -52,3 +52,17 @@ source is [`schemas/runtime-v1.schema.json`](../schemas/runtime-v1.schema.json),
 artifact and five deterministic golden messages under [`artifacts/runtime-v1/`](../artifacts/runtime-v1/).
 The schema/conformance result is `confirmed` in this repository. Host execution and end-to-end
 runtime compatibility remain `unverified` until an authorized disposable game test is run.
+
+## `runtime-v2` contract
+
+Runtime-v2 is a separate, inert contract for the bounded `end_turn` operation. Its observation
+contains `combat_phase`, `turn_index`, `host_ready`, and `generation`; the action is legal only in
+`combat/player_turn`. The implementation-neutral transition vector is generation 4/turn 2 to
+generation 5/turn 3 with a `turn_end_settled` witness.
+
+The profile carries `accepted`, `settled`, `rejected`, `unknown`, and `cancelled` outcomes. A stable
+`operation_id` supports receipt replay and reconciliation; conflicting reuse is reported as
+`idempotency_conflict`. `unknown` is intentionally not a completion claim, and cancellation is only
+valid before mutation or after explicit no-mutation confirmation. The protocol describes these wire
+semantics but does not own legality enforcement, host mutation, queueing, leases, transport, or
+persistence. Consumer and live gameplay compatibility remain `unverified`.

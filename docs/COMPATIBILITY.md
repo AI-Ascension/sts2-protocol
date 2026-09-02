@@ -49,7 +49,13 @@ call, package installation, or release verification.
 | Profile | Consumers | Current evidence | Unverified boundary |
 | --- | --- | --- | --- |
 | `runtime-v1` | game-mod, gateway, harness, MCP | Schema, artifact bytes, goldens, and conformance are confirmed | Host callback, network route, disposable profile, and game compatibility |
+| `runtime-v2` | game-mod, gateway, harness, MCP | Separate schema, artifact bytes, lifecycle goldens, and conformance are confirmed | Consumer mapping, operation ledger, host settlement, reconciliation, and game compatibility |
 
 `runtime-v1` is contract-compatible only when the exact schema digest, provenance, bounds, and
 unknown-field behavior are preserved. Its accepted action is a host-visible probe; it is not a
 compatibility claim for gameplay mutation.
+
+`runtime-v2` is a separate profile and must not be negotiated as `runtime-v1`. Its exact schema
+digest, provenance, bounded observation, fixed `end_turn` action, outcome semantics, and
+`operation_id` replay/reconciliation rules must be preserved. A schema or artifact pass remains
+protocol-only evidence; it does not establish a live gameplay mutation or settlement.

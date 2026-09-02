@@ -16,12 +16,15 @@ Semantic Versioning once a protocol artifact or repository release exists.
   deterministic conformance tests for downstream artifact consumers.
 - The bounded `runtime-v1` contract, release-like artifact, golden messages, fixed
   `show_runtime_probe` action, effect witness, and stale-generation conformance tests.
+- The separate `runtime-v2` contract, release-like artifact, bounded `end_turn` action, explicit
+  lifecycle outcomes, stable operation identity, reconciliation vectors, and conformance tests.
 
 ### Changed
 
 - No transport, host, game, gateway, MCP, model, provider, storage, or harness behavior was added;
   consumer mappings use copied release-like files rather than protocol implementation dependencies.
-  The runtime profile remains an inert contract; live execution is unverified.
+  Runtime-v1 and Runtime-v2 remain inert contracts; consumer and live gameplay compatibility are
+  unverified.
 
 ### Deprecated
 

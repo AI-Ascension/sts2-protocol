@@ -6,6 +6,7 @@ mod identity;
 mod lifecycle;
 mod poc;
 mod runtime;
+mod runtime_v2;
 mod serialization;
 
 pub use descriptor::{
@@ -30,6 +31,14 @@ pub use runtime::{
     RUNTIME_MAX_GENERATION, RUNTIME_PROTOCOL_VERSION, RUNTIME_SCHEMA_DIGEST, RUNTIME_SCHEMA_SOURCE,
     RuntimeAction, RuntimeEffectWitness, RuntimeMessageKind, RuntimeObservation, RuntimeStatus,
     RuntimeValidationError,
+};
+pub use runtime_v2::{
+    RUNTIME_V2_ACTION_ID, RUNTIME_V2_ARTIFACT, RUNTIME_V2_EFFECT_KIND, RUNTIME_V2_GENERATOR,
+    RUNTIME_V2_MAX_GENERATION, RUNTIME_V2_MAX_TURN_INDEX, RUNTIME_V2_PLAYER_TURN_PHASE,
+    RUNTIME_V2_PROTOCOL_VERSION, RUNTIME_V2_SCHEMA_DIGEST, RUNTIME_V2_SCHEMA_SOURCE,
+    RuntimeV2Action, RuntimeV2ActionResult, RuntimeV2CombatPhase, RuntimeV2Context,
+    RuntimeV2EffectWitness, RuntimeV2Message, RuntimeV2MessageKind, RuntimeV2Metadata,
+    RuntimeV2Observation, RuntimeV2Provenance, RuntimeV2Status, RuntimeV2ValidationError,
 };
 pub use serialization::{canonical_json, decode_json};
 
