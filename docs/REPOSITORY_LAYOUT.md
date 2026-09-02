@@ -38,3 +38,10 @@ inputs and digest. Generated output is never silently edited or treated as norma
 Release staging must exclude `.git`, `target`, editor state, credentials, private paths, saves,
 proprietary host files, and unrelated source. Temporary validation output belongs outside the retained
 source tree or in ignored directories.
+
+## Naming authority
+
+Shared naming and identity rules are normative in the aggregate NAMING_CONVENTIONS.md and
+naming-registry.yaml. This target owns
+protocol-local names and compatibility decisions, while standard and consumed wire spellings stay
+exact.

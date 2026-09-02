@@ -11,10 +11,10 @@ MCP, model, provider, or end-to-end compatibility.
 
 The accepted sixth-target decision permits this repository to be prepared and implemented. The
 `poc-v1` schema, release-like bundle, and golden/conformance files provide target-local
-static/serialization evidence. Consumer PRs verify copied artifact metadata and mappings, but no
+source-derived/serialization evidence. Consumer PRs verify copied artifact metadata and mappings, but no
 public release or runtime integration is established. The STS2 host baseline used elsewhere in
 planning is not protocol runtime evidence. Host, gateway, MCP, harness, provider, and release
-boundaries remain runtime-unverified.
+boundaries remain unverified.
 
 ## Future compatibility classes
 
@@ -39,7 +39,7 @@ cancelled, accepted, settled, and unknown outcomes rather than collapsing them.
 
 ## Evidence levels
 
-Use `confirmed`, `statically derived`, `inferred`, `proposed`, `unverified`, and `unsupported`
+Use `confirmed`, `source-derived`, `inferred`, `proposed`, `unverified`, and `unsupported`
 consistently. Protocol-only evidence can establish static artifact properties. It cannot establish a
 live game load, host-thread behavior, gateway lifecycle, MCP handshake, harness experiment, provider
 call, package installation, or release verification.
