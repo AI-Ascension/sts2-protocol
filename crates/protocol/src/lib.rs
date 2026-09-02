@@ -5,6 +5,7 @@ mod envelope;
 mod identity;
 mod lifecycle;
 mod poc;
+mod runtime;
 mod serialization;
 
 pub use descriptor::{
@@ -23,6 +24,12 @@ pub use poc::{
     POC_PROTOCOL_VERSION, POC_SCHEMA_DIGEST, POC_SCHEMA_SOURCE, PocAction, PocActionResult,
     PocMessage, PocMessageKind, PocMetadata, PocObservation, PocProvenance, PocStatus,
     PocValidationError,
+};
+pub use runtime::{
+    RUNTIME_ACTION_ID, RUNTIME_ARTIFACT, RUNTIME_GENERATOR, RUNTIME_MAX_ACTION_COUNT,
+    RUNTIME_MAX_GENERATION, RUNTIME_PROTOCOL_VERSION, RUNTIME_SCHEMA_DIGEST, RUNTIME_SCHEMA_SOURCE,
+    RuntimeAction, RuntimeEffectWitness, RuntimeMessageKind, RuntimeObservation, RuntimeStatus,
+    RuntimeValidationError,
 };
 pub use serialization::{canonical_json, decode_json};
 

@@ -81,3 +81,16 @@ cargo test --locked --offline --workspace --all-targets --all-features
 See [the architecture](docs/ARCHITECTURE.md), [the product boundary](docs/PRODUCT.md),
 [the repository layout](docs/REPOSITORY_LAYOUT.md), and [the policy guide](docs/POLICY_AS_CODE.md)
 for the target-local rules.
+
+## `runtime-v1` vertical-slice contract
+
+The checked-in [`runtime-v1` artifact](artifacts/runtime-v1/README.md) is the canonical contract for
+the first bounded runtime slice. It binds one state response, one safe host-visible
+`show_runtime_probe` action, a fresh observation/effect witness, and a stable stale-generation
+rejection. Its named consumers are `sts2-game-mod`, `sts2-gateway`, `sts2-harness`, and
+`sts2-mcp-server`; each consumer uses a copied release-like artifact rather than a cross-repository
+implementation dependency.
+
+Schema and golden/conformance checks for this profile are confirmed in the protocol repository.
+That is contract evidence only: live host state, the managed main-thread callback, network
+compatibility, profile behavior, and game-rule mutation remain unverified.

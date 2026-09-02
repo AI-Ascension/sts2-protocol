@@ -38,3 +38,17 @@ for its local host translation mapping; it remains the host and mutation authori
 authorize a Cargo path dependency or runtime compatibility claim. No live consumer, host, gateway,
 MCP peer, harness run, provider, package publication, or release has been exercised; those claims
 remain unverified.
+
+## `runtime-v1` profile
+
+The first runtime profile is deliberately narrow. It describes an authenticated, bounded state
+observation and one host-visible `show_runtime_probe` action. An accepted action must return a fresh
+observation and a `status_overlay_visible` effect witness; an old generation must remain rejected
+with `sts2.game-mod/stale_generation`. This action is an integration probe, not a gameplay mutation
+or a transfer of host authority.
+
+The profile has four named consumers: the game mod, gateway, harness, and MCP server. The canonical
+source is [`schemas/runtime-v1.schema.json`](../schemas/runtime-v1.schema.json), with the checked-in
+artifact and five deterministic golden messages under [`artifacts/runtime-v1/`](../artifacts/runtime-v1/).
+The schema/conformance result is `confirmed` in this repository. Host execution and end-to-end
+runtime compatibility remain `unverified` until an authorized disposable game test is run.

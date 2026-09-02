@@ -34,6 +34,15 @@ consumer mappings use copied release-like artifact files and are tested locally 
 A host, gateway, MCP, harness, provider, publication, or game test without its precondition is visibly
 skipped or unverified; it is never counted as a pass.
 
+## Runtime profile tests
+
+`runtime_conformance.rs` validates source/artifact byte identity, schema compilation, all five
+`runtime-v1` golden messages, unknown-field rejection, manifest consumers, and the fixed action
+identity. Run the normal foundation commands from this root; the runtime-specific evidence is
+`confirmed` for the inert contract and `unverified` for every live consumer until its precondition
+is reproduced. The safe action is `show_runtime_probe`, which witnesses a visible status overlay and
+does not claim a game-rule transition.
+
 ## Test discipline
 
 Use deterministic in-memory inputs, bounded sizes, synthetic identifiers, injected clocks where time

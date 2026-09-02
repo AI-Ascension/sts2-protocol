@@ -68,3 +68,18 @@ An ownership or dependency change requires a decision record. A public contract 
 requirement, version/profile classification, canonical serialization rule, golden fixture, conformance
 case, migration note, and provenance review. If the consumer or owner evidence is incomplete, record
 the item as blocked and leave the protocol package unchanged.
+
+## Runtime profile and authority
+
+ADR 0005 admits `runtime-v1` as a second, bounded neutral artifact. Its source is
+[`schemas/runtime-v1.schema.json`](../schemas/runtime-v1.schema.json); the release-like copy is
+[`artifacts/runtime-v1/`](../artifacts/runtime-v1/). The profile carries independent instance,
+session, lease, epoch, correlation, and generation values, plus a bounded host observation and one
+fixed host-visible action. Unknown fields are rejected by the schema, and the checked-in fixtures
+bind canonical serialization, provenance, digest, accepted witness, and stale rejection.
+
+The protocol describes data; it does not authenticate callers, issue leases, access the host, choose
+the main thread, or settle game rules. The mod remains the host authority, the gateway remains the
+lease/fence and route authority, MCP remains the adapter, and the harness remains the coordinator.
+The runtime profile is contract-confirmed locally; live execution and gameplay semantics are
+unverified.
