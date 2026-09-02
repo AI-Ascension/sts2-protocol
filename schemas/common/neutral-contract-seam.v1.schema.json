@@ -1,0 +1,221 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "sts2-neutral-contract-seam-v1",
+  "title": "STS2 neutral contract seam",
+  "description": "Language-neutral metadata only; owners retain lifecycle, authorization, and domain authority.",
+  "oneOf": [
+    { "$ref": "#/$defs/neutral_metadata" },
+    { "$ref": "#/$defs/error_envelope" },
+    { "$ref": "#/$defs/contract_manifest" }
+  ],
+  "$defs": {
+    "qualified_id": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["namespace", "value"],
+      "properties": {
+        "namespace": { "type": "string", "pattern": "^[A-Za-z0-9_.:/-]{1,64}$" },
+        "value": { "type": "string", "pattern": "^[A-Za-z0-9_.:/-]{1,128}$" }
+      }
+    },
+    "identity_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["subject", "session"],
+      "properties": {
+        "subject": { "$ref": "#/$defs/qualified_id" },
+        "session": {
+          "anyOf": [
+            { "$ref": "#/$defs/qualified_id" },
+            { "type": "null" }
+          ]
+        }
+      }
+    },
+    "correlation_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["request", "trace", "operation"],
+      "properties": {
+        "request": { "$ref": "#/$defs/qualified_id" },
+        "trace": {
+          "anyOf": [
+            { "$ref": "#/$defs/qualified_id" },
+            { "type": "null" }
+          ]
+        },
+        "operation": {
+          "anyOf": [
+            { "$ref": "#/$defs/qualified_id" },
+            { "type": "null" }
+          ]
+        }
+      }
+    },
+    "lineage_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["root", "parent", "artifact"],
+      "properties": {
+        "root": { "$ref": "#/$defs/qualified_id" },
+        "parent": {
+          "anyOf": [
+            { "$ref": "#/$defs/qualified_id" },
+            { "type": "null" }
+          ]
+        },
+        "artifact": {
+          "anyOf": [
+            { "$ref": "#/$defs/qualified_id" },
+            { "type": "null" }
+          ]
+        }
+      }
+    },
+    "sequence_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stream", "number"],
+      "properties": {
+        "stream": { "$ref": "#/$defs/qualified_id" },
+        "number": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "lifecycle_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "operation"],
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": ["created", "starting", "ready", "busy", "degraded", "stopping", "stopped", "failed", "expired"]
+        },
+        "operation": {
+          "type": "string",
+          "enum": ["not_accepted", "accepted", "settled", "rejected", "cancelled", "unknown"]
+        }
+      }
+    },
+    "deadline_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["clock", "owner", "budget_ms"],
+      "properties": {
+        "clock": { "type": "string", "enum": ["wall_time_observation", "monotonic_owner"] },
+        "owner": { "$ref": "#/$defs/qualified_id" },
+        "budget_ms": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "cancellation_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "reason", "sequence"],
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": ["not_requested", "requested", "acknowledged", "rejected"]
+        },
+        "reason": {
+          "anyOf": [
+            { "type": "string", "maxLength": 256 },
+            { "type": "null" }
+          ]
+        },
+        "sequence": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "neutral_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identity", "correlation", "lineage", "sequence", "lifecycle", "deadline", "cancellation"],
+      "properties": {
+        "identity": { "$ref": "#/$defs/identity_metadata" },
+        "correlation": { "$ref": "#/$defs/correlation_metadata" },
+        "lineage": { "$ref": "#/$defs/lineage_metadata" },
+        "sequence": { "$ref": "#/$defs/sequence_metadata" },
+        "lifecycle": { "$ref": "#/$defs/lifecycle_metadata" },
+        "deadline": {
+          "anyOf": [
+            { "$ref": "#/$defs/deadline_metadata" },
+            { "type": "null" }
+          ]
+        },
+        "cancellation": { "$ref": "#/$defs/cancellation_metadata" }
+      }
+    },
+    "error_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["origin", "code", "retryability", "operation", "safe_message"],
+      "properties": {
+        "origin": { "$ref": "#/$defs/qualified_id" },
+        "code": { "$ref": "#/$defs/qualified_id" },
+        "retryability": {
+          "type": "string",
+          "enum": ["never", "safe", "after_refresh", "unknown"]
+        },
+        "operation": {
+          "type": "string",
+          "enum": ["not_accepted", "accepted", "settled", "rejected", "cancelled", "unknown"]
+        },
+        "safe_message": { "type": "string", "minLength": 1, "maxLength": 256 }
+      }
+    },
+    "error_envelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["correlation", "error"],
+      "properties": {
+        "correlation": { "$ref": "#/$defs/correlation_metadata" },
+        "error": { "$ref": "#/$defs/error_metadata" }
+      }
+    },
+    "version_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["component", "version", "profile"],
+      "properties": {
+        "component": { "$ref": "#/$defs/qualified_id" },
+        "version": { "type": "string", "pattern": "^[A-Za-z0-9_.:/-]{1,32}$" },
+        "profile": { "type": "string", "pattern": "^[A-Za-z0-9_.:/-]{1,64}$" }
+      }
+    },
+    "digest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "value"],
+      "properties": {
+        "algorithm": { "const": "sha256" },
+        "value": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "license", "generator", "source_digest"],
+      "properties": {
+        "source": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "license": { "type": "string", "pattern": "^[A-Za-z0-9_.-]{1,32}$" },
+        "generator": { "type": "string", "pattern": "^[A-Za-z0-9_.:/-]{1,64}$" },
+        "source_digest": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "contract_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["manifest_version", "contract", "schema", "digest", "provenance", "consumers"],
+      "properties": {
+        "manifest_version": { "$ref": "#/$defs/version_profile" },
+        "contract": { "$ref": "#/$defs/qualified_id" },
+        "schema": { "$ref": "#/$defs/version_profile" },
+        "digest": { "$ref": "#/$defs/digest" },
+        "provenance": { "$ref": "#/$defs/provenance" },
+        "consumers": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "$ref": "#/$defs/qualified_id" }
+        }
+      }
+    }
+  }
+}

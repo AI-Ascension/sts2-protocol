@@ -1,0 +1,44 @@
+# Compatibility Policy
+
+## Independent dimensions
+
+Protocol, schema/profile, repository, consumer, game-host, loader/ABI, gateway, MCP, harness,
+provider/model, and artifact versions are independent. A matching number or field name does not
+establish compatibility. This target can describe a neutral artifact; it cannot claim host, service,
+MCP, model, provider, or end-to-end compatibility.
+
+## Current status
+
+The accepted sixth-target decision permits this repository to be prepared and implemented. The
+initial neutral metadata package, schema, and golden/conformance files provide target-local
+static/serialization evidence but no released artifact or consumer integration. The STS2 host baseline
+used elsewhere in planning is not protocol runtime evidence. Consumer, host, gateway, MCP, harness,
+provider, and release boundaries remain runtime-unverified.
+
+## Future compatibility classes
+
+- **Contract-compatible:** preserves accepted requirements and fixtures.
+- **Additive-compatible:** adds optional data without changing valid existing behavior.
+- **Deprecated-compatible:** preserves behavior during a documented migration window.
+- **Safety correction:** changes dangerous behavior with explicit impact and migration notes.
+- **Breaking:** changes meaning, required data, canonical encoding, or removal semantics and requires
+  an approved major/profile migration.
+
+Every change identifies the affected requirement, owner, consumer set, profile/version, fixture,
+digest, and evidence level. A schema parser pass or successful Rust build is not semantic
+compatibility evidence.
+
+## Serialization and migration rules
+
+Canonical bytes, field names, enum spellings, optionality, ordering, bounds, and unknown-value
+handling are part of a future artifact's contract. A consumer must be able to reject an unsupported
+profile before mutation or authorization. A digest change is release-visible. During a migration,
+the old owner profile remains readable only for the declared window; adapters preserve rejected,
+cancelled, accepted, settled, and unknown outcomes rather than collapsing them.
+
+## Evidence levels
+
+Use `confirmed`, `statically derived`, `inferred`, `proposed`, `unverified`, and `unsupported`
+consistently. Protocol-only evidence can establish static artifact properties. It cannot establish a
+live game load, host-thread behavior, gateway lifecycle, MCP handshake, harness experiment, provider
+call, package installation, or release verification.

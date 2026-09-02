@@ -1,0 +1,21 @@
+{
+  "case_id": "CT-PROTO-NEUTRAL-001",
+  "contract": "sts2.protocol/neutral-metadata",
+  "profile": "sts2-neutral-contract-v1",
+  "schema": "schemas/common/neutral-contract-seam.v1.schema.json",
+  "goldens": [
+    "conformance/golden/neutral-metadata.v1.json",
+    "conformance/golden/error-envelope.v1.json",
+    "conformance/golden/contract-manifest.v1.json"
+  ],
+  "setup": {
+    "live_runtime": false,
+    "network": false,
+    "proprietary_data": false
+  },
+  "oracle": [
+    "each golden decodes and validates",
+    "canonical JSON bytes are stable after decode and re-encode",
+    "ambiguous digest and consumer ordering are rejected"
+  ]
+}

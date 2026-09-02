@@ -1,0 +1,15 @@
+[package]
+name = "sts2-protocol"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish = false
+description = "Neutral STS2 contract metadata and deterministic serialization"
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+
+[lints]
+workspace = true
