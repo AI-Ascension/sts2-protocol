@@ -18,9 +18,9 @@ prove a live consumer or runtime integration.
 
 ## Protocol tests
 
-The initial neutral seam has project-owned implementation-neutral cases for exact compact JSON
-round-trips, schema/case validity, named sorted consumers, digest validation, and safe-message
-validation. Future neutral contracts must add cases for:
+The `poc-v1` seam has project-owned cases for exact compact JSON round-trips, source/artifact schema
+equivalence, named consumers, metadata/digest validation, action/result shape, and a structural
+invalid-action fixture reserved for core legality. Future neutral contracts must add cases for:
 
 - exact canonical serialization, optional/null/empty/default behavior, bounds, ordering, and unknowns;
 - identifier namespaces, lifetime, collision, version/profile mismatch, and stale references;
@@ -29,8 +29,9 @@ validation. Future neutral contracts must add cases for:
 - Rust, managed, and language-neutral consumer parsing where applicable; and
 - compatibility migration, licensing, provenance, redaction, and release verification.
 
-Every requirement maps to at least one case and every case maps back to one requirement. A consumer,
-host, gateway, MCP, harness, provider, publication, or game test without its precondition is visibly
+Every requirement maps to at least one case and every case maps back to one requirement. The five
+consumer mappings use copied release-like artifact files and are tested locally in their own PRs.
+A host, gateway, MCP, harness, provider, publication, or game test without its precondition is visibly
 skipped or unverified; it is never counted as a pass.
 
 ## Test discipline

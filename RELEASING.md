@@ -1,6 +1,7 @@
 # Release Policy and Procedure
 
-This target has an initialized but unreleased neutral protocol package. Any future release of a
+This target has an initialized but unreleased neutral protocol package. The `artifacts/poc-v1/`
+directory is a local release-like test bundle, not a publication. Any future release of a
 neutral schema or Rust contract artifact must be deliberate, immutable, and evidence-backed.
 Repository foundation, package publication, and consumer/runtime verification are separate states.
 

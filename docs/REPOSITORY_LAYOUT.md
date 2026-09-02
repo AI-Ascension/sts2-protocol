@@ -5,9 +5,10 @@
 ```text
 .
 ├── .github/                 # read-only policy and CI automation
-├── crates/protocol/         # typed neutral metadata package
-├── schemas/common/          # hand-authored neutral JSON Schema
-├── conformance/             # hand-authored case and golden fixtures
+├── crates/protocol/         # typed POC contract mapping
+├── schemas/poc-v1.schema.json # normative POC JSON Schema
+├── artifacts/poc-v1/        # release-like schema, manifest, fixtures, checksums
+├── conformance/             # hand-authored cases and legacy foundation fixtures
 ├── docs/decisions/          # accepted ownership and target decisions
 ├── crates/protocol/tests/   # target-owned deterministic conformance tests
 └── tools/repo-policy/       # non-empty Rust governance package

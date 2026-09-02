@@ -30,6 +30,10 @@ jobs:
       - name: Check repository metadata
         run: cargo metadata --no-deps --format-version 1
 
+      - name: Verify protocol artifact checksums
+        working-directory: artifacts/poc-v1
+        run: sha256sum -c SHA256SUMS
+
       - name: Check formatting
         run: cargo fmt --all --check
 

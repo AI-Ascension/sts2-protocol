@@ -3,8 +3,9 @@
 ## Purpose and status
 
 `sts2-protocol` is the publication boundary for a small set of genuinely shared, language-neutral,
-transport-neutral STS2 contracts. Wave 2 initializes one focused metadata package with schema, golden,
-and conformance coverage. It adds no transport, host, or product behavior.
+transport-neutral STS2 contracts. This run provides one focused `poc-v1` message family with schema,
+golden, invalid-fixture, digest, and conformance coverage. It adds no transport, host, or product
+behavior.
 
 The current build-completion instruction accepts the target repository as the sixth target. It
 accepts only the initial neutral metadata seam recorded in [ADR 0003](decisions/0003-initial-neutral-metadata-package.md).
@@ -13,10 +14,9 @@ profile, serialization, provenance, and conformance oracle are accepted.
 
 ## Allowed scope
 
-The initial scope is neutral identity/correlation/lineage and sequence metadata, independently
-versioned profile and digest descriptors, selected lifecycle/deadline/cancellation metadata, neutral
-error-envelope metadata, and a contract/schema manifest with provenance. Owner-local semantics may be
-projected but are not transferred without an explicit decision.
+The POC scope is protocol version, schema digest, provenance, correlation ID, instance ID, generation,
+bounded state observation, one typed action identity/argument, and accepted/rejected status with an
+error code. Owner-local legality and settlement semantics are projected but not transferred.
 
 ## Non-goals
 
@@ -32,7 +32,9 @@ This target must not own:
 
 ## Consumer and evidence boundary
 
-Named prospective consumers are `sts2-game-core`, `sts2-gateway`, `sts2-mcp-server`, and
-`sts2-harness`. The game-mod remains the host authority and is not a direct protocol consumer unless
-that need is separately accepted. No live consumer, host, gateway, MCP peer, harness run, provider,
-package publication, or release has been exercised; those claims remain unverified.
+The accepted `poc-v1` artifact consumers are `sts2-game-core`, `sts2-game-mod`, `sts2-gateway`,
+`sts2-harness`, and `sts2-mcp-server`. The game-mod consumes only the inert representation artifact
+for its local host translation mapping; it remains the host and mutation authority, and this does not
+authorize a Cargo path dependency or runtime compatibility claim. No live consumer, host, gateway,
+MCP peer, harness run, provider, package publication, or release has been exercised; those claims
+remain unverified.
