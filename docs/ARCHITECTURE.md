@@ -31,29 +31,31 @@ Runtime:
 sts2-harness -> sts2-mcp-server -> sts2-gateway -> sts2-game-mod -> game host
 
 Compile-time or artifact consumption, only after acceptance:
-sts2-game-core  -> sts2-protocol
-sts2-gateway    -> sts2-protocol (neutral lifecycle metadata only)
-sts2-mcp-server -> sts2-protocol (neutral wire metadata only)
-sts2-harness    -> sts2-protocol (neutral experiment/correlation metadata only)
+sts2-game-core  -> released poc-v1 artifact
+sts2-game-mod   -> released poc-v1 artifact
+sts2-gateway    -> released poc-v1 artifact
+sts2-mcp-server -> released poc-v1 artifact
+sts2-harness    -> released poc-v1 artifact
 ```
 
 The game-mod does not receive host authority from this repository. It remains the host boundary and
-may consume a neutral artifact only after a separate decision proves that direct consumption is
-needed. Runtime message arrows do not authorize Cargo path dependencies.
+may consume the release-like POC artifact for metadata. Runtime message arrows do not authorize Cargo
+path dependencies.
 
 ## Initial package seam
 
-`crates/protocol` owns the typed neutral metadata seam and its compact JSON serialization. The schema
-and golden files under `schemas/common/` and `conformance/golden/` are hand-authored contract inputs;
-`crates/protocol/tests/protocol_conformance.rs` is an implementation-neutral target-owned oracle.
-The package has no cross-repository path dependency. The manifest's consumer list is provenance
-metadata, not proof of consumer integration.
+`crates/protocol` owns the typed `poc-v1` message mapping and its compact JSON serialization. The
+schema under `schemas/poc-v1.schema.json` is normative source; `artifacts/poc-v1/` is a checked-in
+release-like copy consumed by the five target PRs. `poc_conformance.rs` verifies source/artifact
+equivalence, golden bytes, invalid input, metadata, and named consumers. The package has no
+cross-repository path dependency.
 
 ## Boundary invariants
 
 - Protocol artifacts contain no sockets, HTTP/MCP types, host references, processes, filesystem access,
   clock access, provider calls, credentials, or mutation authority.
-- A shared item has one normative source; generated consumer code is a derived release artifact.
+- A shared item has one normative source; consumer mappings are local and consume only release-like
+  artifact files, never protocol implementation internals.
 - Authentication and authorization remain with the boundary making the security decision.
 - Owner-local lifecycle, error, timing, privacy, and domain semantics are not silently generalized.
 - Unknown, stale, rejected, cancelled, and uncertain outcomes remain distinguishable where a shared

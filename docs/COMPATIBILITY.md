@@ -10,10 +10,11 @@ MCP, model, provider, or end-to-end compatibility.
 ## Current status
 
 The accepted sixth-target decision permits this repository to be prepared and implemented. The
-initial neutral metadata package, schema, and golden/conformance files provide target-local
-static/serialization evidence but no released artifact or consumer integration. The STS2 host baseline
-used elsewhere in planning is not protocol runtime evidence. Consumer, host, gateway, MCP, harness,
-provider, and release boundaries remain runtime-unverified.
+`poc-v1` schema, release-like bundle, and golden/conformance files provide target-local
+static/serialization evidence. Consumer PRs verify copied artifact metadata and mappings, but no
+public release or runtime integration is established. The STS2 host baseline used elsewhere in
+planning is not protocol runtime evidence. Host, gateway, MCP, harness, provider, and release
+boundaries remain runtime-unverified.
 
 ## Future compatibility classes
 

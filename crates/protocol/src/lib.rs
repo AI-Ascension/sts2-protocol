@@ -4,6 +4,7 @@ mod descriptor;
 mod envelope;
 mod identity;
 mod lifecycle;
+mod poc;
 mod serialization;
 
 pub use descriptor::{
@@ -16,6 +17,11 @@ pub use identity::{
 pub use lifecycle::{
     CancellationMetadata, CancellationState, ClockKind, DeadlineMetadata, LifecycleMetadata,
     LifecycleState, NeutralMetadata, OperationStatus,
+};
+pub use poc::{
+    POC_ARTIFACT, POC_GENERATOR, POC_MAX_SETTLED_EFFECTS, POC_MAX_UNITS, POC_PROTOCOL_VERSION,
+    POC_SCHEMA_DIGEST, POC_SCHEMA_SOURCE, PocAction, PocActionResult, PocMessage, PocMessageKind,
+    PocMetadata, PocObservation, PocProvenance, PocStatus, PocValidationError,
 };
 pub use serialization::{canonical_json, decode_json};
 
