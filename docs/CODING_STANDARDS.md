@@ -50,8 +50,7 @@ as test or release artifacts.
 
 ## Aggregate naming authority
 
-Use the aggregate [`NAMING_CONVENTIONS.md`](../../planning/naming_conventions/NAMING_CONVENTIONS.md)
-and its [`naming-registry.yaml`](../../planning/naming_conventions/naming-registry.yaml) for shared
+Use the aggregate NAMING_CONVENTIONS.md and its naming-registry.yaml for shared
 casing, identity namespaces, lifecycle vocabulary, evidence states, and protected external names.
 Protocol-owned wire names remain under this target's compatibility review; do not normalize a
 standard or existing contract member without a version/profile decision.

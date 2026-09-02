@@ -41,9 +41,7 @@ source tree or in ignored directories.
 
 ## Naming authority
 
-Shared naming and identity rules are normative in the aggregate
-[`NAMING_CONVENTIONS.md`](../../planning/naming_conventions/NAMING_CONVENTIONS.md); the
-machine-readable owner and exception map is
-[`naming-registry.yaml`](../../planning/naming_conventions/naming-registry.yaml). This target owns
+Shared naming and identity rules are normative in the aggregate NAMING_CONVENTIONS.md and
+naming-registry.yaml. This target owns
 protocol-local names and compatibility decisions, while standard and consumed wire spellings stay
 exact.
