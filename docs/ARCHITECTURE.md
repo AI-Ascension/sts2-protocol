@@ -83,3 +83,16 @@ the main thread, or settle game rules. The mod remains the host authority, the g
 lease/fence and route authority, MCP remains the adapter, and the harness remains the coordinator.
 The runtime profile is contract-confirmed locally; live execution and gameplay semantics are
 unverified.
+
+## Runtime-v2 operation profile
+
+ADR 0006 admits `runtime-v2` as a separate inert artifact for one bounded `end_turn` operation. Its
+observation is limited to `combat_phase`, `turn_index`, `host_ready`, and `generation`; the frozen
+domain vector permits the action only in `combat/player_turn` and describes generation 4/turn 2 to
+generation 5/turn 3. An authoritative settlement carries the `turn_end_settled` witness.
+
+The profile keeps `accepted`, `settled`, `rejected`, `unknown`, and `cancelled` distinct. A stable
+`operation_id` identifies the mutation attempt: an identical request replays its receipt, a
+conflicting reuse returns `idempotency_conflict`, and an uncertain result is reconciled by that same
+identity without a blind retry. The schema and fixtures describe these facts; they do not implement
+the ledger, queue, lease checks, host call, cancellation mechanism, or reconciliation storage.
