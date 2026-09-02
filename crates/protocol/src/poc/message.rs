@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: MIT
 
+use super::metadata::POC_MAX_GENERATION;
 use super::metadata::{POC_MAX_SETTLED_EFFECTS, POC_MAX_UNITS, PocMetadata};
+
+mod wire;
 
 /// The four message shapes in the POC contract.
 #[derive(Clone, Copy, Debug, serde::Deserialize, Eq, PartialEq, serde::Serialize)]
@@ -22,6 +25,7 @@ pub enum PocStatus {
 
 /// The bounded state projection used by the fake vertical slice.
 #[derive(Clone, Copy, Debug, serde::Deserialize, Eq, PartialEq, serde::Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct PocObservation {
     pub available_units: u16,
     pub settled_effects: u16,
@@ -39,6 +43,7 @@ impl PocObservation {
 
 /// The one typed action shape exposed by the POC contract.
 #[derive(Clone, Debug, serde::Deserialize, Eq, PartialEq, serde::Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct PocAction {
     pub action_id: String,
     pub units: u16,
@@ -63,7 +68,7 @@ impl PocAction {
 }
 
 /// A complete request or response with explicit optionality by message kind.
-#[derive(Clone, Debug, serde::Deserialize, Eq, PartialEq, serde::Serialize)]
+#[derive(Clone, Debug, Eq, PartialEq, serde::Serialize)]
 pub struct PocMessage {
     pub protocol_version: String,
     pub schema_digest: String,
@@ -89,6 +94,9 @@ impl PocMessage {
         .validate()?;
         validate_identity(&self.correlation_id)?;
         validate_identity(&self.instance_id)?;
+        if self.generation > POC_MAX_GENERATION {
+            return Err(PocValidationError::GenerationBounds);
+        }
         if let Some(observation) = self.observation {
             observation.validate()?;
         }
@@ -240,6 +248,7 @@ pub enum PocValidationError {
     InvalidIdentity,
     ObservationBounds,
     ActionBounds,
+    GenerationBounds,
     ResultShape,
 }
 
@@ -251,6 +260,7 @@ impl std::fmt::Display for PocValidationError {
             Self::InvalidIdentity => "identity is empty, unsafe, or too long",
             Self::ObservationBounds => "observation exceeds the POC bound",
             Self::ActionBounds => "action identity or typed argument is invalid",
+            Self::GenerationBounds => "generation exceeds the cross-language bound",
             Self::ResultShape => "message fields do not match the message kind",
         };
         formatter.write_str(message)
