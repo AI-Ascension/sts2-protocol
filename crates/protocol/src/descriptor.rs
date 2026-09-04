@@ -14,6 +14,7 @@ pub enum DigestAlgorithm {
 
 /// A content digest descriptor; it does not calculate or authorize a release.
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct DigestDescriptor {
     pub algorithm: DigestAlgorithm,
     pub value: String,
@@ -44,6 +45,7 @@ impl DigestDescriptor {
 
 /// An independently versioned component profile.
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct VersionProfile {
     pub component: QualifiedId,
     pub version: String,
@@ -76,6 +78,7 @@ impl VersionProfile {
 
 /// Source and licensing facts for a contract or schema artifact.
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct Provenance {
     pub source: String,
     pub license: String,
@@ -98,6 +101,13 @@ impl Provenance {
             return Err(ValidationError::ParentPath { field: "source" });
         }
         validate_token("license", &self.license, 32)?;
+        if !self
+            .license
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || b"._-".contains(&byte))
+        {
+            return Err(ValidationError::InvalidCharacters { field: "license" });
+        }
         validate_token("generator", &self.generator, 64)?;
         self.source_digest.validate()
     }
@@ -105,6 +115,7 @@ impl Provenance {
 
 /// A digest-backed manifest for one neutral contract/schema profile.
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct ContractManifest {
     pub manifest_version: VersionProfile,
     pub contract: QualifiedId,

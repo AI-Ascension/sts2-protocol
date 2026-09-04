@@ -36,6 +36,15 @@ compatibility evidence.
 
 ## Serialization and migration rules
 
+The parser closure correction preserves all normative schemas, artifact digests, and golden bytes.
+It rejects previously tolerated schema-invalid input: omitted required nullable members in neutral
+metadata and Runtime-v2, unknown neutral object members, and ambiguous duplicate POC object keys.
+Neutral provenance licenses also retain the schema's narrower alphanumeric/underscore/dot/hyphen
+alphabet rather than the identity alphabet, which additionally permits colon and slash.
+Consumers must send explicit `null` for required nullable fields and unique, recognized members.
+This restores the existing contract rather than adding a profile or changing a valid message.
+
+
 Canonical bytes, field names, enum spellings, optionality, ordering, bounds, and unknown-value
 handling are part of a future artifact's contract. A consumer must be able to reject an unsupported
 profile before mutation or authorization. A digest change is release-visible. During a migration,

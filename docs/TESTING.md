@@ -57,6 +57,12 @@ consumer, host, transport, and live gameplay settlement remain `unverified`.
 
 ## Test discipline
 
+`wire_closure.rs` checks required nullable members and closed objects against the unchanged
+schemas, including nested neutral metadata and Runtime-v2 messages. It also rejects duplicate
+members inside POC nullable objects before they can be collapsed by an intermediate JSON value.
+CI verifies every checked-in POC, Runtime-v1, and Runtime-v2 checksum inventory against actual bytes.
+
+
 Use deterministic in-memory inputs, bounded sizes, synthetic identifiers, injected clocks where time
 metadata is relevant, and no network or provider calls. Never retain credentials, saves, proprietary
 host files, personal paths, or unsanitized arbitrary text. A successful schema parse, Cargo build,
