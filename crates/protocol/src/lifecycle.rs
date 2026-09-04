@@ -34,6 +34,7 @@ pub enum OperationStatus {
 
 /// Lifecycle metadata without transition authority.
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct LifecycleMetadata {
     pub state: LifecycleState,
     pub operation: OperationStatus,
@@ -49,6 +50,7 @@ pub enum ClockKind {
 
 /// A bounded deadline budget; portable monotonic instants are intentionally excluded.
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct DeadlineMetadata {
     pub clock: ClockKind,
     pub owner: crate::QualifiedId,
@@ -74,8 +76,10 @@ pub enum CancellationState {
 
 /// Cancellation metadata with a sanitized optional reason.
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct CancellationMetadata {
     pub state: CancellationState,
+    #[serde(deserialize_with = "crate::serialization::required_option")]
     pub reason: Option<String>,
     pub sequence: u64,
 }
@@ -92,12 +96,14 @@ impl CancellationMetadata {
 
 /// The complete neutral metadata seam shared by accepted consumers.
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct NeutralMetadata {
     pub identity: IdentityMetadata,
     pub correlation: CorrelationMetadata,
     pub lineage: LineageMetadata,
     pub sequence: SequenceMetadata,
     pub lifecycle: LifecycleMetadata,
+    #[serde(deserialize_with = "crate::serialization::required_option")]
     pub deadline: Option<DeadlineMetadata>,
     pub cancellation: CancellationMetadata,
 }

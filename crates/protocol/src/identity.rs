@@ -6,6 +6,7 @@ use crate::{ValidationError, validate_token};
 
 /// An opaque value qualified by the authority that issued it.
 #[derive(Clone, Debug, Deserialize, Eq, Ord, PartialEq, PartialOrd, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct QualifiedId {
     pub namespace: String,
     pub value: String,
@@ -34,8 +35,10 @@ impl QualifiedId {
 
 /// Non-authoritative identity references carried between owners.
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct IdentityMetadata {
     pub subject: QualifiedId,
+    #[serde(deserialize_with = "crate::serialization::required_option")]
     pub session: Option<QualifiedId>,
 }
 
@@ -52,9 +55,12 @@ impl IdentityMetadata {
 
 /// Correlation references that do not define request or operation authority.
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct CorrelationMetadata {
     pub request: QualifiedId,
+    #[serde(deserialize_with = "crate::serialization::required_option")]
     pub trace: Option<QualifiedId>,
+    #[serde(deserialize_with = "crate::serialization::required_option")]
     pub operation: Option<QualifiedId>,
 }
 
@@ -74,9 +80,12 @@ impl CorrelationMetadata {
 
 /// Opaque parentage and artifact references for lineage without experiment semantics.
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct LineageMetadata {
     pub root: QualifiedId,
+    #[serde(deserialize_with = "crate::serialization::required_option")]
     pub parent: Option<QualifiedId>,
+    #[serde(deserialize_with = "crate::serialization::required_option")]
     pub artifact: Option<QualifiedId>,
 }
 
@@ -96,6 +105,7 @@ impl LineageMetadata {
 
 /// A monotonically increasing sequence within one named stream.
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct SequenceMetadata {
     pub stream: QualifiedId,
     pub number: u64,

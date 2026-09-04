@@ -28,6 +28,7 @@ pub enum Retryability {
 
 /// Sanitized error metadata whose code authority remains at the origin owner.
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct ErrorMetadata {
     pub origin: crate::QualifiedId,
     pub code: crate::QualifiedId,
@@ -47,6 +48,7 @@ impl ErrorMetadata {
 
 /// A neutral error envelope that preserves correlation and uncertain outcome.
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct ErrorEnvelope {
     pub correlation: CorrelationMetadata,
     pub error: ErrorMetadata,

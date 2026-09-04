@@ -34,6 +34,14 @@ jobs:
         working-directory: artifacts/poc-v1
         run: sha256sum -c SHA256SUMS
 
+      - name: Verify Runtime-v1 artifact checksums
+        working-directory: artifacts/runtime-v1
+        run: sha256sum -c SHA256SUMS
+
+      - name: Verify Runtime-v2 artifact checksums
+        working-directory: artifacts/runtime-v2
+        run: sha256sum -c SHA256SUMS
+
       - name: Check formatting
         run: cargo fmt --all --check
 
