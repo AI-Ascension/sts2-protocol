@@ -33,7 +33,7 @@ fn payload(text: &str) -> &str {
     text.strip_suffix('\n').unwrap_or(text)
 }
 
-fn checksum_for(inventory: &str, path: &str) -> &str {
+fn checksum_for<'a>(inventory: &'a str, path: &str) -> &'a str {
     inventory
         .lines()
         .find_map(|line| {
