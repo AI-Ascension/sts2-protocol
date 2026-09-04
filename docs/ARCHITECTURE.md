@@ -96,3 +96,19 @@ The profile keeps `accepted`, `settled`, `rejected`, `unknown`, and `cancelled` 
 conflicting reuse returns `idempotency_conflict`, and an uncertain result is reconciled by that same
 identity without a blind retry. The schema and fixtures describe these facts; they do not implement
 the ledger, queue, lease checks, host call, cancellation mechanism, or reconciliation storage.
+
+## Runtime-v3 fair-play gameplay profile
+
+ADR 0007 admits `runtime-v3-gameplay` as the next neutral profile. It describes ordinary
+player-visible state and a complete host-generated typed `LegalAction` catalog for setup, map,
+combat, rewards, shop, events, rest, selections, victory, defeat, and recovery. The profile is a
+data boundary, not an authority: the game-mod owns extraction, legality, host-thread mutation, and
+effect settlement; the gateway owns instance and lease lifecycle; MCP maps bounded tools; and the
+harness coordinates Exo decisions and recovery.
+
+The profile makes privileged data structurally absent. A visible seed is text only; it is not a
+source of future outcomes. A dispatch request is bound to state ID, generation, operation identity,
+and one typed action. `accepted`, `settled`, `rejected`, `unknown`, and `cancelled` remain distinct;
+settlement needs a fresh observation, legal-action catalog, and transition witness. Unknown results
+must be reconciled or recovered before another mutation. The exact schema digest and artifact
+provenance are required before a consumer maps the profile.

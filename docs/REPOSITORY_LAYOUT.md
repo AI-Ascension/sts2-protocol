@@ -9,9 +9,11 @@
 ├── schemas/poc-v1.schema.json # normative POC JSON Schema
 ├── schemas/runtime-v1.schema.json # normative host-probe JSON Schema
 ├── schemas/runtime-v2.schema.json # normative gameplay-operation JSON Schema
+├── schemas/runtime-v3-gameplay.schema.json # normative fair-play semantic gameplay schema
 ├── artifacts/poc-v1/        # release-like schema, manifest, fixtures, checksums
 ├── artifacts/runtime-v1/    # release-like runtime-v1 bundle
 ├── artifacts/runtime-v2/    # release-like runtime-v2 bundle
+├── artifacts/runtime-v3-gameplay/ # release-like fair-play gameplay bundle
 ├── conformance/             # hand-authored cases and legacy foundation fixtures
 ├── docs/decisions/          # accepted ownership and target decisions
 ├── crates/protocol/tests/   # target-owned deterministic conformance tests

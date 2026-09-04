@@ -49,6 +49,12 @@ unknown-field rejection, stable operation identity, duplicate replay, idempotenc
 unknown-to-settled reconciliation vector. The contract vector is `confirmed` for this inert target;
 consumer, host, transport, and live gameplay settlement remain `unverified`.
 
+`runtime_v3_gameplay_conformance.rs` validates the separate fair-play schema/artifact byte identity,
+typed state/action goldens, complete-message bounds, duplicate action rejection, unknown-field
+rejection, visible-seed representation, and the dispatch settlement witness shape. It is
+protocol-only evidence. Host-generated catalog completeness, consumer mapping, Exo decisions,
+provider behavior, and live target-build settlement remain `unverified`.
+
 ## Test discipline
 
 Use deterministic in-memory inputs, bounded sizes, synthetic identifiers, injected clocks where time
