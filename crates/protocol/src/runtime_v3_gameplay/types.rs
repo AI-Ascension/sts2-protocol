@@ -154,6 +154,7 @@ impl RuntimeV3GameplayObservation {
 pub struct RuntimeV3GameplayAction {
     pub action_id: String,
     pub card_index: u16,
+    #[serde(deserialize_with = "required_nullable")]
     pub target_id: Option<String>,
 }
 
@@ -186,6 +187,7 @@ pub struct RuntimeV3GameplayEffectWitness {
     pub kind: String,
     pub generation: u64,
     pub card_index: u16,
+    #[serde(deserialize_with = "required_nullable")]
     pub target_id: Option<String>,
 }
 

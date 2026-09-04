@@ -15,11 +15,17 @@ pub struct RuntimeV3GameplayMessage {
     pub lease_epoch: u64,
     pub generation: u64,
     pub kind: RuntimeV3GameplayMessageKind,
+    #[serde(deserialize_with = "required_nullable")]
     pub operation_id: Option<String>,
+    #[serde(deserialize_with = "required_nullable")]
     pub observation: Option<RuntimeV3GameplayObservation>,
+    #[serde(deserialize_with = "required_nullable")]
     pub action: Option<RuntimeV3GameplayAction>,
+    #[serde(deserialize_with = "required_nullable")]
     pub status: Option<RuntimeV3GameplayStatus>,
+    #[serde(deserialize_with = "required_nullable")]
     pub error_code: Option<String>,
+    #[serde(deserialize_with = "required_nullable")]
     pub effect_witness: Option<RuntimeV3GameplayEffectWitness>,
 }
 
@@ -206,10 +212,13 @@ impl RuntimeV3GameplayMessage {
                 Some(RuntimeV3GameplayStatus::Settled) => {
                     self.observation_generation_matches()
                         && self.error_code.is_none()
-                        && self
-                            .effect_witness
-                            .as_ref()
-                            .is_some_and(|value| value.generation == self.generation)
+                        && self.effect_witness.as_ref().is_some_and(|value| {
+                            value.generation == self.generation
+                                && self.action.as_ref().is_some_and(|action| {
+                                    value.card_index == action.card_index
+                                        && value.target_id == action.target_id
+                                })
+                        })
                 }
                 Some(RuntimeV3GameplayStatus::Rejected | RuntimeV3GameplayStatus::Cancelled) => {
                     self.observation_generation_matches()

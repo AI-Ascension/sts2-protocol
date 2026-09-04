@@ -27,3 +27,13 @@ pub const RUNTIME_V3_GAMEPLAY_MAX_CARD_INDEX: u16 = 64;
 pub const RUNTIME_V3_GAMEPLAY_MAX_ENERGY: u16 = 999;
 pub const RUNTIME_V3_GAMEPLAY_MAX_PILE_COUNT: u16 = 1024;
 pub const RUNTIME_V3_GAMEPLAY_MAX_ENEMIES: usize = 16;
+
+// A present JSON null is permitted; omission is not. Applying deserialize_with without
+// serde(default) makes Option fields obey the schema's required member list.
+fn required_nullable<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+    T: serde::Deserialize<'de>,
+{
+    serde::Deserialize::deserialize(deserializer)
+}

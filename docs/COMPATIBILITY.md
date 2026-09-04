@@ -1,5 +1,10 @@
 # Compatibility Policy
 
+The unreleased bounded card-play proposal is recorded in
+[ADR 0007](decisions/0007-bounded-card-play-proposal.md). Its `runtime-v3-gameplay` identity collides
+with an incompatible open semantic-catalog proposal: pin and validate the exact digest, not only the
+profile name. Neither proposal is an integrated consumer or publication compatibility claim.
+
 ## Independent dimensions
 
 Protocol, schema/profile, repository, consumer, game-host, loader/ABI, gateway, MCP, harness,

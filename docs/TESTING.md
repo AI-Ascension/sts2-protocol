@@ -1,5 +1,11 @@
 # Testing and Evidence
 
+The proposed bounded card-play Runtime-v3 profile adds
+`runtime_v3_gameplay_conformance.rs` and `runtime_v3_gameplay_validation.rs`: canonical fixture
+agreement, required nullable fields, receipt/witness correspondence and JSON-safe numeric bounds.
+They do not prove operation-ledger replay, host completion or compatibility with the different
+semantic-catalog proposal; see [ADR 0007](decisions/0007-bounded-card-play-proposal.md).
+
 ## Foundation commands
 
 Run from this target root:
