@@ -90,15 +90,27 @@ impl RuntimeV3GameplayLegalAction {
         }
         let identifiers = match &self.action {
             RuntimeV3GameplayAction::StartRun { character_id }
-            | RuntimeV3GameplayAction::SelectMapNode { node_id: character_id }
-            | RuntimeV3GameplayAction::ChooseReward { reward_id: character_id }
-            | RuntimeV3GameplayAction::ShopPurchase { item_id: character_id }
-            | RuntimeV3GameplayAction::ShopRemove { card_id: character_id }
-            | RuntimeV3GameplayAction::Smith { card_id: character_id }
-            | RuntimeV3GameplayAction::EventChoice { choice_id: character_id }
-            | RuntimeV3GameplayAction::SelectCard { card_id: character_id } => {
-                [Some(character_id.as_str()), None]
+            | RuntimeV3GameplayAction::SelectMapNode {
+                node_id: character_id,
             }
+            | RuntimeV3GameplayAction::ChooseReward {
+                reward_id: character_id,
+            }
+            | RuntimeV3GameplayAction::ShopPurchase {
+                item_id: character_id,
+            }
+            | RuntimeV3GameplayAction::ShopRemove {
+                card_id: character_id,
+            }
+            | RuntimeV3GameplayAction::Smith {
+                card_id: character_id,
+            }
+            | RuntimeV3GameplayAction::EventChoice {
+                choice_id: character_id,
+            }
+            | RuntimeV3GameplayAction::SelectCard {
+                card_id: character_id,
+            } => [Some(character_id.as_str()), None],
             RuntimeV3GameplayAction::PlayCard { card_id, target_id } => {
                 [Some(card_id.as_str()), target_id.as_deref()]
             }
@@ -149,9 +161,7 @@ impl RuntimeV3GameplayRecovery {
     }
 }
 
-fn validate_state(
-    state: &RuntimeV3GameplayState,
-) -> Result<(), RuntimeV3GameplayValidationError> {
+fn validate_state(state: &RuntimeV3GameplayState) -> Result<(), RuntimeV3GameplayValidationError> {
     match state {
         RuntimeV3GameplayState::Setup { characters } => validate_id_list(characters),
         RuntimeV3GameplayState::Map { node_id, options } => {
@@ -167,8 +177,9 @@ fn validate_state(
             }
             Ok(())
         }
-        RuntimeV3GameplayState::Reward { options }
-        | RuntimeV3GameplayState::Rest { options } => validate_id_list(options),
+        RuntimeV3GameplayState::Reward { options } | RuntimeV3GameplayState::Rest { options } => {
+            validate_id_list(options)
+        }
         RuntimeV3GameplayState::Shop { items } => {
             if items.len() > RUNTIME_V3_GAMEPLAY_MAX_ENTITIES {
                 return Err(RuntimeV3GameplayValidationError::CollectionBounds);
@@ -197,9 +208,7 @@ fn validate_state(
     }
 }
 
-fn validate_id_list(
-    values: &[String],
-) -> Result<(), RuntimeV3GameplayValidationError> {
+fn validate_id_list(values: &[String]) -> Result<(), RuntimeV3GameplayValidationError> {
     if values.len() > RUNTIME_V3_GAMEPLAY_MAX_ENTITIES {
         return Err(RuntimeV3GameplayValidationError::CollectionBounds);
     }

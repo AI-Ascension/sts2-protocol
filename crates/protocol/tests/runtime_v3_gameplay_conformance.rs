@@ -21,15 +21,11 @@ const GOLDENS: &[(&str, &str)] = &[
     ),
     (
         "dispatch-action-request",
-        include_str!(
-            "../../../artifacts/runtime-v3-gameplay/golden/dispatch-action-request.json"
-        ),
+        include_str!("../../../artifacts/runtime-v3-gameplay/golden/dispatch-action-request.json"),
     ),
     (
         "dispatch-action-settled",
-        include_str!(
-            "../../../artifacts/runtime-v3-gameplay/golden/dispatch-action-settled.json"
-        ),
+        include_str!("../../../artifacts/runtime-v3-gameplay/golden/dispatch-action-settled.json"),
     ),
 ];
 
@@ -54,7 +50,10 @@ fn runtime_v3_gameplay_goldens_validate_and_round_trip() {
         message
             .validate()
             .unwrap_or_else(|error| panic!("{name} must validate: {error}"));
-        assert_eq!(canonical_json(&message).expect("encoding succeeds"), payload(text));
+        assert_eq!(
+            canonical_json(&message).expect("encoding succeeds"),
+            payload(text)
+        );
     }
 }
 
@@ -67,7 +66,10 @@ fn runtime_v3_gameplay_schema_and_case_are_bound_to_artifact() {
     assert_eq!(source, artifact);
     assert_eq!(source["$id"], "sts2-runtime-v3-gameplay");
     assert_eq!(case["contract"], "sts2.protocol/runtime-v3-gameplay");
-    assert_eq!(case["checksums"], "artifacts/runtime-v3-gameplay/SHA256SUMS");
+    assert_eq!(
+        case["checksums"],
+        "artifacts/runtime-v3-gameplay/SHA256SUMS"
+    );
     let validator = jsonschema::draft202012::options()
         .build(&source)
         .expect("schema compiles as Draft 2020-12");
@@ -122,9 +124,11 @@ fn runtime_v3_gameplay_rejects_duplicate_or_malformed_legal_actions() {
         Err(RuntimeV3GameplayValidationError::InvalidIdentity)
     );
     let observation: GameObservation = decode_json(
-        &serde_json::to_string(&decode_json::<RuntimeV3GameplayMessage>(GOLDENS[1].1)
-            .expect("response is JSON")
-            .observation)
+        &serde_json::to_string(
+            &decode_json::<RuntimeV3GameplayMessage>(GOLDENS[1].1)
+                .expect("response is JSON")
+                .observation,
+        )
         .expect("observation encodes"),
     )
     .expect("observation decodes");

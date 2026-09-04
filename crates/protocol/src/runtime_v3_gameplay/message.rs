@@ -129,7 +129,11 @@ impl RuntimeV3GameplayMessage {
     /// Creates a state request.
     #[must_use]
     pub fn state_request(context: RuntimeV3GameplayContext, generation: u64) -> Self {
-        Self::base(context, generation, RuntimeV3GameplayMessageKind::StateRequest)
+        Self::base(
+            context,
+            generation,
+            RuntimeV3GameplayMessageKind::StateRequest,
+        )
     }
 
     /// Creates a legal-action catalog request bound to one state generation.
@@ -141,7 +145,11 @@ impl RuntimeV3GameplayMessage {
     ) -> Self {
         Self {
             state_id: Some(state_id.into()),
-            ..Self::base(context, generation, RuntimeV3GameplayMessageKind::LegalActionsRequest)
+            ..Self::base(
+                context,
+                generation,
+                RuntimeV3GameplayMessageKind::LegalActionsRequest,
+            )
         }
     }
 
@@ -169,7 +177,11 @@ impl RuntimeV3GameplayMessage {
     /// Creates a fresh observation request after a contradiction or stale response.
     #[must_use]
     pub fn reobserve_request(context: RuntimeV3GameplayContext, generation: u64) -> Self {
-        Self::base(context, generation, RuntimeV3GameplayMessageKind::ReobserveRequest)
+        Self::base(
+            context,
+            generation,
+            RuntimeV3GameplayMessageKind::ReobserveRequest,
+        )
     }
 
     /// Creates an explicitly safe recovery request.
@@ -181,7 +193,11 @@ impl RuntimeV3GameplayMessage {
     ) -> Self {
         Self {
             recovery: Some(recovery),
-            ..Self::base(context, generation, RuntimeV3GameplayMessageKind::RecoverRequest)
+            ..Self::base(
+                context,
+                generation,
+                RuntimeV3GameplayMessageKind::RecoverRequest,
+            )
         }
     }
 

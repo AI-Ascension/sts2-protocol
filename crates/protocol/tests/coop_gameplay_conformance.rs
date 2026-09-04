@@ -19,14 +19,31 @@ fn base(kind: CoopGameplayMessageKind) -> CoopGameplayMessage {
             source: COOP_GAMEPLAY_SCHEMA_SOURCE.to_owned(),
             generator: COOP_GAMEPLAY_GENERATOR.to_owned(),
         },
-        correlation_id: "corr-1".to_owned(), instance_id: "instance-1".to_owned(),
-        session_id: "session-1".to_owned(), lease_id: "lease-1".to_owned(), lease_epoch: 1,
-        generation: 4, kind, players: vec![
-            CoopPlayer { peer_id: "local-1".to_owned(), role: CoopPeerRole::Local },
-            CoopPlayer { peer_id: "ally-1".to_owned(), role: CoopPeerRole::Ally },
-        ], local_action: None, shared_vote: None, shared_effect: None, ally_target: None,
+        correlation_id: "corr-1".to_owned(),
+        instance_id: "instance-1".to_owned(),
+        session_id: "session-1".to_owned(),
+        lease_id: "lease-1".to_owned(),
+        lease_epoch: 1,
+        generation: 4,
+        kind,
+        players: vec![
+            CoopPlayer {
+                peer_id: "local-1".to_owned(),
+                role: CoopPeerRole::Local,
+            },
+            CoopPlayer {
+                peer_id: "ally-1".to_owned(),
+                role: CoopPeerRole::Ally,
+            },
+        ],
+        local_action: None,
+        shared_vote: None,
+        shared_effect: None,
+        ally_target: None,
         synchronization: CoopSynchronization {
-            status: CoopSyncStatus::Synchronized, generation: 4, peer_count: 2,
+            status: CoopSyncStatus::Synchronized,
+            generation: 4,
+            peer_count: 2,
             missing_peers: Vec::new(),
         },
     }
@@ -36,7 +53,8 @@ fn base(kind: CoopGameplayMessageKind) -> CoopGameplayMessage {
 fn co_op_contract_separates_local_action_and_peer_synchronization() {
     let mut message = base(CoopGameplayMessageKind::LocalActionRequest);
     message.local_action = Some(CoopLocalAction {
-        action_id: "combat.play-card".to_owned(), kind: CoopLocalActionKind::PlayCard,
+        action_id: "combat.play-card".to_owned(),
+        kind: CoopLocalActionKind::PlayCard,
     });
     assert!(message.validate().is_ok());
     assert!(message.mutation_allowed());
@@ -70,7 +88,9 @@ fn co_op_schema_rejects_unknown_fields_and_accepts_synchronization_response() {
     let mut message = base(CoopGameplayMessageKind::SynchronizationResponse);
     let value: Value = serde_json::to_value(&message).expect("message encodes");
     let schema: Value = serde_json::from_str(SCHEMA).expect("schema is JSON");
-    let validator = jsonschema::draft202012::options().build(&schema).expect("schema compiles");
+    let validator = jsonschema::draft202012::options()
+        .build(&schema)
+        .expect("schema compiles");
     assert!(validator.is_valid(&value));
     message.synchronization.status = CoopSyncStatus::Disconnected;
     let value = serde_json::to_value(message).expect("message encodes");

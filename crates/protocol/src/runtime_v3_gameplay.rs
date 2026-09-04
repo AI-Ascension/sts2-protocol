@@ -97,17 +97,39 @@ pub struct RuntimeV3GameplayPlayer {
 #[derive(Clone, Debug, Eq, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(tag = "state", rename_all = "snake_case")]
 pub enum RuntimeV3GameplayState {
-    Setup { characters: Vec<String> },
-    Map { node_id: Option<String>, options: Vec<String> },
-    Combat { turn_index: u16, enemies: Vec<RuntimeV3GameplayEnemy> },
-    Reward { options: Vec<String> },
-    Shop { items: Vec<RuntimeV3GameplayShopItem> },
-    Event { choices: Vec<String> },
-    Rest { options: Vec<String> },
-    Selection { choices: Vec<String> },
+    Setup {
+        characters: Vec<String>,
+    },
+    Map {
+        node_id: Option<String>,
+        options: Vec<String>,
+    },
+    Combat {
+        turn_index: u16,
+        enemies: Vec<RuntimeV3GameplayEnemy>,
+    },
+    Reward {
+        options: Vec<String>,
+    },
+    Shop {
+        items: Vec<RuntimeV3GameplayShopItem>,
+    },
+    Event {
+        choices: Vec<String>,
+    },
+    Rest {
+        options: Vec<String>,
+    },
+    Selection {
+        choices: Vec<String>,
+    },
     Victory,
-    Defeat { reason: Option<String> },
-    Recovery { code: String },
+    Defeat {
+        reason: Option<String>,
+    },
+    Recovery {
+        code: String,
+    },
 }
 
 impl RuntimeV3GameplayState {
@@ -156,18 +178,37 @@ pub struct RuntimeV3GameplayObservation {
 #[derive(Clone, Debug, Eq, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(tag = "kind", rename_all = "snake_case")]
 pub enum RuntimeV3GameplayAction {
-    StartRun { character_id: String },
-    SelectMapNode { node_id: String },
-    PlayCard { card_id: String, target_id: Option<String> },
+    StartRun {
+        character_id: String,
+    },
+    SelectMapNode {
+        node_id: String,
+    },
+    PlayCard {
+        card_id: String,
+        target_id: Option<String>,
+    },
     EndTurn,
-    ChooseReward { reward_id: String },
+    ChooseReward {
+        reward_id: String,
+    },
     SkipReward,
-    ShopPurchase { item_id: String },
-    ShopRemove { card_id: String },
+    ShopPurchase {
+        item_id: String,
+    },
+    ShopRemove {
+        card_id: String,
+    },
     Rest,
-    Smith { card_id: String },
-    EventChoice { choice_id: String },
-    SelectCard { card_id: String },
+    Smith {
+        card_id: String,
+    },
+    EventChoice {
+        choice_id: String,
+    },
+    SelectCard {
+        card_id: String,
+    },
     ConfirmVictory,
     SaveQuit,
 }
