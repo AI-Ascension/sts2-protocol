@@ -22,10 +22,10 @@ impl RuntimeV3GameplayEnemy {
         if !valid_text(&self.name) || self.hp > self.max_hp {
             return Err(RuntimeV3GameplayValidationError::InvalidText);
         }
-        if let RuntimeV3GameplayEnemyIntent::Attack { hits, .. } = &self.intent {
-            if *hits == 0 {
-                return Err(RuntimeV3GameplayValidationError::ObservationShape);
-            }
+        if let RuntimeV3GameplayEnemyIntent::Attack { hits, .. } = &self.intent
+            && *hits == 0
+        {
+            return Err(RuntimeV3GameplayValidationError::ObservationShape);
         }
         Ok(())
     }

@@ -206,10 +206,10 @@ impl CoopGameplayMessage {
         {
             return Err(CoopGameplayValidationError::Synchronization);
         }
-        if let Some(action) = &self.local_action {
-            if !valid_identity(&action.action_id) {
-                return Err(CoopGameplayValidationError::Action);
-            }
+        if let Some(action) = &self.local_action
+            && !valid_identity(&action.action_id)
+        {
+            return Err(CoopGameplayValidationError::Action);
         }
         if let Some(vote) = &self.shared_vote {
             if [&vote.vote_id, &vote.proposal_id, &vote.voter_id]
@@ -222,14 +222,13 @@ impl CoopGameplayMessage {
                 return Err(CoopGameplayValidationError::Vote);
             }
         }
-        if let Some(effect) = &self.shared_effect {
-            if !valid_identity(&effect.effect_id)
+        if let Some(effect) = &self.shared_effect
+            && (!valid_identity(&effect.effect_id)
                 || !valid_identity(&effect.kind)
                 || effect.from_generation >= effect.to_generation
-                || effect.to_generation != self.generation
-            {
-                return Err(CoopGameplayValidationError::Effect);
-            }
+                || effect.to_generation != self.generation)
+        {
+            return Err(CoopGameplayValidationError::Effect);
         }
         if self
             .ally_target
