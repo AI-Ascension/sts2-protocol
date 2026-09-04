@@ -100,7 +100,8 @@ impl CoopSynchronization {
     pub const fn mutation_allowed(&self) -> bool {
         matches!(self.status, CoopSyncStatus::Synchronized)
             && self.missing_peers.is_empty()
-            && (2..=COOP_GAMEPLAY_MAX_PEERS as u8).contains(&self.peer_count)
+            && self.peer_count >= 2
+            && self.peer_count <= COOP_GAMEPLAY_MAX_PEERS as u8
     }
 }
 

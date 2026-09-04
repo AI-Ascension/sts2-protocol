@@ -100,3 +100,6 @@ markdown_max = 700
 
 # Every exception must name one exact path and explain provenance and regeneration.
 [exemptions]
+"crates/protocol/src/coop_gameplay.rs" = "Handwritten co-op contract mirror remains one review unit; split or regenerate with the next schema tool."
+"crates/protocol/src/runtime_v3_gameplay.rs" = "Handwritten Runtime-v3 contract root remains one review unit; split or regenerate with the next schema tool."
+"crates/protocol/src/runtime_v3_gameplay/message.rs" = "Handwritten Runtime-v3 message types remain one review unit; split or regenerate with the next schema tool."
