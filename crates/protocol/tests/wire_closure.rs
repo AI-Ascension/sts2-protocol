@@ -129,3 +129,17 @@ fn poc_rejects_duplicate_members_inside_required_nullable_objects() {
     assert_ne!(observation, duplicate);
     assert!(serde_json::from_str::<PocMessage>(&duplicate).is_err());
 }
+
+#[test]
+fn neutral_license_uses_its_schema_alphabet_not_the_identity_alphabet() {
+    let validator = schema(include_str!(
+        "../../../schemas/common/neutral-contract-seam.v1.schema.json"
+    ));
+    for license in ["MIT/Custom", "license:MIT"] {
+        let mut value: Value = serde_json::from_str(MANIFEST).unwrap();
+        value["provenance"]["license"] = Value::String(license.into());
+        assert!(!validator.is_valid(&value));
+        let manifest: ContractManifest = serde_json::from_value(value).unwrap();
+        assert!(manifest.validate().is_err());
+    }
+}

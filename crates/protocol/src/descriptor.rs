@@ -101,6 +101,13 @@ impl Provenance {
             return Err(ValidationError::ParentPath { field: "source" });
         }
         validate_token("license", &self.license, 32)?;
+        if !self
+            .license
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || b"._-".contains(&byte))
+        {
+            return Err(ValidationError::InvalidCharacters { field: "license" });
+        }
         validate_token("generator", &self.generator, 64)?;
         self.source_digest.validate()
     }
