@@ -36,10 +36,18 @@ jobs:
         run: rustup toolchain install 1.97.1 --profile minimal --component clippy --component rustfmt --no-self-update
 
       - name: Check repository metadata
-        run: cargo metadata --no-deps --format-version 1
+        run: cargo metadata --locked --no-deps --format-version 1
 
       - name: Verify protocol artifact checksums
         working-directory: artifacts/poc-v1
+        run: sha256sum -c SHA256SUMS
+
+      - name: Verify Runtime-v1 artifact checksums
+        working-directory: artifacts/runtime-v1
+        run: sha256sum -c SHA256SUMS
+
+      - name: Verify Runtime-v2 artifact checksums
+        working-directory: artifacts/runtime-v2
         run: sha256sum -c SHA256SUMS
 
       - name: Check formatting

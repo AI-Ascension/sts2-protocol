@@ -3,6 +3,15 @@
 use serde::Serialize;
 use serde::de::DeserializeOwned;
 
+/// Deserializes an explicitly present nullable member without erasing duplicate keys.
+pub(crate) fn required_option<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+    T: serde::Deserialize<'de>,
+{
+    <Option<T> as serde::Deserialize>::deserialize(deserializer)
+}
+
 /// Serializes a contract value to compact deterministic JSON.
 pub fn canonical_json<T: Serialize>(value: &T) -> Result<String, serde_json::Error> {
     serde_json::to_string(value)

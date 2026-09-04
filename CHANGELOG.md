@@ -39,7 +39,18 @@ Semantic Versioning once a protocol artifact or repository release exists.
 
 ### Fixed
 
-- Nothing.
+- Historical wire closure (PR #9) for the frozen neutral-metadata, `poc-v1`, and `runtime-v2`
+  profiles. Required nullable members must now be present with an explicit `null`; omitting the
+  member is rejected instead of silently deserializing to `None`. Unknown members of neutral
+  objects are rejected, and duplicate keys inside POC nullable objects are rejected before an
+  intermediate JSON value can collapse them. Neutral provenance `license` uses the frozen schema's
+  narrower alphanumeric/underscore/dot/hyphen alphabet rather than the identity alphabet.
+  Consumers that omitted required nullable members, sent duplicate keys, or used `:` or `/` in
+  `license` must update their emitters. No schema bytes, artifact bytes, schema digest, or golden
+  bytes changed; see `docs/COMPATIBILITY.md` "Serialization and migration rules". CI now verifies
+  the checked-in `poc-v1`, `runtime-v1`, and `runtime-v2` checksum inventories against actual
+  bytes. `runtime-v1` is not covered by this closure: it has no typed Rust wire envelope, so its
+  required-nullable and duplicate-key behavior remains schema-only.
 
 ### Security
 
