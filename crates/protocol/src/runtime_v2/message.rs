@@ -16,11 +16,17 @@ pub struct RuntimeV2Message {
     pub lease_epoch: u64,
     pub generation: u64,
     pub kind: RuntimeV2MessageKind,
+    #[serde(deserialize_with = "crate::serialization::required_option")]
     pub operation_id: Option<String>,
+    #[serde(deserialize_with = "crate::serialization::required_option")]
     pub observation: Option<RuntimeV2Observation>,
+    #[serde(deserialize_with = "crate::serialization::required_option")]
     pub action: Option<RuntimeV2Action>,
+    #[serde(deserialize_with = "crate::serialization::required_option")]
     pub status: Option<RuntimeV2Status>,
+    #[serde(deserialize_with = "crate::serialization::required_option")]
     pub error_code: Option<String>,
+    #[serde(deserialize_with = "crate::serialization::required_option")]
     pub effect_witness: Option<RuntimeV2EffectWitness>,
 }
 
