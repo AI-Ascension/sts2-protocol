@@ -24,13 +24,56 @@
     "lease_epoch": {"$ref": "#/$defs/generation"},
     "generation": {"$ref": "#/$defs/generation"},
     "kind": {"enum": ["observation", "local_action_request", "shared_vote_request", "shared_effect_response", "synchronization_response", "recovery_required"]},
-    "players": {"type": "array", "maxItems": 4, "items": {"$ref": "#/$defs/player"}},
+    "players": {
+      "type": "array", "minItems": 2, "maxItems": 4, "uniqueItems": true,
+      "items": {"$ref": "#/$defs/player"},
+      "contains": {"properties": {"role": {"const": "local"}}},
+      "minContains": 1, "maxContains": 1
+    },
     "local_action": {"anyOf": [{"$ref": "#/$defs/local_action"}, {"type": "null"}]},
     "shared_vote": {"anyOf": [{"$ref": "#/$defs/shared_vote"}, {"type": "null"}]},
     "shared_effect": {"anyOf": [{"$ref": "#/$defs/shared_effect"}, {"type": "null"}]},
     "ally_target": {"anyOf": [{"$ref": "#/$defs/identity"}, {"type": "null"}]},
     "synchronization": {"$ref": "#/$defs/synchronization"}
   },
+  "allOf": [
+    {
+      "if": {"properties": {"kind": {"enum": ["observation", "synchronization_response", "recovery_required"]}}},
+      "then": {"properties": {
+        "local_action": {"type": "null"}, "shared_vote": {"type": "null"},
+        "shared_effect": {"type": "null"}, "ally_target": {"type": "null"}
+      }}
+    },
+    {
+      "if": {"properties": {"kind": {"const": "local_action_request"}}},
+      "then": {"properties": {
+        "local_action": {"$ref": "#/$defs/local_action"},
+        "shared_vote": {"type": "null"}, "shared_effect": {"type": "null"},
+        "synchronization": {"properties": {"status": {"const": "synchronized"}}}
+      }}
+    },
+    {
+      "if": {"properties": {"kind": {"const": "shared_vote_request"}}},
+      "then": {"properties": {
+        "local_action": {"type": "null"}, "shared_vote": {"$ref": "#/$defs/shared_vote"},
+        "shared_effect": {"type": "null"}, "ally_target": {"type": "null"}
+      }}
+    },
+    {
+      "if": {"properties": {"kind": {"const": "shared_effect_response"}}},
+      "then": {"properties": {
+        "local_action": {"type": "null"}, "shared_vote": {"type": "null"},
+        "shared_effect": {"$ref": "#/$defs/shared_effect"}, "ally_target": {"type": "null"}
+      }}
+    },
+    {
+      "if": {"properties": {"kind": {"const": "recovery_required"}}},
+      "then": {"properties": {
+        "synchronization": {"properties": {"status": {"enum": ["disagreement", "disconnected"]}}}
+      }}
+    }
+  ],
+  "$comment": "Semantic validation additionally requires exact schema digest, unique peer IDs across roles, matching peer count and generation, known missing peers and vote/ally identities, and increasing effect generations ending at the message generation.",
   "$defs": {
     "identity": {"type": "string", "pattern": "^[A-Za-z0-9_.:/-]{1,512}$"},
     "generation": {"type": "integer", "minimum": 0, "maximum": 9007199254740991},
@@ -67,8 +110,10 @@
       "properties": {
         "status": {"enum": ["synchronized", "disagreement", "disconnected"]},
         "generation": {"$ref": "#/$defs/generation"}, "peer_count": {"type": "integer", "minimum": 2, "maximum": 4},
-        "missing_peers": {"type": "array", "maxItems": 4, "items": {"$ref": "#/$defs/identity"}}
-      }
+        "missing_peers": {"type": "array", "maxItems": 4, "uniqueItems": true, "items": {"$ref": "#/$defs/identity"}}
+      },
+      "if": {"properties": {"status": {"const": "synchronized"}}},
+      "then": {"properties": {"missing_peers": {"maxItems": 0}}}
     }
   }
 }

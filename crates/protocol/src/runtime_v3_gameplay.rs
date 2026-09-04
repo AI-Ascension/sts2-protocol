@@ -3,6 +3,7 @@
 mod message;
 mod shape;
 mod validation;
+mod wire;
 
 pub use message::{
     RuntimeV3GameplayActionResult, RuntimeV3GameplayContext, RuntimeV3GameplayMessage,
@@ -19,7 +20,7 @@ pub const RUNTIME_V3_GAMEPLAY_SCHEMA_SOURCE: &str = "schemas/runtime-v3-gameplay
 pub const RUNTIME_V3_GAMEPLAY_GENERATOR: &str = "hand-authored";
 /// Filled after the normative schema is written and hashed.
 pub const RUNTIME_V3_GAMEPLAY_SCHEMA_DIGEST: &str =
-    "fbfb18279b0c7ebb350ef0ce0d56547fa11e83985b13380cb2b0f1dba4cb56e9";
+    "b37c80f583aeaf4f81ede2083bcfb4129196baf5eb092470e8738173c4b7226c";
 /// Maximum exact JSON-safe generation and lease epoch.
 pub const RUNTIME_V3_GAMEPLAY_MAX_GENERATION: u64 = 9_007_199_254_740_991;
 /// Maximum number of actions in one complete host-generated catalog.
@@ -48,7 +49,7 @@ pub enum RuntimeV3GameplayStateKind {
 
 /// Combat intent visible to an ordinary player before choosing an action.
 #[derive(Clone, Debug, Eq, PartialEq, serde::Deserialize, serde::Serialize)]
-#[serde(tag = "kind", rename_all = "snake_case")]
+#[serde(tag = "kind", rename_all = "snake_case", from = "wire::EnemyIntent")]
 pub enum RuntimeV3GameplayEnemyIntent {
     Attack { damage: u16, hits: u8 },
     Defend,
@@ -95,12 +96,13 @@ pub struct RuntimeV3GameplayPlayer {
 /// State-specific player-visible details. No host object, save, RNG, or unrevealed result is
 /// representable in this type.
 #[derive(Clone, Debug, Eq, PartialEq, serde::Deserialize, serde::Serialize)]
-#[serde(tag = "state", rename_all = "snake_case")]
+#[serde(tag = "state", rename_all = "snake_case", from = "wire::State")]
 pub enum RuntimeV3GameplayState {
     Setup {
         characters: Vec<String>,
     },
     Map {
+        #[serde(deserialize_with = "required_nullable")]
         node_id: Option<String>,
         options: Vec<String>,
     },
@@ -125,6 +127,7 @@ pub enum RuntimeV3GameplayState {
     },
     Victory,
     Defeat {
+        #[serde(deserialize_with = "required_nullable")]
         reason: Option<String>,
     },
     Recovery {
@@ -168,6 +171,7 @@ pub struct RuntimeV3GameplayShopItem {
 pub struct RuntimeV3GameplayObservation {
     pub state_id: String,
     pub generation: u64,
+    #[serde(deserialize_with = "required_nullable")]
     pub visible_seed: Option<String>,
     pub player: RuntimeV3GameplayPlayer,
     pub state: RuntimeV3GameplayState,
@@ -176,7 +180,7 @@ pub struct RuntimeV3GameplayObservation {
 /// Semantic action payload. Coordinates, arbitrary input events, reflection paths, and process
 /// commands are intentionally not variants of this enum.
 #[derive(Clone, Debug, Eq, PartialEq, serde::Deserialize, serde::Serialize)]
-#[serde(tag = "kind", rename_all = "snake_case")]
+#[serde(tag = "kind", rename_all = "snake_case", from = "wire::Action")]
 pub enum RuntimeV3GameplayAction {
     StartRun {
         character_id: String,
@@ -186,6 +190,7 @@ pub enum RuntimeV3GameplayAction {
     },
     PlayCard {
         card_id: String,
+        #[serde(deserialize_with = "required_nullable")]
         target_id: Option<String>,
     },
     EndTurn,
@@ -246,6 +251,7 @@ pub enum RuntimeV3GameplayRecoveryKind {
 #[serde(deny_unknown_fields)]
 pub struct RuntimeV3GameplayRecovery {
     pub kind: RuntimeV3GameplayRecoveryKind,
+    #[serde(deserialize_with = "required_nullable")]
     pub operation_id: Option<String>,
 }
 
@@ -276,6 +282,14 @@ fn valid_identity(value: &str) -> bool {
         && value
             .bytes()
             .all(|byte| byte.is_ascii_alphanumeric() || b"._:/-".contains(&byte))
+}
+
+fn required_nullable<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+    T: serde::Deserialize<'de>,
+{
+    serde::Deserialize::deserialize(deserializer)
 }
 
 fn valid_text(value: &str) -> bool {

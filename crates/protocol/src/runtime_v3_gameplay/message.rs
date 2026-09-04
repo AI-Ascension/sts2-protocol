@@ -102,16 +102,27 @@ pub struct RuntimeV3GameplayMessage {
     pub lease_epoch: u64,
     pub generation: u64,
     pub kind: RuntimeV3GameplayMessageKind,
+    #[serde(deserialize_with = "required_nullable")]
     pub state_id: Option<String>,
+    #[serde(deserialize_with = "required_nullable")]
     pub operation_id: Option<String>,
+    #[serde(deserialize_with = "required_nullable")]
     pub observation: Option<RuntimeV3GameplayObservation>,
+    #[serde(deserialize_with = "required_nullable")]
     pub legal_actions: Option<Vec<RuntimeV3GameplayLegalAction>>,
+    #[serde(deserialize_with = "required_nullable")]
     pub action: Option<RuntimeV3GameplayLegalAction>,
+    #[serde(deserialize_with = "required_nullable")]
     pub status: Option<RuntimeV3GameplayStatus>,
+    #[serde(deserialize_with = "required_nullable")]
     pub transition: Option<RuntimeV3GameplayTransitionWitness>,
+    #[serde(deserialize_with = "required_nullable")]
     pub error_code: Option<String>,
+    #[serde(deserialize_with = "required_nullable")]
     pub wait_for_millis: Option<u32>,
+    #[serde(deserialize_with = "required_nullable")]
     pub wait_outcome: Option<RuntimeV3GameplayWaitOutcome>,
+    #[serde(deserialize_with = "required_nullable")]
     pub recovery: Option<RuntimeV3GameplayRecovery>,
 }
 

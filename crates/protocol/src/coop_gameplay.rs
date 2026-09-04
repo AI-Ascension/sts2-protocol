@@ -7,7 +7,7 @@ pub const COOP_GAMEPLAY_ARTIFACT: &str = "sts2-protocol/coop-gameplay-v1";
 pub const COOP_GAMEPLAY_SCHEMA_SOURCE: &str = "schemas/coop-gameplay-v1.schema.json";
 pub const COOP_GAMEPLAY_GENERATOR: &str = "hand-authored";
 pub const COOP_GAMEPLAY_SCHEMA_DIGEST: &str =
-    "2c34d013315fbf2e16de03dbe2bd4c43d4c13c744292548cc46ea960af5e1fa2";
+    "85e0028c1ae20e49542791da165eeabaaea0cc2023626b5094b6660ebcc0cc81";
 pub const COOP_GAMEPLAY_MAX_PEERS: usize = 4;
 pub const COOP_GAMEPLAY_MAX_TEXT_BYTES: usize = 512;
 pub const COOP_GAMEPLAY_MAX_GENERATION: u64 = 9_007_199_254_740_991;
@@ -99,6 +99,7 @@ impl CoopSynchronization {
     #[must_use]
     pub const fn mutation_allowed(&self) -> bool {
         matches!(self.status, CoopSyncStatus::Synchronized)
+            && self.generation <= COOP_GAMEPLAY_MAX_GENERATION
             && self.missing_peers.is_empty()
             && self.peer_count >= 2
             && self.peer_count <= COOP_GAMEPLAY_MAX_PEERS as u8
@@ -119,9 +120,13 @@ pub struct CoopGameplayMessage {
     pub generation: u64,
     pub kind: CoopGameplayMessageKind,
     pub players: Vec<CoopPlayer>,
+    #[serde(deserialize_with = "required_nullable")]
     pub local_action: Option<CoopLocalAction>,
+    #[serde(deserialize_with = "required_nullable")]
     pub shared_vote: Option<CoopSharedVote>,
+    #[serde(deserialize_with = "required_nullable")]
     pub shared_effect: Option<CoopSharedEffect>,
+    #[serde(deserialize_with = "required_nullable")]
     pub ally_target: Option<String>,
     pub synchronization: CoopSynchronization,
 }
@@ -244,10 +249,19 @@ impl CoopGameplayMessage {
     }
 
     #[must_use]
-    pub const fn mutation_allowed(&self) -> bool {
-        matches!(self.kind, CoopGameplayMessageKind::LocalActionRequest)
+    pub fn mutation_allowed(&self) -> bool {
+        self.validate().is_ok()
+            && matches!(self.kind, CoopGameplayMessageKind::LocalActionRequest)
             && self.synchronization.mutation_allowed()
     }
+}
+
+fn required_nullable<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+    T: serde::Deserialize<'de>,
+{
+    serde::Deserialize::deserialize(deserializer)
 }
 
 fn shape_is_valid(message: &CoopGameplayMessage) -> bool {

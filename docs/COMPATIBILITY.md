@@ -2,6 +2,11 @@
 
 ## Independent dimensions
 
+The unpublished gameplay proposals require the explicit
+[conformance correction and digest migration](decisions/0009-proposed-contract-conformance-corrections.md).
+Schema validation alone is insufficient; that decision lists mandatory semantic checks and the
+incompatible earlier proposal. Co-op remains a source-only prototype, not an admitted artifact.
+
 Protocol, schema/profile, repository, consumer, game-host, loader/ABI, gateway, MCP, harness,
 provider/model, and artifact versions are independent. A matching number or field name does not
 establish compatibility. This target can describe a neutral artifact; it cannot claim host, service,

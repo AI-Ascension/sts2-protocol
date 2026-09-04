@@ -57,6 +57,12 @@ provider behavior, and live target-build settlement remain `unverified`.
 
 ## Test discipline
 
+`runtime_v3_strictness.rs` exercises all twelve message kinds, result statuses, required nullable
+members, nested tagged enum closure (including empty variants), and control-character rejection.
+It compares schema and Rust results for payload mutations. Cross-field relations and UTF-8 byte
+limits still require the typed validator as described in
+[ADR 0009](decisions/0009-proposed-contract-conformance-corrections.md).
+
 Use deterministic in-memory inputs, bounded sizes, synthetic identifiers, injected clocks where time
 metadata is relevant, and no network or provider calls. Never retain credentials, saves, proprietary
 host files, personal paths, or unsanitized arbitrary text. A successful schema parse, Cargo build,

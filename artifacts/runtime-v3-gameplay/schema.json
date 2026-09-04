@@ -57,6 +57,24 @@
     },
     "recovery": { "anyOf": [{ "$ref": "#/$defs/recovery" }, { "type": "null" }] }
   },
+  "allOf": [
+    {"if":{"properties":{"kind":{"enum":["state_request","reobserve_request"]}}},"then":{"properties":{"state_id":{"type":"null"},"operation_id":{"type":"null"},"observation":{"type":"null"},"legal_actions":{"type":"null"},"action":{"type":"null"},"status":{"type":"null"},"transition":{"type":"null"},"error_code":{"type":"null"},"wait_for_millis":{"type":"null"},"wait_outcome":{"type":"null"},"recovery":{"type":"null"}}}},
+    {"if":{"properties":{"kind":{"enum":["state_response","reobserve_response"]}}},"then":{"properties":{"state_id":{"not":{"type":"null"}},"operation_id":{"type":"null"},"observation":{"not":{"type":"null"}},"legal_actions":{"not":{"type":"null"}},"action":{"type":"null"},"status":{"type":"null"},"transition":{"type":"null"},"error_code":{"type":"null"},"wait_for_millis":{"type":"null"},"wait_outcome":{"type":"null"},"recovery":{"type":"null"}}}},
+    {"if":{"properties":{"kind":{"enum":["legal_actions_request"]}}},"then":{"properties":{"state_id":{"not":{"type":"null"}},"operation_id":{"type":"null"},"observation":{"type":"null"},"legal_actions":{"type":"null"},"action":{"type":"null"},"status":{"type":"null"},"transition":{"type":"null"},"error_code":{"type":"null"},"wait_for_millis":{"type":"null"},"wait_outcome":{"type":"null"},"recovery":{"type":"null"}}}},
+    {"if":{"properties":{"kind":{"enum":["legal_actions_response"]}}},"then":{"properties":{"state_id":{"not":{"type":"null"}},"operation_id":{"type":"null"},"observation":{"type":"null"},"legal_actions":{"not":{"type":"null"}},"action":{"type":"null"},"status":{"type":"null"},"transition":{"type":"null"},"error_code":{"type":"null"},"wait_for_millis":{"type":"null"},"wait_outcome":{"type":"null"},"recovery":{"type":"null"}}}},
+    {"if":{"properties":{"kind":{"enum":["dispatch_action_request"]}}},"then":{"properties":{"state_id":{"not":{"type":"null"}},"operation_id":{"not":{"type":"null"}},"observation":{"type":"null"},"legal_actions":{"type":"null"},"action":{"not":{"type":"null"}},"status":{"type":"null"},"transition":{"type":"null"},"error_code":{"type":"null"},"wait_for_millis":{"type":"null"},"wait_outcome":{"type":"null"},"recovery":{"type":"null"}}}},
+    {"if":{"properties":{"kind":{"enum":["wait_request"]}}},"then":{"properties":{"state_id":{"type":"null"},"operation_id":{"not":{"type":"null"}},"observation":{"type":"null"},"legal_actions":{"type":"null"},"action":{"type":"null"},"status":{"type":"null"},"transition":{"type":"null"},"error_code":{"type":"null"},"wait_for_millis":{"not":{"type":"null"}},"wait_outcome":{"type":"null"},"recovery":{"type":"null"}}}},
+    {"if":{"properties":{"kind":{"enum":["recover_request"]}}},"then":{"properties":{"state_id":{"type":"null"},"operation_id":{"type":"null"},"observation":{"type":"null"},"legal_actions":{"type":"null"},"action":{"type":"null"},"status":{"type":"null"},"transition":{"type":"null"},"error_code":{"type":"null"},"wait_for_millis":{"type":"null"},"wait_outcome":{"type":"null"},"recovery":{"not":{"type":"null"}}}}},
+    {"if":{"properties":{"kind":{"enum":["dispatch_action_response","recover_response"]}}},"then":{"properties":{"state_id":{},"operation_id":{"not":{"type":"null"}},"observation":{},"legal_actions":{},"action":{"type":"null"},"status":{"not":{"type":"null"}},"transition":{},"error_code":{},"wait_for_millis":{"type":"null"},"wait_outcome":{"type":"null"},"recovery":{"type":"null"}}}},
+    {"if":{"properties":{"kind":{"enum":["wait_response"]}}},"then":{"properties":{"state_id":{},"operation_id":{"not":{"type":"null"}},"observation":{},"legal_actions":{},"action":{"type":"null"},"status":{"not":{"type":"null"}},"transition":{},"error_code":{},"wait_for_millis":{"type":"null"},"wait_outcome":{"not":{"type":"null"}},"recovery":{"type":"null"}}}},
+    {"if":{"properties":{"status":{"enum":["settled"]}}},"then":{"properties":{"state_id":{"not":{"type":"null"}},"observation":{"not":{"type":"null"}},"legal_actions":{"not":{"type":"null"}},"transition":{"not":{"type":"null"}},"error_code":{"type":"null"}}}},
+    {"if":{"properties":{"status":{"enum":["accepted","rejected","cancelled"]}}},"then":{"properties":{"state_id":{"not":{"type":"null"}},"observation":{"not":{"type":"null"}},"legal_actions":{"not":{"type":"null"}},"transition":{"type":"null"}}}},
+    {"if":{"properties":{"status":{"enum":["accepted"]}}},"then":{"properties":{"error_code":{"type":"null"}}}},
+    {"if":{"properties":{"status":{"enum":["unknown","rejected","cancelled"]}}},"then":{"properties":{"error_code":{"not":{"type":"null"}}}}},
+    {"if":{"properties":{"status":{"enum":["unknown"]}}},"then":{"properties":{"observation":{"type":"null"},"legal_actions":{"type":"null"},"transition":{"type":"null"}}}},
+    {"if":{"properties":{"wait_outcome":{"enum":["successor","same_state_mutation"]}}},"then":{"properties":{"status":{"const":"settled"}}}},
+    {"if":{"properties":{"wait_outcome":{"enum":["timeout","recovery_required"]}}},"then":{"properties":{"status":{"const":"unknown"}}}}
+  ],
   "$defs": {
     "identity": {
       "type": "string",
@@ -66,7 +84,7 @@
       "type": "string",
       "minLength": 1,
       "maxLength": 512,
-      "pattern": "^[^\\u0000-\\u001F\\u007F]*$"
+      "pattern": "^[^\\u0000-\\u001F\\u007F-\\u009F]*$"
     },
     "provenance": {
       "type": "object",
@@ -195,6 +213,7 @@
     "recovery": {
       "type": "object", "additionalProperties": false,
       "required": ["kind", "operation_id"],
+      "allOf": [{ "if": { "properties": { "kind": { "const": "reconcile" } } }, "then": { "properties": { "operation_id": { "type": "string" } } }, "else": { "properties": { "operation_id": { "type": "null" } } } }],
       "properties": {
         "kind": { "enum": ["reobserve", "reconcile", "release_lease", "stop_episode"] },
         "operation_id": { "anyOf": [{ "$ref": "#/$defs/identity" }, { "type": "null" }] }
