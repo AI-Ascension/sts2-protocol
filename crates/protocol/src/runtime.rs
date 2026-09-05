@@ -1,5 +1,9 @@
 // SPDX-License-Identifier: MIT
 
+mod message;
+
+pub use message::RuntimeMessage;
+
 /// Version of the first live vertical-slice contract.
 pub const RUNTIME_PROTOCOL_VERSION: &str = "runtime-v1";
 /// Release-like artifact identity carried by every runtime message.
@@ -34,6 +38,37 @@ pub enum RuntimeMessageKind {
 pub enum RuntimeStatus {
     Accepted,
     Rejected,
+}
+
+/// Provenance identifying the inert release-like Runtime-v1 artifact.
+#[derive(Clone, Debug, Eq, PartialEq, serde::Deserialize, serde::Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct RuntimeProvenance {
+    pub artifact: String,
+    pub source: String,
+    pub generator: String,
+}
+
+impl Default for RuntimeProvenance {
+    fn default() -> Self {
+        Self {
+            artifact: RUNTIME_ARTIFACT.to_owned(),
+            source: RUNTIME_SCHEMA_SOURCE.to_owned(),
+            generator: RUNTIME_GENERATOR.to_owned(),
+        }
+    }
+}
+
+impl RuntimeProvenance {
+    fn validate(&self) -> Result<(), RuntimeValidationError> {
+        if self.artifact != RUNTIME_ARTIFACT
+            || self.source != RUNTIME_SCHEMA_SOURCE
+            || self.generator != RUNTIME_GENERATOR
+        {
+            return Err(RuntimeValidationError::Provenance);
+        }
+        Ok(())
+    }
 }
 
 /// Bounded host observation used by the first live slice.
@@ -110,6 +145,7 @@ pub enum RuntimeValidationError {
     ObservationBounds,
     ActionBounds,
     EffectBounds,
+    ResultShape,
 }
 
 impl std::fmt::Display for RuntimeValidationError {
@@ -122,9 +158,22 @@ impl std::fmt::Display for RuntimeValidationError {
             Self::ObservationBounds => "runtime observation is outside the bound",
             Self::ActionBounds => "runtime action is outside the bound",
             Self::EffectBounds => "runtime effect witness is outside the bound",
+            Self::ResultShape => "runtime message members do not match the message kind/status",
         };
         formatter.write_str(message)
     }
 }
 
 impl std::error::Error for RuntimeValidationError {}
+
+fn validate_identity(value: &str) -> Result<(), RuntimeValidationError> {
+    if value.is_empty()
+        || value.len() > 128
+        || !value
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || b"._:/-".contains(&byte))
+    {
+        return Err(RuntimeValidationError::Identity);
+    }
+    Ok(())
+}

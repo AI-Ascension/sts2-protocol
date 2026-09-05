@@ -30,8 +30,8 @@ pub use poc::{
 pub use runtime::{
     RUNTIME_ACTION_ID, RUNTIME_ARTIFACT, RUNTIME_GENERATOR, RUNTIME_MAX_ACTION_COUNT,
     RUNTIME_MAX_GENERATION, RUNTIME_PROTOCOL_VERSION, RUNTIME_SCHEMA_DIGEST, RUNTIME_SCHEMA_SOURCE,
-    RuntimeAction, RuntimeEffectWitness, RuntimeMessageKind, RuntimeObservation, RuntimeStatus,
-    RuntimeValidationError,
+    RuntimeAction, RuntimeEffectWitness, RuntimeMessage, RuntimeMessageKind, RuntimeObservation,
+    RuntimeProvenance, RuntimeStatus, RuntimeValidationError,
 };
 pub use runtime_v2::{
     RUNTIME_V2_ACTION_ID, RUNTIME_V2_ARTIFACT, RUNTIME_V2_EFFECT_KIND, RUNTIME_V2_GENERATOR,
