@@ -88,12 +88,59 @@ fn every_nested_enum_variant_rejects_unknown_fields() {
 fn schema_and_rust_agree_on_all_kind_payload_shapes() {
     let schema: Value = serde_json::from_str(SCHEMA).unwrap();
     let validator = jsonschema::draft202012::new(&schema).unwrap();
+    let mut valid = observation_and_action_cases();
+    valid.extend(wait_and_recovery_cases());
+    valid.extend(result_cases());
+    for value in valid {
+        assert!(
+            rust_accepts(&value),
+            "valid {} {}",
+            value["kind"],
+            value["status"]
+        );
+        assert!(
+            validator.is_valid(&value),
+            "schema {} {}",
+            value["kind"],
+            value["status"]
+        );
+        assert_payload_mutations(&validator, &value);
+    }
+}
+
+fn assert_payload_mutations(validator: &jsonschema::Validator, value: &Value) {
+    for field in [
+        "state_id",
+        "operation_id",
+        "observation",
+        "legal_actions",
+        "action",
+        "status",
+        "transition",
+        "error_code",
+        "wait_for_millis",
+        "wait_outcome",
+        "recovery",
+    ] {
+        let mut changed = value.clone();
+        changed[field] = if value[field].is_null() {
+            json!("invalid")
+        } else {
+            Value::Null
+        };
+        assert_eq!(
+            validator.is_valid(&changed),
+            rust_accepts(&changed),
+            "{} {} field {field}",
+            value["kind"],
+            value["status"]
+        );
+    }
+}
+
+fn observation_and_action_cases() -> Vec<Value> {
     let request: Value = serde_json::from_str(REQUEST).unwrap();
     let response: Value = serde_json::from_str(RESPONSE).unwrap();
-    let settled: Value = serde_json::from_str(include_str!(
-        "../../../artifacts/runtime-v3-gameplay/golden/dispatch-action-settled.json"
-    ))
-    .unwrap();
     let mut valid = Vec::new();
     for kind in ["state_request", "reobserve_request"] {
         let mut value = request.clone();
@@ -118,6 +165,12 @@ fn schema_and_rust_agree_on_all_kind_payload_shapes() {
         ))
         .unwrap(),
     );
+    valid
+}
+
+fn wait_and_recovery_cases() -> Vec<Value> {
+    let request: Value = serde_json::from_str(REQUEST).unwrap();
+    let mut valid = Vec::new();
     let mut wait = request.clone();
     wait["kind"] = json!("wait_request");
     wait["operation_id"] = json!("op-1");
@@ -129,6 +182,15 @@ fn schema_and_rust_agree_on_all_kind_payload_shapes() {
         recover["recovery"] = json!({"kind":kind,"operation_id":if kind == "reconcile" {json!("op-1")} else {Value::Null}});
         valid.push(recover);
     }
+    valid
+}
+
+fn result_cases() -> Vec<Value> {
+    let settled: Value = serde_json::from_str(include_str!(
+        "../../../artifacts/runtime-v3-gameplay/golden/dispatch-action-settled.json"
+    ))
+    .unwrap();
+    let mut valid = Vec::new();
     for kind in [
         "dispatch_action_response",
         "recover_response",
@@ -138,68 +200,33 @@ fn schema_and_rust_agree_on_all_kind_payload_shapes() {
             if kind == "wait_response" && !["settled", "unknown"].contains(&status) {
                 continue;
             }
-            let mut value = settled.clone();
-            value["kind"] = json!(kind);
-            value["status"] = json!(status);
-            if status != "settled" {
-                value["transition"] = Value::Null;
-            }
-            if ["rejected", "cancelled", "unknown"].contains(&status) {
-                value["error_code"] = json!("error");
-            }
-            if status == "unknown" {
-                value["observation"] = Value::Null;
-                value["legal_actions"] = Value::Null;
-            }
-            if kind == "wait_response" {
-                value["wait_outcome"] = json!(if status == "settled" {
-                    "successor"
-                } else {
-                    "recovery_required"
-                });
-            }
+            let value = result_case(&settled, kind, status);
             valid.push(value);
         }
     }
-    for value in valid {
-        assert!(
-            rust_accepts(&value),
-            "valid {} {}",
-            value["kind"],
-            value["status"]
-        );
-        assert!(
-            validator.is_valid(&value),
-            "schema {} {}",
-            value["kind"],
-            value["status"]
-        );
-        for field in [
-            "state_id",
-            "operation_id",
-            "observation",
-            "legal_actions",
-            "action",
-            "status",
-            "transition",
-            "error_code",
-            "wait_for_millis",
-            "wait_outcome",
-            "recovery",
-        ] {
-            let mut changed = value.clone();
-            changed[field] = if value[field].is_null() {
-                json!("invalid")
-            } else {
-                Value::Null
-            };
-            assert_eq!(
-                validator.is_valid(&changed),
-                rust_accepts(&changed),
-                "{} {} field {field}",
-                value["kind"],
-                value["status"]
-            );
-        }
+    valid
+}
+
+fn result_case(settled: &Value, kind: &str, status: &str) -> Value {
+    let mut value = settled.clone();
+    value["kind"] = json!(kind);
+    value["status"] = json!(status);
+    if status != "settled" {
+        value["transition"] = Value::Null;
     }
+    if ["rejected", "cancelled", "unknown"].contains(&status) {
+        value["error_code"] = json!("error");
+    }
+    if status == "unknown" {
+        value["observation"] = Value::Null;
+        value["legal_actions"] = Value::Null;
+    }
+    if kind == "wait_response" {
+        value["wait_outcome"] = json!(if status == "settled" {
+            "successor"
+        } else {
+            "recovery_required"
+        });
+    }
+    value
 }

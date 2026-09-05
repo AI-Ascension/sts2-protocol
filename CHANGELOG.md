@@ -24,6 +24,8 @@ Semantic Versioning once a protocol artifact or repository release exists.
 
 ### Changed
 
+- Decomposed Runtime-v3 shape validation and its strictness matrix into bounded functions while
+  preserving schema bytes, validation semantics, and existing message/payload mutation coverage.
 - No transport, host, game, gateway, MCP, model, provider, storage, or harness behavior was added;
   consumer mappings use copied release-like files rather than protocol implementation dependencies.
   Runtime-v1, Runtime-v2, and Runtime-v3 remain inert contracts; consumer and live gameplay

@@ -6,92 +6,64 @@ use super::*;
 pub(super) fn validate_shape(
     message: &RuntimeV3GameplayMessage,
 ) -> Result<(), RuntimeV3GameplayValidationError> {
+    use RuntimeV3GameplayMessageKind as Kind;
     match message.kind {
-        RuntimeV3GameplayMessageKind::StateRequest
-        | RuntimeV3GameplayMessageKind::ReobserveRequest => {
-            if payload_is_empty(message) {
-                Ok(())
-            } else {
-                Err(RuntimeV3GameplayValidationError::ResultShape)
-            }
+        Kind::DispatchActionResponse | Kind::RecoverResponse => {
+            validate_non_wait_result_shape(message)
         }
-        RuntimeV3GameplayMessageKind::StateResponse
-        | RuntimeV3GameplayMessageKind::ReobserveResponse => {
-            if message.state_id.is_some()
+        Kind::WaitResponse => {
+            require_shape(message.wait_outcome.is_some())?;
+            validate_result_shape(message)?;
+            validate_wait_outcome(message)
+        }
+        Kind::StateResponse | Kind::ReobserveResponse => require_shape(
+            message.state_id.is_some()
                 && message.observation.is_some()
                 && message.legal_actions.is_some()
                 && no_state_result_fields(message)
-                && observation_matches_envelope(message)
-            {
-                Ok(())
-            } else {
-                Err(RuntimeV3GameplayValidationError::ResultShape)
-            }
-        }
-        RuntimeV3GameplayMessageKind::LegalActionsRequest => {
-            if message.state_id.is_some() && only_state_id_fields(message) {
-                Ok(())
-            } else {
-                Err(RuntimeV3GameplayValidationError::ResultShape)
-            }
-        }
-        RuntimeV3GameplayMessageKind::LegalActionsResponse => {
-            if message.state_id.is_some()
+                && observation_matches_envelope(message),
+        ),
+        Kind::LegalActionsResponse => require_shape(
+            message.state_id.is_some()
                 && message.legal_actions.is_some()
-                && no_action_result_fields(message)
-            {
-                Ok(())
-            } else {
-                Err(RuntimeV3GameplayValidationError::ResultShape)
-            }
-        }
-        RuntimeV3GameplayMessageKind::DispatchActionRequest => {
-            if message.state_id.is_some()
+                && no_action_result_fields(message),
+        ),
+        _ => require_shape(request_shape_is_valid(message)),
+    }
+}
+
+fn require_shape(valid: bool) -> Result<(), RuntimeV3GameplayValidationError> {
+    valid
+        .then_some(())
+        .ok_or(RuntimeV3GameplayValidationError::ResultShape)
+}
+
+fn request_shape_is_valid(message: &RuntimeV3GameplayMessage) -> bool {
+    use RuntimeV3GameplayMessageKind as Kind;
+    match message.kind {
+        Kind::StateRequest | Kind::ReobserveRequest => payload_is_empty(message),
+        Kind::LegalActionsRequest => message.state_id.is_some() && only_state_id_fields(message),
+        Kind::DispatchActionRequest => {
+            message.state_id.is_some()
                 && message.operation_id.is_some()
                 && message.action.is_some()
                 && no_observation_result_fields(message)
-            {
-                Ok(())
-            } else {
-                Err(RuntimeV3GameplayValidationError::ResultShape)
-            }
         }
-        RuntimeV3GameplayMessageKind::DispatchActionResponse => {
-            validate_non_wait_result_shape(message)
-        }
-        RuntimeV3GameplayMessageKind::WaitRequest => {
-            if message.operation_id.is_some()
+        Kind::WaitRequest => {
+            message.operation_id.is_some()
                 && message
                     .wait_for_millis
                     .is_some_and(|value| (1..=120_000).contains(&value))
                 && message.state_id.is_none()
                 && no_wait_request_fields(message)
-            {
-                Ok(())
-            } else {
-                Err(RuntimeV3GameplayValidationError::ResultShape)
-            }
         }
-        RuntimeV3GameplayMessageKind::WaitResponse => {
-            if message.wait_outcome.is_some() {
-                validate_result_shape(message)?;
-                validate_wait_outcome(message)
-            } else {
-                Err(RuntimeV3GameplayValidationError::ResultShape)
-            }
-        }
-        RuntimeV3GameplayMessageKind::RecoverRequest => {
-            if message.recovery.is_some()
+        Kind::RecoverRequest => {
+            message.recovery.is_some()
                 && message.state_id.is_none()
                 && message.operation_id.is_none()
                 && no_recovery_request_fields(message)
-            {
-                Ok(())
-            } else {
-                Err(RuntimeV3GameplayValidationError::ResultShape)
-            }
         }
-        RuntimeV3GameplayMessageKind::RecoverResponse => validate_non_wait_result_shape(message),
+        _ => false,
     }
 }
 
@@ -197,57 +169,40 @@ fn validate_result_shape(
     {
         return Err(RuntimeV3GameplayValidationError::ResultShape);
     }
+    require_shape(result_payload_is_valid(message))
+}
+
+fn result_payload_is_valid(message: &RuntimeV3GameplayMessage) -> bool {
     match message.status {
         Some(RuntimeV3GameplayStatus::Settled) => {
-            if message.observation.is_some()
+            message.observation.is_some()
                 && message.legal_actions.is_some()
                 && message.transition.is_some()
                 && message.error_code.is_none()
                 && observation_matches_envelope(message)
                 && transition_matches_envelope(message)
-            {
-                Ok(())
-            } else {
-                Err(RuntimeV3GameplayValidationError::ResultShape)
-            }
         }
         Some(RuntimeV3GameplayStatus::Accepted) => {
-            if message.observation.is_some()
-                && message.legal_actions.is_some()
-                && message.error_code.is_none()
-                && message.transition.is_none()
-                && observation_matches_envelope(message)
-            {
-                Ok(())
-            } else {
-                Err(RuntimeV3GameplayValidationError::ResultShape)
-            }
+            observed_result_without_transition(message) && message.error_code.is_none()
         }
         Some(RuntimeV3GameplayStatus::Rejected | RuntimeV3GameplayStatus::Cancelled) => {
-            if message.observation.is_some()
-                && message.legal_actions.is_some()
-                && message.error_code.is_some()
-                && message.transition.is_none()
-                && observation_matches_envelope(message)
-            {
-                Ok(())
-            } else {
-                Err(RuntimeV3GameplayValidationError::ResultShape)
-            }
+            observed_result_without_transition(message) && message.error_code.is_some()
         }
         Some(RuntimeV3GameplayStatus::Unknown) => {
-            if message.observation.is_none()
+            message.observation.is_none()
                 && message.legal_actions.is_none()
                 && message.transition.is_none()
                 && message.error_code.is_some()
-            {
-                Ok(())
-            } else {
-                Err(RuntimeV3GameplayValidationError::ResultShape)
-            }
         }
-        None => Err(RuntimeV3GameplayValidationError::ResultShape),
+        None => false,
     }
+}
+
+fn observed_result_without_transition(message: &RuntimeV3GameplayMessage) -> bool {
+    message.observation.is_some()
+        && message.legal_actions.is_some()
+        && message.transition.is_none()
+        && observation_matches_envelope(message)
 }
 
 fn validate_non_wait_result_shape(
