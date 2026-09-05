@@ -7,6 +7,10 @@ Semantic Versioning once a protocol artifact or repository release exists.
 
 ### Added
 
+- Preserved the unadmitted co-op source/schema/test proposal on a separate branch, with structural
+  predicate names that confer no mutation authority. Admission remains blocked pending at least
+  two actual named consumers and producer/consumer conformance; no co-op release is established.
+
 - Target-local repository governance, policy tooling, and least-privilege CI foundations.
 - The accepted-sixth-target decision and the protocol ownership/dependency-direction decision.
 - Documentation defining the narrow neutral-contract boundary and named prospective consumers.
