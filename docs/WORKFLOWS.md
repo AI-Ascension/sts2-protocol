@@ -13,7 +13,8 @@ are separate states. Green CI does not prove a live game, gateway, MCP, harness,
 ## Current automation
 
 - `policy.yml` tests the Rust repository-policy package and enforces `policy.toml`.
-- `ci.yml` runs metadata, formatting, Clippy, and workspace tests.
+- `ci.yml` runs metadata, verifies each release-like artifact bundle's `SHA256SUMS` inventory
+  against actual bytes, then runs formatting, Clippy, and workspace tests.
 
 Both workflows use `pull_request` and pushes to `main`, top-level `contents: read`, explicit timeouts,
 pull-request concurrency cancellation, checkout with credentials disabled, and full immutable action
