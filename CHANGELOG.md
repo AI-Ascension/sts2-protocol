@@ -24,6 +24,9 @@ Semantic Versioning once a protocol artifact or repository release exists.
 
 ### Changed
 
+- Split Runtime-v3 action and metadata types into focused modules and removed their two
+  handwritten file-budget exemptions, preserving public API, wire bytes, and validation behavior.
+
 - Decomposed Runtime-v3 shape validation and its strictness matrix into bounded functions while
   preserving schema bytes, validation semantics, and existing message/payload mutation coverage.
 - No transport, host, game, gateway, MCP, model, provider, storage, or harness behavior was added;

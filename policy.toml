@@ -90,6 +90,8 @@ required_files = [
   "conformance/cases/runtime-v3-gameplay.json",
   "crates/protocol/src/runtime_v3_gameplay.rs",
   "crates/protocol/src/runtime_v3_gameplay/message.rs",
+  "crates/protocol/src/runtime_v3_gameplay/action.rs",
+  "crates/protocol/src/runtime_v3_gameplay/metadata.rs",
   "crates/protocol/src/runtime_v3_gameplay/shape.rs",
   "crates/protocol/src/runtime_v3_gameplay/validation.rs",
   "crates/protocol/tests/runtime_v3_gameplay_conformance.rs",
@@ -124,5 +126,3 @@ markdown_max = 700
 
 # Every exception must name one exact path and explain provenance and regeneration.
 [exemptions]
-"crates/protocol/src/runtime_v3_gameplay.rs" = "Handwritten Runtime-v3 contract root remains one review unit; split or regenerate with the next schema tool."
-"crates/protocol/src/runtime_v3_gameplay/message.rs" = "Handwritten Runtime-v3 message types remain one review unit; split or regenerate with the next schema tool."
