@@ -46,6 +46,12 @@ alphabet rather than the identity alphabet, which additionally permits colon and
 Consumers must send explicit `null` for required nullable fields and unique, recognized members.
 This restores the existing contract rather than adding a profile or changing a valid message.
 
+The same closure applies to `runtime-v1` through the typed `RuntimeMessage` envelope
+([ADR 0011](decisions/0011-runtime-v1-wire-closure.md)): omitted nullable members, unknown
+members, and duplicate keys are rejected, and the typed validator enforces exactly the schema's
+metadata, identity, bound, and kind/status shape rules. The `runtime-v1` schema digest, manifest,
+checksum inventory, and golden bytes are unchanged; the change is additive-compatible and Rust API
+only.
 
 Canonical bytes, field names, enum spellings, optionality, ordering, bounds, and unknown-value
 handling are part of a future artifact's contract. A consumer must be able to reject an unsupported
@@ -64,7 +70,7 @@ call, package installation, or release verification.
 
 | Profile | Consumers | Current evidence | Unverified boundary |
 | --- | --- | --- | --- |
-| `runtime-v1` | game-mod, gateway, harness, MCP | Schema, artifact bytes, goldens, and conformance are confirmed | Host callback, network route, disposable profile, and game compatibility |
+| `runtime-v1` | game-mod, gateway, harness, MCP | Schema, artifact bytes, goldens, typed envelope round-trip, wire closure, and conformance are confirmed | Host callback, network route, disposable profile, and game compatibility |
 | `runtime-v2` | game-mod, gateway, harness, MCP | Separate schema, artifact bytes, lifecycle goldens, and conformance are confirmed | Consumer mapping, operation ledger, host settlement, reconciliation, and game compatibility |
 | `runtime-v3-gameplay` | game-mod, gateway, harness, MCP | Source/package schema, sanitized goldens, manifest, digest inventory, and local conformance are confirmed | Consumer mappings, fair-play host projection, gateway/MCP transport, Exo execution, and live full-run compatibility |
 

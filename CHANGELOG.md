@@ -21,6 +21,9 @@ Semantic Versioning once a protocol artifact or repository release exists.
 - The separate `runtime-v3-gameplay` fair-play projection, typed host-generated legal-action
   contract, full-run state/action family, explicit wait/recovery messages, artifact bundle, and
   deterministic conformance tests.
+- The typed `RuntimeMessage` envelope and `RuntimeProvenance` object for the frozen `runtime-v1`
+  profile, with `RuntimeValidationError::ResultShape`, mirroring the Runtime-v2 envelope; see
+  `docs/decisions/0011-runtime-v1-wire-closure.md`. Rust API only; no artifact bytes changed.
 
 ### Changed
 
@@ -54,8 +57,15 @@ Semantic Versioning once a protocol artifact or repository release exists.
   `license` must update their emitters. No schema bytes, artifact bytes, schema digest, or golden
   bytes changed; see `docs/COMPATIBILITY.md` "Serialization and migration rules". CI now verifies
   the checked-in `poc-v1`, `runtime-v1`, and `runtime-v2` checksum inventories against actual
-  bytes. `runtime-v1` is not covered by this closure: it has no typed Rust wire envelope, so its
-  required-nullable and duplicate-key behavior remains schema-only.
+  bytes. `runtime-v1` was not covered by that closure because it had no typed Rust wire envelope;
+  the following entry closes it.
+- Runtime-v1 wire closure. `RuntimeMessage` requires every nullable member (`observation`,
+  `action`, `status`, `error_code`, `effect_witness`) to be present with an explicit `null`,
+  rejects unknown members at the envelope, provenance, observation, action, and witness
+  boundaries, rejects duplicate keys before an intermediate JSON value can collapse them, and
+  validates metadata, identities, `RUNTIME_MAX_GENERATION`, `RUNTIME_MAX_ACTION_COUNT`, and the
+  kind/status member shape. All five `runtime-v1` goldens decode, validate, and re-encode to
+  byte-identical canonical JSON. No schema, artifact, digest, or golden bytes changed.
 
 ### Security
 
