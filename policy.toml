@@ -86,6 +86,15 @@ required_files = [
   ".github/workflows/policy.yml",
   ".github/dependabot.yml",
   ".github/pull_request_template.md",
+  "schemas/runtime-v3-gameplay.schema.json",
+  "conformance/cases/runtime-v3-gameplay.json",
+  "crates/protocol/src/runtime_v3_gameplay.rs",
+  "crates/protocol/src/runtime_v3_gameplay/message.rs",
+  "crates/protocol/src/runtime_v3_gameplay/shape.rs",
+  "crates/protocol/src/runtime_v3_gameplay/validation.rs",
+  "crates/protocol/tests/runtime_v3_gameplay_conformance.rs",
+  "docs/decisions/0007-runtime-v3-gameplay-contract.md",
+  "docs/decisions/0008-agent-decision-boundary.md",
 ]
 ignored_directories = [
   ".git",
@@ -115,3 +124,5 @@ markdown_max = 700
 
 # Every exception must name one exact path and explain provenance and regeneration.
 [exemptions]
+"crates/protocol/src/runtime_v3_gameplay.rs" = "Handwritten Runtime-v3 contract root remains one review unit; split or regenerate with the next schema tool."
+"crates/protocol/src/runtime_v3_gameplay/message.rs" = "Handwritten Runtime-v3 message types remain one review unit; split or regenerate with the next schema tool."

@@ -2,6 +2,13 @@
 
 ## Independent dimensions
 
+The unpublished gameplay proposals require the explicit
+[conformance correction and digest migration](decisions/0009-proposed-contract-conformance-corrections.md).
+Schema validation alone is insufficient; that decision lists mandatory semantic checks and the
+incompatible earlier proposal. The unadmitted co-op prototype is retained on a separate proposal
+branch; it is absent from this gameplay change and its exported API. See the
+[co-op split decision](decisions/0010-split-unadmitted-coop-proposal.md).
+
 Protocol, schema/profile, repository, consumer, game-host, loader/ABI, gateway, MCP, harness,
 provider/model, and artifact versions are independent. A matching number or field name does not
 establish compatibility. This target can describe a neutral artifact; it cannot claim host, service,
@@ -59,6 +66,7 @@ call, package installation, or release verification.
 | --- | --- | --- | --- |
 | `runtime-v1` | game-mod, gateway, harness, MCP | Schema, artifact bytes, goldens, and conformance are confirmed | Host callback, network route, disposable profile, and game compatibility |
 | `runtime-v2` | game-mod, gateway, harness, MCP | Separate schema, artifact bytes, lifecycle goldens, and conformance are confirmed | Consumer mapping, operation ledger, host settlement, reconciliation, and game compatibility |
+| `runtime-v3-gameplay` | game-mod, gateway, harness, MCP | Source/package schema, sanitized goldens, manifest, digest inventory, and local conformance are confirmed | Consumer mappings, fair-play host projection, gateway/MCP transport, Exo execution, and live full-run compatibility |
 
 `runtime-v1` is contract-compatible only when the exact schema digest, provenance, bounds, and
 unknown-field behavior are preserved. Its accepted action is a host-visible probe; it is not a
@@ -68,3 +76,13 @@ compatibility claim for gameplay mutation.
 digest, provenance, bounded observation, fixed `end_turn` action, outcome semantics, and
 `operation_id` replay/reconciliation rules must be preserved. A schema or artifact pass remains
 protocol-only evidence; it does not establish a live gameplay mutation or settlement.
+
+`runtime-v3-gameplay` is also a separate profile and must not reinterpret Runtime-v2 messages. Its
+exact digest, provenance, player-visible field set, typed action variants, current-generation
+binding, and explicit unknown/recovery semantics are contract requirements. The profile's presence
+does not establish that a host can produce a complete catalog or settle any action.
+
+The harness's Exo request and decision envelope is intentionally provider-owned. No separate
+`runtime-v3-gameplay-llm` or `agent-decision-v1` artifact is admitted without an independent
+cross-repository producer, consumer, and conformance requirement; this keeps model policy out of
+the neutral protocol owner.

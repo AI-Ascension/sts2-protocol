@@ -7,6 +7,7 @@ mod lifecycle;
 mod poc;
 mod runtime;
 mod runtime_v2;
+mod runtime_v3_gameplay;
 mod serialization;
 
 pub use descriptor::{
@@ -39,6 +40,21 @@ pub use runtime_v2::{
     RuntimeV2Action, RuntimeV2ActionResult, RuntimeV2CombatPhase, RuntimeV2Context,
     RuntimeV2EffectWitness, RuntimeV2Message, RuntimeV2MessageKind, RuntimeV2Metadata,
     RuntimeV2Observation, RuntimeV2Provenance, RuntimeV2Status, RuntimeV2ValidationError,
+};
+pub use runtime_v3_gameplay::{
+    GameObservation, LegalAction, RUNTIME_V3_GAMEPLAY_ARTIFACT, RUNTIME_V3_GAMEPLAY_GENERATOR,
+    RUNTIME_V3_GAMEPLAY_MAX_ENTITIES, RUNTIME_V3_GAMEPLAY_MAX_GENERATION,
+    RUNTIME_V3_GAMEPLAY_MAX_LEGAL_ACTIONS, RUNTIME_V3_GAMEPLAY_MAX_TEXT_BYTES,
+    RUNTIME_V3_GAMEPLAY_PROTOCOL_VERSION, RUNTIME_V3_GAMEPLAY_SCHEMA_DIGEST,
+    RUNTIME_V3_GAMEPLAY_SCHEMA_SOURCE, RuntimeV3GameplayAction, RuntimeV3GameplayActionResult,
+    RuntimeV3GameplayCard, RuntimeV3GameplayContext, RuntimeV3GameplayEnemy,
+    RuntimeV3GameplayEnemyIntent, RuntimeV3GameplayLegalAction, RuntimeV3GameplayMessage,
+    RuntimeV3GameplayMessageKind, RuntimeV3GameplayMetadata, RuntimeV3GameplayObservation,
+    RuntimeV3GameplayPlayer, RuntimeV3GameplayProvenance, RuntimeV3GameplayRecovery,
+    RuntimeV3GameplayRecoveryKind, RuntimeV3GameplayShopItem, RuntimeV3GameplayState,
+    RuntimeV3GameplayStateKind, RuntimeV3GameplayStatus, RuntimeV3GameplayTransitionWitness,
+    RuntimeV3GameplayValidationError, RuntimeV3GameplayWaitOutcome, RuntimeV3Message,
+    RuntimeV3MessageKind,
 };
 pub use serialization::{canonical_json, decode_json};
 

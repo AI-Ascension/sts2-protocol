@@ -24,6 +24,12 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Verify named gameplay contract artifacts
+        run: |
+          cmp artifacts/runtime-v3-gameplay/schema.json schemas/runtime-v3-gameplay.schema.json
+          (cd artifacts/runtime-v3-gameplay && sha256sum -c SHA256SUMS)
+          jq -e '.["$id"] == "sts2-runtime-v3-gameplay" and .additionalProperties == false' schemas/runtime-v3-gameplay.schema.json >/dev/null
+
       - name: Install pinned Rust toolchain
         run: rustup toolchain install 1.97.1 --profile minimal --component clippy --component rustfmt --no-self-update
 

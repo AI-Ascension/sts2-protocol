@@ -66,3 +66,18 @@ The profile carries `accepted`, `settled`, `rejected`, `unknown`, and `cancelled
 valid before mutation or after explicit no-mutation confirmation. The protocol describes these wire
 semantics but does not own legality enforcement, host mutation, queueing, leases, transport, or
 persistence. Consumer and live gameplay compatibility remain `unverified`.
+
+## `runtime-v3-gameplay` contract
+
+The separate `runtime-v3-gameplay` profile is the neutral fair-play projection for the full-run
+vertical slice. It contains ordinary player-visible state, visible seed text, typed host-generated
+legal actions, state/generation identity, and bounded observe, dispatch, wait, reobserve, and safe
+recovery message shapes. It has no screen coordinates, arbitrary input, host object graph, raw
+memory, save, credential, future RNG, or unrevealed outcome field.
+
+The action family covers setup, map, combat card play/end turn, reward, shop, rest, event,
+selection, victory, defeat, and save/quit. Every dispatch carries one current state ID, generation,
+operation identity, and typed action. The host rechecks catalog membership and legality. Admission
+does not imply settlement; a settled result requires a fresh observation, current legal-action set,
+and transition witness. Unknown results require recovery or reconciliation and never trigger a
+strategic retry. Consumer mappings and target-build behavior remain `unverified`.

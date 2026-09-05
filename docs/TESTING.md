@@ -49,13 +49,24 @@ unknown-field rejection, stable operation identity, duplicate replay, idempotenc
 unknown-to-settled reconciliation vector. The contract vector is `confirmed` for this inert target;
 consumer, host, transport, and live gameplay settlement remain `unverified`.
 
+`runtime_v3_gameplay_conformance.rs` validates the separate fair-play schema/artifact byte identity,
+typed state/action goldens, complete-message bounds, duplicate action rejection, unknown-field
+rejection, visible-seed representation, and the dispatch settlement witness shape. It is
+protocol-only evidence. Host-generated catalog completeness, consumer mapping, Exo decisions,
+provider behavior, and live target-build settlement remain `unverified`.
+
 ## Test discipline
+
+`runtime_v3_strictness.rs` exercises all twelve message kinds, result statuses, required nullable
+members, nested tagged enum closure (including empty variants), and control-character rejection.
+It compares schema and Rust results for payload mutations. Cross-field relations and UTF-8 byte
+limits still require the typed validator as described in
+[ADR 0009](decisions/0009-proposed-contract-conformance-corrections.md).
 
 `wire_closure.rs` checks required nullable members and closed objects against the unchanged
 schemas, including nested neutral metadata and Runtime-v2 messages. It also rejects duplicate
 members inside POC nullable objects before they can be collapsed by an intermediate JSON value.
 CI verifies every checked-in POC, Runtime-v1, and Runtime-v2 checksum inventory against actual bytes.
-
 
 Use deterministic in-memory inputs, bounded sizes, synthetic identifiers, injected clocks where time
 metadata is relevant, and no network or provider calls. Never retain credentials, saves, proprietary
