@@ -51,3 +51,11 @@ Shared naming and identity rules are normative in the aggregate NAMING_CONVENTIO
 naming-registry.yaml. This target owns
 protocol-local names and compatibility decisions, while standard and consumed wire spellings stay
 exact.
+
+## Runtime-v3 gameplay modules
+
+The gameplay root retains public reexports and observation/state types. Its private `action`
+module owns semantic actions, transition witnesses, and recovery outcomes; `metadata` owns
+artifact provenance and request context. `message` retains envelopes, constructors, and validation
+entrypoints. These handwritten modules use the ordinary production line budget without exemptions.
+The split preserves public paths, wire behavior, schemas, and frozen artifact bytes.
