@@ -46,8 +46,10 @@ to retrieve other receipt statuses; do not claim a rejected operation settled.
 
 ## Co-op source-only contract
 
-The co-op schema and Rust prototype are present but lack an admitted artifact bundle, named
-producer/consumer conformance, and a publication decision. They must not be described as a packaged,
+Historically, this proposal included a co-op schema and Rust prototype without an admitted artifact
+bundle, named producer/consumer conformance, or a publication decision. They are now retained on a
+separate proposal branch under [ADR 0010](0010-split-unadmitted-coop-proposal.md), rather than in the
+gameplay source or exported API. They must not be described as a packaged,
 integrated co-op release. Corrected source validation requires complete valid messages before the
 mutation predicate can return true, explicit nullable members, and kind/peer/synchronization shapes.
 Its source digest changes from `2c34d013315fbf2e16de03dbe2bd4c43d4c13c744292548cc46ea960af5e1fa2`
@@ -57,5 +59,6 @@ No transport, authenticated peer voting, host authority, or live co-op capabilit
 ## Evidence
 
 Regression tests reproduce the parser/schema disagreements, enumerate request/result shapes,
-and check nested enum closure and co-op mutation rejection. CI verifies actual artifact bytes with
+and check nested enum closure. Co-op rejection tests remain with the separate prototype proposal.
+CI verifies actual gameplay artifact bytes with
 SHA-256. These checks are inert contract evidence, not host, provider, or end-to-end execution.

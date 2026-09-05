@@ -28,9 +28,7 @@ jobs:
         run: |
           cmp artifacts/runtime-v3-gameplay/schema.json schemas/runtime-v3-gameplay.schema.json
           (cd artifacts/runtime-v3-gameplay && sha256sum -c SHA256SUMS)
-          test "$(sha256sum schemas/coop-gameplay-v1.schema.json | cut -d' ' -f1)" = "85e0028c1ae20e49542791da165eeabaaea0cc2023626b5094b6660ebcc0cc81"
           jq -e '.["$id"] == "sts2-runtime-v3-gameplay" and .additionalProperties == false' schemas/runtime-v3-gameplay.schema.json >/dev/null
-          jq -e '.["$id"] == "sts2-coop-gameplay-v1" and .additionalProperties == false' schemas/coop-gameplay-v1.schema.json >/dev/null
 
       - name: Install pinned Rust toolchain
         run: rustup toolchain install 1.97.1 --profile minimal --component clippy --component rustfmt --no-self-update
