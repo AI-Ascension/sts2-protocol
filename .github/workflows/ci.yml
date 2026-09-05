@@ -28,7 +28,7 @@ jobs:
         run: rustup toolchain install 1.97.1 --profile minimal --component clippy --component rustfmt --no-self-update
 
       - name: Check repository metadata
-        run: cargo metadata --no-deps --format-version 1
+        run: cargo metadata --locked --no-deps --format-version 1
 
       - name: Verify protocol artifact checksums
         working-directory: artifacts/poc-v1
