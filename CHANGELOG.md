@@ -18,6 +18,11 @@ Semantic Versioning once a protocol artifact or repository release exists.
   `show_runtime_probe` action, effect witness, and stale-generation conformance tests.
 - The separate `runtime-v2` contract, release-like artifact, bounded `end_turn` action, explicit
   lifecycle outcomes, stable operation identity, reconciliation vectors, and conformance tests.
+- The proposed bounded `runtime-v3-gameplay` contract with positional `play_card` requests,
+  explicit nullable members, operation receipts, settlement witnesses, reconciliation, and
+  deterministic schema/artifact conformance tests. This unpublished proposal is incompatible with
+  the semantic-catalog lane described in ADR 0007; consumer integration and live gameplay remain
+  unverified. Frozen Runtime-v2 artifact bytes are unchanged.
 
 ### Changed
 

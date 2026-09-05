@@ -96,3 +96,18 @@ The profile keeps `accepted`, `settled`, `rejected`, `unknown`, and `cancelled` 
 conflicting reuse returns `idempotency_conflict`, and an uncertain result is reconciled by that same
 identity without a blind retry. The schema and fixtures describe these facts; they do not implement
 the ledger, queue, lease checks, host call, cancellation mechanism, or reconciliation storage.
+
+## Proposed bounded Runtime-v3 gameplay profile
+
+[ADR 0007](decisions/0007-bounded-card-play-proposal.md) describes an unpublished
+`runtime-v3-gameplay` proposal for positional `play_card` requests, bounded combat observations,
+operation receipts, settlement witnesses, and reconciliation. Protocol owns the inert schema,
+typed representation, and canonical artifact; core and game-mod retain legality, while game-mod
+retains authoritative mutation and settlement. Consumers retain operation identity, fencing,
+receipt replay, and recovery obligations. An internally consistent receipt does not prove that
+the host performed the effect, and an unknown outcome requires reconciliation without blind retry.
+
+This profile leaves frozen Runtime-v2 bytes unchanged. It is incompatible with the competing
+semantic-catalog proposal using the same profile name; both cannot be admitted unchanged.
+The fixtures and validators provide contract evidence only. Consumer integration, host execution,
+and live gameplay remain unverified.
