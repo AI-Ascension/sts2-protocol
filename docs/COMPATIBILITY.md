@@ -5,9 +5,11 @@
 The unpublished gameplay proposals require the explicit
 [conformance correction and digest migration](decisions/0009-proposed-contract-conformance-corrections.md).
 Schema validation alone is insufficient; that decision lists mandatory semantic checks and the
-incompatible earlier proposal. The unadmitted co-op prototype is retained on a separate proposal
-branch; it is absent from this gameplay change and its exported API. See the
-[co-op split decision](decisions/0010-split-unadmitted-coop-proposal.md).
+incompatible earlier proposal. This separate proposal branch restores the unadmitted co-op source,
+schema, tests, and provisional exports split from gameplay by
+[ADR 0010](decisions/0010-split-unadmitted-coop-proposal.md). They are not an admitted artifact or
+integrated capability; admission remains blocked under
+[ADR 0011](decisions/0011-preserved-coop-proposal.md).
 
 Protocol, schema/profile, repository, consumer, game-host, loader/ABI, gateway, MCP, harness,
 provider/model, and artifact versions are independent. A matching number or field name does not
