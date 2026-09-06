@@ -90,6 +90,17 @@ exact digest, provenance, player-visible field set, typed action variants, curre
 binding, and explicit unknown/recovery semantics are contract requirements. The profile's presence
 does not establish that a host can produce a complete catalog or settle any action.
 
+`watchdog-recovery-v1` is an additive, sideband-only profile. Its source and release-like copy are
+`schemas/watchdog-recovery-v1.schema.json` and `artifacts/watchdog-recovery-v1/schema.json`, with
+schema digest `fb934d3157485aaf6e13e6ebbb213ec8a14c7fc6f5eeebc06b7a22c1f0009217`. Named prospective
+consumers are `ascension-watchdog`, `sts2-game-mod`, `sts2-gateway`, `sts2-harness`, and
+`sts2-mcp-server`. It does not modify the frozen Runtime-v3 artifact, transfer gateway/host authority,
+or add MCP framing. Its RCJ-1 action canonicalization is deliberately bounded to the frozen v3
+ASCII identity/enum/null action grammar; mixed sideband, runtime-v3, release, config, or profile
+digests are rejected. The protocol artifact and conformance checks are confirmed locally; every
+consumer, host, lease, persistence, live, reboot, and soak boundary remains unverified until its
+owner supplies separate evidence.
+
 The harness's Exo request and decision envelope is intentionally provider-owned. No separate
 `runtime-v3-gameplay-llm` or `agent-decision-v1` artifact is admitted without an independent
 cross-repository producer, consumer, and conformance requirement; this keeps model policy out of

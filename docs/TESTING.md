@@ -91,3 +91,10 @@ validation, closes every object, rejects missing/duplicate fields and fractional
 tokens, and checks canonical round trips and manifest consumer identities. CI verifies all
 eight checksum entries, including source schema and conformance copies. The separate
 executable gateway/MCP evidence is recorded in ADR 0013; contract tests alone do not prove it.
+
+`watchdog_recovery_v1_conformance.rs` validates the new inert sideband's byte-identical source and
+artifact schemas, manifest and conformance coverage, all nine request and nine response kinds,
+closed-object rejection, bounded invalid fixtures, and RCJ-1 vectors for every frozen action variant.
+Its raw malformed vectors cover duplicate members, Unicode, floating-point values, and escapes. The
+test does not authenticate callers, issue leases, access a host, persist an operation, or claim any
+consumer/runtime compatibility; those remain owner-side gates.
