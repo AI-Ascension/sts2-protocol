@@ -112,3 +112,12 @@ and one typed action. `accepted`, `settled`, `rejected`, `unknown`, and `cancell
 settlement needs a fresh observation, legal-action catalog, and transition witness. Unknown results
 must be reconciled or recovered before another mutation. The exact schema digest and artifact
 provenance are required before a consumer maps the profile.
+
+## Coordinator-reported synchronization
+
+ADR 0013 defines the separate `coop-synchronization-v1` artifact. Gateway owns configured
+peer membership, authenticated coordinator reports, generation convergence, report expiry,
+and lease fencing. MCP consumes the complete closed response through its selected read-only
+profile. Protocol owns only its metadata, schema, canonical serialization and relationships.
+The required source label distinguishes these reports from native-host or independently
+authenticated peer evidence. No action, vote, effect, or mutation predicate is exported.

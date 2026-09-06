@@ -5,11 +5,11 @@
 The unpublished gameplay proposals require the explicit
 [conformance correction and digest migration](decisions/0009-proposed-contract-conformance-corrections.md).
 Schema validation alone is insufficient; that decision lists mandatory semantic checks and the
-incompatible earlier proposal. This separate proposal branch restores the unadmitted co-op source,
-schema, tests, and provisional exports split from gameplay by
-[ADR 0010](decisions/0010-split-unadmitted-coop-proposal.md). They are not an admitted artifact or
-integrated capability; admission remains blocked under
-[ADR 0011](decisions/0011-preserved-coop-proposal.md).
+incompatible earlier proposal. The unadmitted six-family co-op prototype remains preserved in
+Git history. [ADR 0013](decisions/0013-coop-synchronization-admission.md) replaces its provisional
+exports with `coop-synchronization-v1`, consumed completely by gateway serialization and MCP
+projection. Its profile and digest are distinct; the old `coop-gameplay-v1` wire is rejected.
+This admits coordinator-reported synchronization metadata, not co-op actuation or host effects.
 
 Protocol, schema/profile, repository, consumer, game-host, loader/ABI, gateway, MCP, harness,
 provider/model, and artifact versions are independent. A matching number or field name does not

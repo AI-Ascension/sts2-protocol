@@ -1,9 +1,13 @@
 # ADR 0011: preserve the unadmitted co-op proposal
 
-- Status: Proposed; admission blocked
+- Status: Historical proposal; superseded for synchronization by ADR 0013
 - Date: 2026-09-05
 
 ## Scope and provenance
+
+The six-family proposal below is preserved as history. The actual read-only consumer scope
+is admitted separately by [ADR 0013](0013-coop-synchronization-admission.md); the unused
+action/vote/effect family remains unadmitted and is not exported by the current package.
 
 This separate branch restores the original hand-authored MIT co-op source schema, Rust prototype,
 provisional exports, and deterministic tests split from gameplay by

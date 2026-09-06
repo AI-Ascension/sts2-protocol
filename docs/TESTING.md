@@ -85,3 +85,9 @@ Rust boundary, exact serialization, extra-argument rejection, unknown kinds, and
 digest rejection. The Runtime-v3 checksum inventory includes all seven golden envelopes,
 the manifest, artifact schema, source schema and conformance case. These synthetic checks
 prove contract consistency only; consumer and host verification remain separate.
+
+`coop_synchronization_conformance` runs all 27 shared vectors through schema and Rust
+validation, closes every object, rejects missing/duplicate fields and fractional integer
+tokens, and checks canonical round trips and manifest consumer identities. CI verifies all
+eight checksum entries, including source schema and conformance copies. The separate
+executable gateway/MCP evidence is recorded in ADR 0013; contract tests alone do not prove it.
