@@ -46,8 +46,10 @@ exactly-once effects across a host mutation/receipt-persistence crash window.
 
 The 18 valid frames cover all nine request and nine response kinds. Invalid shape fixtures cover
 unknown fields, stale contract version, and the action bound. RCJ vectors cover all frozen action
-variants and malformed duplicate, Unicode, float, and escape inputs. Rust conformance checks compare
-source/artifact bytes, Draft 2020-12 schema validation, fixture coverage, and RCJ vectors.
+variants and malformed duplicate-member, unsorted-key, Unicode, float, escape, and Base64 inputs.
+Rust conformance checks compare source/artifact bytes, Draft 2020-12 schema validation, fixture
+coverage, exact canonical action bytes, and recomputed SHA-256 payload digests. The `sha2`
+dependency is test-only and does not change the neutral wire boundary.
 
 This ADR establishes a protocol artifact only. Gateway durable boot/lease authority, host fence and
 ticket enforcement, harness resume/provider accounting, watchdog supervision, consumer release

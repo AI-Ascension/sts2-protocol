@@ -16,5 +16,6 @@ their own boundary-specific mappings and executable integration/fault evidence.
 
 The 18 valid fixtures cover all nine request and nine response kinds. Invalid
 shape fixtures cover unknown fields, stale contract version, and action bounds.
-RCJ-1 malformed and action-vector cases are in `rcj-vectors.json` and are
-exercised by the neutral conformance test.
+RCJ-1 malformed and action-vector cases are in `rcj-vectors.json` and are exercised by the neutral
+conformance test. It requires exact canonical action bytes, recomputes each action's SHA-256 digest,
+and rejects duplicate members, unsorted keys, Unicode, numbers, escapes, and malformed Base64.

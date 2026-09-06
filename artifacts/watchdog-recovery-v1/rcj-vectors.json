@@ -71,6 +71,48 @@
       "name": "escaped-identity",
       "wire": "{\"action\":{\"kind\":\"end_turn\"},\"action_id\":\"action\\u002dend-turn\"}",
       "reason": "RCJ-1 rejects escapes even when decoded value is otherwise legal"
+    },
+    {
+      "name": "duplicate-action-id",
+      "wire": "{\"action\":{\"kind\":\"end_turn\"},\"action_id\":\"action-end-turn\",\"action_id\":\"other\"}",
+      "reason": "duplicate top-level action_id member"
+    },
+    {
+      "name": "duplicate-nested-kind",
+      "wire": "{\"action\":{\"kind\":\"end_turn\",\"kind\":\"end_turn\"},\"action_id\":\"action-end-turn\"}",
+      "reason": "duplicate nested action kind member"
+    },
+    {
+      "name": "unsorted-top-level-keys",
+      "wire": "{\"action_id\":\"action-end-turn\",\"action\":{\"kind\":\"end_turn\"}}",
+      "reason": "top-level member names are not in RCJ-1 order"
+    },
+    {
+      "name": "unsorted-nested-keys",
+      "wire": "{\"action\":{\"kind\":\"start_run\",\"character_id\":\"ironclad\"},\"action_id\":\"action-start-run\"}",
+      "reason": "nested member names are not in RCJ-1 order"
+    }
+  ],
+  "malformed_base64": [
+    {
+      "name": "invalid-length",
+      "value": "not-base64",
+      "reason": "base64 length is not a multiple of four"
+    },
+    {
+      "name": "padding-before-final-quantum",
+      "value": "AA=A",
+      "reason": "padding is only legal in the final quantum"
+    },
+    {
+      "name": "padding-without-second-marker",
+      "value": "A===",
+      "reason": "padding must occupy the final two positions"
+    },
+    {
+      "name": "non-zero-unused-bits",
+      "value": "AB==",
+      "reason": "unused bits in a padded quantum must be zero"
     }
   ]
 }

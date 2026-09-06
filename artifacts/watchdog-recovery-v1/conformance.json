@@ -70,7 +70,8 @@
     "current_and_original_authority_contexts_are_distinct": true,
     "historical_lookup_cannot_authorize_mutation": true,
     "unknown_is_retained_until_reconciled": true,
-    "rcj_rejects_duplicate_unicode_float_and_escape_inputs": true,
+    "rcj_requires_exact_canonical_bytes": true,
+    "rcj_rejects_duplicate_unicode_float_escape_and_malformed_base64_inputs": true,
     "runtime_v3_artifact_is_unchanged": true
   }
 }

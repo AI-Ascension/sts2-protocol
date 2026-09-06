@@ -3,6 +3,7 @@
 use std::collections::BTreeSet;
 
 use serde_json::{Value, json};
+use sha2::{Digest, Sha256};
 
 const SOURCE_SCHEMA: &str = include_str!("../../../schemas/watchdog-recovery-v1.schema.json");
 const ARTIFACT_SCHEMA: &str = include_str!("../../../artifacts/watchdog-recovery-v1/schema.json");
@@ -13,114 +14,54 @@ const ARTIFACT_CASES: &str =
 const RCJ_VECTORS: &str = include_str!("../../../artifacts/watchdog-recovery-v1/rcj-vectors.json");
 const CHECKSUMS: &str = include_str!("../../../artifacts/watchdog-recovery-v1/SHA256SUMS");
 
+macro_rules! valid_fixture {
+    ($kind:literal, $name:literal) => {
+        (
+            $kind,
+            include_str!(concat!(
+                "../../../artifacts/watchdog-recovery-v1/fixtures/valid/",
+                $name
+            )),
+        )
+    };
+}
+
 const VALID: &[(&str, &str)] = &[
-    (
-        "bootstrap_request",
-        include_str!(
-            "../../../artifacts/watchdog-recovery-v1/fixtures/valid/bootstrap-request.json"
-        ),
-    ),
-    (
-        "bootstrap_response",
-        include_str!(
-            "../../../artifacts/watchdog-recovery-v1/fixtures/valid/bootstrap-response.json"
-        ),
-    ),
-    (
-        "host_fence_request",
-        include_str!(
-            "../../../artifacts/watchdog-recovery-v1/fixtures/valid/host-fence-request.json"
-        ),
-    ),
-    (
-        "host_fence_response",
-        include_str!(
-            "../../../artifacts/watchdog-recovery-v1/fixtures/valid/host-fence-response.json"
-        ),
-    ),
-    (
-        "lease_acquire_request",
-        include_str!(
-            "../../../artifacts/watchdog-recovery-v1/fixtures/valid/lease-acquire-request.json"
-        ),
-    ),
-    (
-        "lease_acquire_response",
-        include_str!(
-            "../../../artifacts/watchdog-recovery-v1/fixtures/valid/lease-acquire-response.json"
-        ),
-    ),
-    (
-        "lease_renew_request",
-        include_str!(
-            "../../../artifacts/watchdog-recovery-v1/fixtures/valid/lease-renew-request.json"
-        ),
-    ),
-    (
-        "lease_renew_response",
-        include_str!(
-            "../../../artifacts/watchdog-recovery-v1/fixtures/valid/lease-renew-response.json"
-        ),
-    ),
-    (
-        "lease_revoke_request",
-        include_str!(
-            "../../../artifacts/watchdog-recovery-v1/fixtures/valid/lease-revoke-request.json"
-        ),
-    ),
-    (
-        "lease_revoke_response",
-        include_str!(
-            "../../../artifacts/watchdog-recovery-v1/fixtures/valid/lease-revoke-response.json"
-        ),
-    ),
-    (
-        "operation_intent_request",
-        include_str!(
-            "../../../artifacts/watchdog-recovery-v1/fixtures/valid/operation-intent-request.json"
-        ),
-    ),
-    (
+    valid_fixture!("bootstrap_request", "bootstrap-request.json"),
+    valid_fixture!("bootstrap_response", "bootstrap-response.json"),
+    valid_fixture!("host_fence_request", "host-fence-request.json"),
+    valid_fixture!("host_fence_response", "host-fence-response.json"),
+    valid_fixture!("lease_acquire_request", "lease-acquire-request.json"),
+    valid_fixture!("lease_acquire_response", "lease-acquire-response.json"),
+    valid_fixture!("lease_renew_request", "lease-renew-request.json"),
+    valid_fixture!("lease_renew_response", "lease-renew-response.json"),
+    valid_fixture!("lease_revoke_request", "lease-revoke-request.json"),
+    valid_fixture!("lease_revoke_response", "lease-revoke-response.json"),
+    valid_fixture!("operation_intent_request", "operation-intent-request.json"),
+    valid_fixture!(
         "operation_intent_response",
-        include_str!(
-            "../../../artifacts/watchdog-recovery-v1/fixtures/valid/operation-intent-response.json"
-        ),
+        "operation-intent-response.json"
     ),
-    (
+    valid_fixture!(
         "operation_dispatch_request",
-        include_str!(
-            "../../../artifacts/watchdog-recovery-v1/fixtures/valid/operation-dispatch-request.json"
-        ),
+        "operation-dispatch-request.json"
     ),
-    (
+    valid_fixture!(
         "operation_dispatch_response",
-        include_str!(
-            "../../../artifacts/watchdog-recovery-v1/fixtures/valid/operation-dispatch-response.json"
-        ),
+        "operation-dispatch-response.json"
     ),
-    (
-        "operation_lookup_request",
-        include_str!(
-            "../../../artifacts/watchdog-recovery-v1/fixtures/valid/operation-lookup-request.json"
-        ),
-    ),
-    (
+    valid_fixture!("operation_lookup_request", "operation-lookup-request.json"),
+    valid_fixture!(
         "operation_lookup_response",
-        include_str!(
-            "../../../artifacts/watchdog-recovery-v1/fixtures/valid/operation-lookup-response.json"
-        ),
+        "operation-lookup-response.json"
     ),
-    (
+    valid_fixture!(
         "operation_reconcile_request",
-        include_str!(
-            "../../../artifacts/watchdog-recovery-v1/fixtures/valid/operation-reconcile-request.json"
-        ),
+        "operation-reconcile-request.json"
     ),
-    (
+    valid_fixture!(
         "operation_reconcile_response",
-        include_str!(
-            "../../../artifacts/watchdog-recovery-v1/fixtures/valid/operation-reconcile-response.json"
-        ),
+        "operation-reconcile-response.json"
     ),
 ];
 
@@ -189,6 +130,14 @@ fn source_artifact_manifest_and_case_are_bound() {
     assert_eq!(
         cases["coverage"]["response_kinds"].as_array().map(Vec::len),
         Some(9)
+    );
+    assert_eq!(
+        cases["assertions"]["rcj_requires_exact_canonical_bytes"],
+        true
+    );
+    assert_eq!(
+        cases["assertions"]["rcj_rejects_duplicate_unicode_float_escape_and_malformed_base64_inputs"],
+        true
     );
 }
 
@@ -286,11 +235,12 @@ fn rcj_vectors_cover_frozen_action_variants_and_reject_malformed_inputs() {
         let decoded = decode_base64(encoded).expect("base64 decodes");
         assert_eq!(decoded, wire.as_bytes());
         assert!(rcj_action_valid(wire), "RCJ action must validate: {wire}");
+        let payload_digest = vector["payload_digest"].as_str().expect("payload digest");
         assert_eq!(
-            serde_json::to_string(&serde_json::from_str::<Value>(wire).unwrap()).unwrap(),
-            wire
+            sha256_hex(wire.as_bytes()),
+            payload_digest,
+            "payload digest must hash the exact canonical action bytes"
         );
-        assert_eq!(vector["payload_digest"].as_str().map(str::len), Some(64));
         names.insert(vector["name"].as_str().expect("action name").to_owned());
     }
     assert_eq!(
@@ -317,6 +267,17 @@ fn rcj_vectors_cover_frozen_action_variants_and_reject_malformed_inputs() {
         let wire = malformed["wire"].as_str().expect("malformed wire");
         assert!(!rcj_action_valid(wire), "malformed RCJ accepted: {wire}");
     }
+
+    for malformed in vectors["malformed_base64"]
+        .as_array()
+        .expect("malformed base64 vectors")
+    {
+        let value = malformed["value"].as_str().expect("malformed base64 value");
+        assert!(
+            decode_base64(value).is_none(),
+            "malformed base64 accepted: {value}"
+        );
+    }
 }
 
 fn rcj_action_valid(wire: &str) -> bool {
@@ -327,13 +288,18 @@ fn rcj_action_valid(wire: &str) -> bool {
                 || byte == b'\\'
                 || byte.is_ascii_control()
         })
-        || has_duplicate_object_member(wire)
     {
         return false;
     }
     let Ok(value) = serde_json::from_str::<Value>(wire) else {
         return false;
     };
+    let Ok(canonical) = serde_json::to_string(&value) else {
+        return false;
+    };
+    if canonical != wire {
+        return false;
+    }
     let Some(object) = value.as_object() else {
         return false;
     };
@@ -382,36 +348,41 @@ fn valid_identity(value: &str) -> bool {
             .all(|byte| byte.is_ascii_alphanumeric() || b"_.:/-".contains(&byte))
 }
 
-fn has_duplicate_object_member(wire: &str) -> bool {
-    wire.match_indices("\"action\":").count() > 1
-}
-
 fn decode_base64(value: &str) -> Option<Vec<u8>> {
     if value.is_empty() || !value.len().is_multiple_of(4) {
         return None;
     }
     let mut output = Vec::new();
     let bytes = value.as_bytes();
-    for chunk in bytes.chunks(4) {
+    for (index, chunk) in bytes.chunks(4).enumerate() {
+        let is_last = index + 1 == bytes.len() / 4;
         let a = base64_value(chunk[0])?;
         let b = base64_value(chunk[1])?;
-        let c = if chunk[2] == b'=' {
-            0
-        } else {
-            base64_value(chunk[2])?
-        };
-        let d = if chunk[3] == b'=' {
-            0
-        } else {
-            base64_value(chunk[3])?
-        };
-        output.push((a << 2) | (b >> 4));
-        if chunk[2] != b'=' {
+        let c_padding = chunk[2] == b'=';
+        let d_padding = chunk[3] == b'=';
+        if (!is_last && (c_padding || d_padding)) || (c_padding && !d_padding) {
+            return None;
+        }
+        if c_padding {
+            if b & 0x0f != 0 {
+                return None;
+            }
+            output.push((a << 2) | (b >> 4));
+            continue;
+        }
+        let c = base64_value(chunk[2])?;
+        if d_padding {
+            if c & 0x03 != 0 {
+                return None;
+            }
+            output.push((a << 2) | (b >> 4));
             output.push((b << 4) | (c >> 2));
+            continue;
         }
-        if chunk[3] != b'=' {
-            output.push((c << 6) | d);
-        }
+        let d = base64_value(chunk[3])?;
+        output.push((a << 2) | (b >> 4));
+        output.push((b << 4) | (c >> 2));
+        output.push((c << 6) | d);
     }
     Some(output)
 }
@@ -425,6 +396,10 @@ fn base64_value(byte: u8) -> Option<u8> {
         b'/' | b'_' => Some(63),
         _ => None,
     }
+}
+
+fn sha256_hex(value: &[u8]) -> String {
+    format!("{:x}", Sha256::digest(value))
 }
 
 fn checksum_for<'a>(inventory: &'a str, path: &str) -> &'a str {
