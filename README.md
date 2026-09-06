@@ -7,7 +7,7 @@
 
 > **AI-Ascension · neutral metadata contracts (beside the ascent)** — Shared metadata contracts (identity, versions, error envelopes) in language-neutral schemas with golden test vectors.
 >
-> **Status:** deterministic Runtime-v1 and Runtime-v2 contract tests `confirmed` at the pinned commit · consumer, host, and game compatibility `unverified` · nothing is live.
+> **Status:** deterministic Runtime-v1/Runtime-v2/co-op contract tests and the read-only coordinator-synchronization consumer path are `confirmed` at the recorded heads · native host compatibility, game settlement, and multiplayer gameplay remain `unverified`.
 > **Proof:** [45-second browser replay](https://ai-ascension.github.io/proof.html) · [Evidence ledger](https://ai-ascension.github.io/evidence.html) · [This repository on the map](https://ai-ascension.github.io/repositories.html#sts2-protocol)
 > **Owner:** Protocol maintainers own only genuinely shared, language-neutral, transport-neutral contract artifacts; consumers accept explicit artifacts rather than importing another boundary's implementation.
 > **Contribute:** [Organization guide](https://github.com/AI-Ascension/.github/blob/main/CONTRIBUTING.md) · [First tasks](https://ai-ascension.github.io/contributing.html)
@@ -16,8 +16,9 @@
 
 Status: deterministic contract owner for the accepted sixth STS2 build target. The `poc-v1`,
 `runtime-v1`, and `runtime-v2` artifacts are release-like and local-only; no public release or
-consumer/runtime compatibility is claimed. The package remains inert and contains no transport or
-product behavior.
+native host/game compatibility is claimed. The separately admitted `coop-synchronization-v1`
+artifact has a read-only gateway producer and MCP reader; that coordinator-report path does not
+authorize game effects or establish multiplayer gameplay.
 
 ## Ownership and consumers
 
@@ -57,10 +58,13 @@ bundle under `artifacts/poc-v1/`, and `crates/protocol/tests/poc_conformance.rs`
 artifact, digest, golden, invalid-fixture, and deterministic conformance evidence. No second product
 crate or cross-repository path dependency was added.
 
-The five consumer PRs copy and verify only the release-like artifact; this repository has no live
-consumer, host, gateway, MCP peer, harness run, provider, package publication, or public release.
-Local build, schema, and golden results establish target-local static/serialization evidence; they
-cannot establish host compatibility, wire integration, end-to-end behavior, or release readiness.
+The five foundation consumer PRs copy and verify only their release-like artifacts. Separately, the
+admitted co-op profile records gateway/MCP consumption of its release-like artifact and an executable
+coordinator-report exchange. This repository remains an inert contract owner: native host/game
+execution and provider, package-publication, or public-release operations belong to the named consumer
+boundaries or remain unverified. Local build, schema, and golden results establish target-local
+static/serialization evidence; the co-op exchange cannot establish host compatibility, game
+settlement, multiplayer behavior, or release readiness.
 
 ## Provenance and validation
 
@@ -113,6 +117,9 @@ reconciliation storage, and live compatibility remain with the named consumer bo
 unverified by this repository.
 
 The separate `coop-synchronization-v1` artifact describes the attached gateway's recent
-coordinator-reported peer agreement. Its full response is produced by the gateway and read
-by the executable MCP profile. See [ADR 0013](docs/decisions/0013-coop-synchronization-admission.md)
+coordinator-reported peer agreement. Its full response is produced by the gateway and read by the
+executable MCP profile. The recorded exchange covers coordinator report convergence and fencing
+with zero downstream game connections; it has no action, vote, or shared-effect payload. See
+[ADR 0013](docs/decisions/0013-coop-synchronization-admission.md) and the [MCP executable
+evidence](https://github.com/AI-Ascension/sts2-mcp-server/blob/main/docs/evidence/coop-synchronization-20260906.md)
 for identity lifetimes, conformance, and the distinction from multiplayer gameplay.

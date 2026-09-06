@@ -10,7 +10,9 @@ Semantic Versioning once a protocol artifact or repository release exists.
 - Add the consumed `coop-synchronization-v1` response artifact, full conformance vectors and
   closed Rust mirror for gateway peer-report serialization and executable MCP projection.
   Retire the unadmitted action/vote/effect prototype exports under ADR 0013; their original
-  source remains in Git history. This adds no mutation authority or multiplayer gameplay claim.
+  source remains in Git history. Gateway/MCP executable verification is limited to coordinator
+  reports with zero downstream game connections; this adds no mutation authority or multiplayer
+  gameplay claim.
 
 - Target-local repository governance, policy tooling, and least-privilege CI foundations.
 - The accepted-sixth-target decision and the protocol ownership/dependency-direction decision.
@@ -37,10 +39,11 @@ Semantic Versioning once a protocol artifact or repository release exists.
 
 - Decomposed Runtime-v3 shape validation and its strictness matrix into bounded functions while
   preserving schema bytes, validation semantics, and existing message/payload mutation coverage.
-- No transport, host, game, gateway, MCP, model, provider, storage, or harness behavior was added;
-  consumer mappings use copied release-like files rather than protocol implementation dependencies.
-  Runtime-v1, Runtime-v2, and Runtime-v3 remain inert contracts; consumer and live gameplay
-  compatibility are unverified.
+- Within this protocol-only change, no transport, host, game, gateway, MCP, model, provider,
+  storage, or harness behavior was added; consumer mappings use copied release-like files rather
+  than protocol implementation dependencies. The protocol package continues to own inert
+  Runtime-v1, Runtime-v2, and Runtime-v3 contracts; named consumers and live gameplay
+  compatibility are outside this target and remain unverified here.
 
 ### Deprecated
 
