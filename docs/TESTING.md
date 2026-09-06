@@ -38,9 +38,12 @@ skipped or unverified; it is never counted as a pass.
 
 `runtime_conformance.rs` validates source/artifact byte identity, schema compilation, all five
 `runtime-v1` golden messages, unknown-field rejection, manifest consumers, and the fixed action
-identity. Run the normal foundation commands from this root; the runtime-specific evidence is
-`confirmed` for the inert contract and `unverified` for every live consumer until its precondition
-is reproduced. The safe action is `show_runtime_probe`, which witnesses a visible status overlay and
+identity. It also decodes every golden into the typed `RuntimeMessage`, validates it, and re-encodes
+it to byte-identical canonical JSON; checks `RUNTIME_MAX_GENERATION` and `RUNTIME_MAX_ACTION_COUNT`
+at and above each bound; and rejects metadata, provenance, identity, and kind/status shape drift with
+the schema and typed validator agreeing. Run the normal foundation commands from this root; the
+runtime-specific evidence is `confirmed` for the inert contract and `unverified` for every live
+consumer until its precondition is reproduced. The safe action is `show_runtime_probe`, which witnesses a visible status overlay and
 does not claim a game-rule transition.
 
 `runtime_v2_conformance.rs` validates the separate `runtime-v2` schema/artifact byte identity, all
@@ -64,8 +67,9 @@ limits still require the typed validator as described in
 [ADR 0009](decisions/0009-proposed-contract-conformance-corrections.md).
 
 `wire_closure.rs` checks required nullable members and closed objects against the unchanged
-schemas, including nested neutral metadata and Runtime-v2 messages. It also rejects duplicate
-members inside POC nullable objects before they can be collapsed by an intermediate JSON value.
+schemas, including nested neutral metadata, Runtime-v1, and Runtime-v2 messages. It also rejects
+duplicate members inside POC nullable objects and at the Runtime-v1 envelope and nested objects
+before they can be collapsed by an intermediate JSON value.
 CI verifies every checked-in POC, Runtime-v1, and Runtime-v2 checksum inventory against actual bytes.
 
 Use deterministic in-memory inputs, bounded sizes, synthetic identifiers, injected clocks where time
@@ -75,3 +79,9 @@ or handshake-looking fixture is not semantic or runtime compatibility evidence.
 
 Record command, exit status, toolchain, target revision, fixture/profile identity, and evidence level
 in the handoff or release record. Do not convert unavailable tools or live boundaries into passes.
+
+`runtime_v3_continuation` checks the three ADR 0012 action vectors through the schema and
+Rust boundary, exact serialization, extra-argument rejection, unknown kinds, and the prior
+digest rejection. The Runtime-v3 checksum inventory includes all seven golden envelopes,
+the manifest, artifact schema, source schema and conformance case. These synthetic checks
+prove contract consistency only; consumer and host verification remain separate.
