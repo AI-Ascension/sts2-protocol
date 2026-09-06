@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 
+mod coop_synchronization;
 mod descriptor;
 mod envelope;
 mod identity;
@@ -10,6 +11,11 @@ mod runtime_v2;
 mod runtime_v3_gameplay;
 mod serialization;
 
+pub use coop_synchronization::{
+    COOP_SYNC_ARTIFACT, COOP_SYNC_MAX_GENERATION, COOP_SYNC_MAX_PEERS, COOP_SYNC_PROTOCOL_VERSION,
+    COOP_SYNC_SCHEMA_DIGEST, COOP_SYNC_SCHEMA_SOURCE, CoopPeer, CoopPeerRole, CoopProvenance,
+    CoopSyncStatus, CoopSynchronization, CoopSynchronizationError, CoopSynchronizationMessage,
+};
 pub use descriptor::{
     ContractManifest, DigestAlgorithm, DigestDescriptor, Provenance, VersionProfile,
 };

@@ -7,6 +7,11 @@ Semantic Versioning once a protocol artifact or repository release exists.
 
 ### Added
 
+- Add the consumed `coop-synchronization-v1` response artifact, full conformance vectors and
+  closed Rust mirror for gateway peer-report serialization and executable MCP projection.
+  Retire the unadmitted action/vote/effect prototype exports under ADR 0013; their original
+  source remains in Git history. This adds no mutation authority or multiplayer gameplay claim.
+
 - Target-local repository governance, policy tooling, and least-privilege CI foundations.
 - The accepted-sixth-target decision and the protocol ownership/dependency-direction decision.
 - Documentation defining the narrow neutral-contract boundary and named prospective consumers.

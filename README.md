@@ -111,3 +111,8 @@ reuse returns `idempotency_conflict`, and an uncertain result must be reconciled
 retried. These are neutral wire semantics. Game legality, host authority, leases, transport,
 reconciliation storage, and live compatibility remain with the named consumer boundaries and are
 unverified by this repository.
+
+The separate `coop-synchronization-v1` artifact describes the attached gateway's recent
+coordinator-reported peer agreement. Its full response is produced by the gateway and read
+by the executable MCP profile. See [ADR 0013](docs/decisions/0013-coop-synchronization-admission.md)
+for identity lifetimes, conformance, and the distinction from multiplayer gameplay.
