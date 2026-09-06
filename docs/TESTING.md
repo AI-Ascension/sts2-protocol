@@ -79,3 +79,9 @@ or handshake-looking fixture is not semantic or runtime compatibility evidence.
 
 Record command, exit status, toolchain, target revision, fixture/profile identity, and evidence level
 in the handoff or release record. Do not convert unavailable tools or live boundaries into passes.
+
+`runtime_v3_continuation` checks the three ADR 0012 action vectors through the schema and
+Rust boundary, exact serialization, extra-argument rejection, unknown kinds, and the prior
+digest rejection. The Runtime-v3 checksum inventory includes all seven golden envelopes,
+the manifest, artifact schema, source schema and conformance case. These synthetic checks
+prove contract consistency only; consumer and host verification remain separate.

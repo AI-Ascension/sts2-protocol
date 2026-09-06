@@ -92,3 +92,10 @@ The harness's Exo request and decision envelope is intentionally provider-owned.
 `runtime-v3-gameplay-llm` or `agent-decision-v1` artifact is admitted without an independent
 cross-repository producer, consumer, and conformance requirement; this keeps model policy out of
 the neutral protocol owner.
+
+The campaign-continuation candidate in ADR 0012 adds `proceed`, `confirm_selection`, and
+`cancel_selection` under digest
+`8e99cea36b7ede97532348fd8efe302ca79260895265a7bf14ddf7e006d8ff63`.
+It requires coordinated migration of game-mod, gateway, MCP and harness. Existing sessions
+using the previous digest must finish before the replacement stack starts; mixed revisions
+are rejected. The added vocabulary does not establish host support or campaign completion.
