@@ -43,6 +43,9 @@ pub enum RuntimeV3GameplayAction {
     },
     ConfirmVictory,
     SaveQuit,
+    Proceed,
+    ConfirmSelection,
+    CancelSelection,
 }
 
 /// Host-generated action identity plus its typed semantic payload.
