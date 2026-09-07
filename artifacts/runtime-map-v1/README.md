@@ -14,6 +14,11 @@ Coordinates may overlap and visible components may be disconnected; those are pr
 host-provided projection facts. The protocol does not infer missing graph relations or fabricate a
 current-to-destination edge.
 
+Each binding preserves three identities independently: the stable projection `graph_node_id`, the
+exact host `host_action_id`, and the opaque serialized `select_map_node` action-option `node_id`.
+The option ID is bounded and unique within the binding set, while it does not have to equal a graph
+node ID.
+
 The checked-in fixture uses synthetic game/mod version strings for deterministic conformance; it
 does not establish licensed host compatibility or a current game installation.
 

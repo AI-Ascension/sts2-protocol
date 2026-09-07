@@ -128,13 +128,20 @@ fn runtime_map_v1_rejects_adversarial_graph_and_binding_shapes() {
         Err(RuntimeMapV1ValidationError::CyclicGraph)
     );
 
-    let mut mismatched = response_snapshot();
-    mismatched.bindings[0].action = RuntimeMapV1NavigationAction::SelectMapNode {
-        node_id: "map:1:2:0".into(),
+    let mut malformed_action_option = response_snapshot();
+    malformed_action_option.bindings[0].action = RuntimeMapV1NavigationAction::SelectMapNode {
+        node_id: "bad option".into(),
     };
     assert_eq!(
-        mismatched.validate(),
-        Err(RuntimeMapV1ValidationError::BindingPayloadMismatch)
+        malformed_action_option.validate(),
+        Err(RuntimeMapV1ValidationError::InvalidActionOption)
+    );
+
+    let mut duplicate_option = response_snapshot();
+    duplicate_option.bindings[1].action = duplicate_option.bindings[0].action.clone();
+    assert_eq!(
+        duplicate_option.validate(),
+        Err(RuntimeMapV1ValidationError::DuplicateActionOption)
     );
 
     let mut stale = response_message();
@@ -279,8 +286,19 @@ fn runtime_map_v1_does_not_expose_harness_or_hidden_state_fields() {
         graph_node_id: "map:1:1:0".into(),
         host_action_id: "select-map-node:42:map:1:1:0".into(),
         action: RuntimeMapV1NavigationAction::SelectMapNode {
-            node_id: "map:1:1:0".into(),
+            node_id: "map-option:42:left".into(),
         },
     };
     assert_eq!(binding.graph_node_id, "map:1:1:0");
+}
+
+#[test]
+fn runtime_map_v1_keeps_graph_host_action_and_action_option_ids_independent() {
+    let snapshot = response_snapshot();
+    for binding in snapshot.bindings {
+        let RuntimeMapV1NavigationAction::SelectMapNode { node_id } = binding.action;
+        assert_ne!(binding.graph_node_id, node_id);
+        assert_ne!(binding.host_action_id, node_id);
+        assert_ne!(binding.host_action_id, binding.graph_node_id);
+    }
 }

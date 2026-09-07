@@ -19,8 +19,10 @@ game/mod provenance, nullable map identity only when availability is not `availa
 availability/completeness/freshness labels, bounded reason text, stable node identity, logical
 coordinates, visible room category (including `unknown`), visited state, directed edges,
 pre-start/current/unavailable position, visible history, terminal IDs, and generation-bound
-bindings. A binding keeps the stable graph node ID, exact host action ID, and
-`select_map_node` payload as separate fields; the payload must equal the graph node ID.
+bindings. A binding keeps the stable graph node ID, exact host action ID, and serialized
+`select_map_node` action-option ID as separate fields. The action-option ID is an opaque,
+independently bounded value consumed by the host action; it is not required to equal or resolve
+as a graph node ID. Each namespace remains unique within its own binding set.
 
 The profile is bounded at 256 nodes, 1024 edges, 256 bindings, 256 visible history/terminal IDs,
 and 256 KiB per complete message. IDs are limited to 128 UTF-8 bytes, host action IDs to 512

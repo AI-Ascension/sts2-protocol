@@ -34,8 +34,9 @@ pub enum RuntimeMapV1ValidationError {
     InvalidTerminal,
     DuplicateTerminal,
     DuplicateBinding,
+    DuplicateActionOption,
     UnknownBindingNode,
-    BindingPayloadMismatch,
+    InvalidActionOption,
     InvalidBinding,
     TimeoutBounds,
     RequestShape,
@@ -69,10 +70,11 @@ impl std::fmt::Display for RuntimeMapV1ValidationError {
             Self::InvalidTerminal => "runtime-map-v1 terminal node is invalid",
             Self::DuplicateTerminal => "runtime-map-v1 terminal node IDs must be unique",
             Self::DuplicateBinding => "runtime-map-v1 action bindings must be unique",
-            Self::UnknownBindingNode => "runtime-map-v1 action binding references an unknown node",
-            Self::BindingPayloadMismatch => {
-                "runtime-map-v1 action payload does not match its graph binding"
+            Self::DuplicateActionOption => {
+                "runtime-map-v1 serialized action option IDs must be unique"
             }
+            Self::UnknownBindingNode => "runtime-map-v1 action binding references an unknown node",
+            Self::InvalidActionOption => "runtime-map-v1 serialized action option ID is invalid",
             Self::InvalidBinding => "runtime-map-v1 action binding is invalid",
             Self::TimeoutBounds => "runtime-map-v1 timeout metadata is outside the bound",
             Self::RequestShape => "runtime-map-v1 request shape is invalid",

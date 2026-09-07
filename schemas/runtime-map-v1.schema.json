@@ -21,6 +21,13 @@
       "maxLength": 512,
       "pattern": "^[A-Za-z0-9._:/-]+$"
     },
+    "action_option_id": {
+      "description": "Opaque serialized option identity consumed by the host action; distinct from the stable graph node ID.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9._:/-]+$"
+    },
     "text": {
       "type": "string",
       "minLength": 1,
@@ -102,7 +109,7 @@
       "additionalProperties": false,
       "properties": {
         "kind": { "const": "select_map_node" },
-        "node_id": { "$ref": "#/$defs/identity" }
+        "node_id": { "$ref": "#/$defs/action_option_id" }
       },
       "required": ["kind", "node_id"]
     },

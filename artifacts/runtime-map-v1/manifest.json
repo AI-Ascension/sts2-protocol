@@ -2,7 +2,7 @@
   "artifact": "sts2-protocol/runtime-map-v1",
   "protocol_version": "runtime-map-v1",
   "schema": "schema.json",
-  "schema_digest": "ae3669d416dd27a9c0898c61f098daff5d63a25d7c9e4770f41987ff6bd1fc86",
+  "schema_digest": "6340f3cbe6c1b5728144fe89fdfdf8645acf2f59a77c0e0c30ebfeafc77515d8",
   "provenance": {
     "source": "schemas/runtime-map-v1.schema.json",
     "generator": "hand-authored",

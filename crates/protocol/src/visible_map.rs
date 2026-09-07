@@ -37,7 +37,7 @@ pub const RUNTIME_MAP_V1_GENERATOR: &str = "hand-authored";
 pub const RUNTIME_MAP_V1_SNAPSHOT_SCHEMA_VERSION: &str = "visible-map-v1";
 /// Filled from the checked-in normative schema bytes.
 pub const RUNTIME_MAP_V1_SCHEMA_DIGEST: &str =
-    "ae3669d416dd27a9c0898c61f098daff5d63a25d7c9e4770f41987ff6bd1fc86";
+    "6340f3cbe6c1b5728144fe89fdfdf8645acf2f59a77c0e0c30ebfeafc77515d8";
 
 /// Maximum JSON-safe generation and lease epoch.
 pub const RUNTIME_MAP_V1_MAX_GENERATION: u64 = 9_007_199_254_740_991;
@@ -53,6 +53,8 @@ pub const RUNTIME_MAP_V1_MAX_HISTORY: usize = 256;
 pub const RUNTIME_MAP_V1_MAX_MESSAGE_BYTES: usize = 256 * 1024;
 /// Maximum ordinary identity field size in UTF-8 bytes.
 pub const RUNTIME_MAP_V1_MAX_ID_BYTES: usize = 128;
+/// Maximum serialized host action-option identity size in UTF-8 bytes.
+pub const RUNTIME_MAP_V1_MAX_ACTION_OPTION_ID_BYTES: usize = 128;
 /// Maximum host legal-action ID size in UTF-8 bytes.
 pub const RUNTIME_MAP_V1_MAX_HOST_ACTION_ID_BYTES: usize = 512;
 /// Maximum reason text size in UTF-8 bytes.

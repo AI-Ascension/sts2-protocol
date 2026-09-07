@@ -8,10 +8,10 @@ use super::model::{
 };
 use super::validation::RuntimeMapV1ValidationError;
 use super::{
-    RUNTIME_MAP_V1_MAX_BINDINGS, RUNTIME_MAP_V1_MAX_COORDINATE, RUNTIME_MAP_V1_MAX_EDGES,
-    RUNTIME_MAP_V1_MAX_HISTORY, RUNTIME_MAP_V1_MAX_HOST_ACTION_ID_BYTES,
-    RUNTIME_MAP_V1_MAX_ID_BYTES, RUNTIME_MAP_V1_MAX_NODES, RUNTIME_MAP_V1_MIN_COORDINATE,
-    valid_identity,
+    RUNTIME_MAP_V1_MAX_ACTION_OPTION_ID_BYTES, RUNTIME_MAP_V1_MAX_BINDINGS,
+    RUNTIME_MAP_V1_MAX_COORDINATE, RUNTIME_MAP_V1_MAX_EDGES, RUNTIME_MAP_V1_MAX_HISTORY,
+    RUNTIME_MAP_V1_MAX_HOST_ACTION_ID_BYTES, RUNTIME_MAP_V1_MAX_ID_BYTES, RUNTIME_MAP_V1_MAX_NODES,
+    RUNTIME_MAP_V1_MIN_COORDINATE, valid_identity,
 };
 
 pub(super) fn validate_graph(
@@ -122,16 +122,23 @@ fn validate_bindings(
 ) -> Result<(), RuntimeMapV1ValidationError> {
     let mut actions = BTreeSet::new();
     let mut host_ids = BTreeSet::new();
+    let mut option_ids = BTreeSet::new();
     for binding in &snapshot.bindings {
         validate_binding(binding, nodes)?;
         if matches!(&snapshot.position, RuntimeMapV1Position::Current { node_id } if node_id == &binding.graph_node_id)
         {
             return Err(RuntimeMapV1ValidationError::InvalidBinding);
         }
+        let option_id = match &binding.action {
+            RuntimeMapV1NavigationAction::SelectMapNode { node_id } => node_id,
+        };
         if !actions.insert(binding.graph_node_id.as_str())
             || !host_ids.insert(binding.host_action_id.as_str())
         {
             return Err(RuntimeMapV1ValidationError::DuplicateBinding);
+        }
+        if !option_ids.insert(option_id.as_str()) {
+            return Err(RuntimeMapV1ValidationError::DuplicateActionOption);
         }
     }
     Ok(())
@@ -155,8 +162,8 @@ fn validate_binding(
     }
     match &binding.action {
         RuntimeMapV1NavigationAction::SelectMapNode { node_id } => {
-            if node_id != &binding.graph_node_id || !nodes.contains_key(node_id.as_str()) {
-                return Err(RuntimeMapV1ValidationError::BindingPayloadMismatch);
+            if !valid_identity(node_id, RUNTIME_MAP_V1_MAX_ACTION_OPTION_ID_BYTES) {
+                return Err(RuntimeMapV1ValidationError::InvalidActionOption);
             }
         }
     }

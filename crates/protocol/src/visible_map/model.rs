@@ -55,6 +55,9 @@ pub enum RuntimeMapV1Position {
 }
 
 /// The read-only navigation payload associated with one host legal action.
+///
+/// Its `node_id` is the exact opaque option identity expected by the host action. It is
+/// independently validated from the stable graph node ID carried by its binding.
 #[derive(Clone, Debug, Eq, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(tag = "kind", rename_all = "snake_case", deny_unknown_fields)]
 pub enum RuntimeMapV1NavigationAction {
@@ -80,7 +83,8 @@ pub struct RuntimeMapV1Edge {
     pub to: String,
 }
 
-/// A generation-bound action binding. The graph ID and host action ID remain separate namespaces.
+/// A generation-bound action binding. The graph ID, host action ID, and serialized action option
+/// remain separate namespaces.
 #[derive(Clone, Debug, Eq, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct RuntimeMapV1ActionBinding {
