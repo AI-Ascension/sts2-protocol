@@ -10,6 +10,7 @@ description = "Neutral STS2 contract metadata and deterministic serialization"
 [dependencies]
 serde.workspace = true
 serde_json.workspace = true
+sha2.workspace = true
 
 [dev-dependencies]
 jsonschema = { version = "=0.52.1", default-features = false }

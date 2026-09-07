@@ -10,6 +10,7 @@ mod runtime;
 mod runtime_v2;
 mod runtime_v3_gameplay;
 mod serialization;
+mod visible_map;
 
 pub use coop_synchronization::{
     COOP_SYNC_ARTIFACT, COOP_SYNC_MAX_GENERATION, COOP_SYNC_MAX_PEERS, COOP_SYNC_PROTOCOL_VERSION,
@@ -63,6 +64,26 @@ pub use runtime_v3_gameplay::{
     RuntimeV3MessageKind,
 };
 pub use serialization::{canonical_json, decode_json};
+pub use visible_map::{
+    MapActionBinding, MapAvailability, MapCompleteness, MapContext, MapEdge, MapFreshness,
+    MapMessage, MapMessageKind, MapNavigationAction, MapNode, MapPosition, MapProvenance,
+    MapRoomCategory, MapSnapshot, MapTimeout, RUNTIME_MAP_V1_ARTIFACT, RUNTIME_MAP_V1_GENERATOR,
+    RUNTIME_MAP_V1_MAX_BINDINGS, RUNTIME_MAP_V1_MAX_COORDINATE, RUNTIME_MAP_V1_MAX_EDGES,
+    RUNTIME_MAP_V1_MAX_GENERATION, RUNTIME_MAP_V1_MAX_HISTORY,
+    RUNTIME_MAP_V1_MAX_HOST_ACTION_ID_BYTES, RUNTIME_MAP_V1_MAX_ID_BYTES,
+    RUNTIME_MAP_V1_MAX_JSON_DEPTH, RUNTIME_MAP_V1_MAX_MESSAGE_BYTES, RUNTIME_MAP_V1_MAX_NODES,
+    RUNTIME_MAP_V1_MAX_REASON_BYTES, RUNTIME_MAP_V1_MAX_TEXT_BYTES,
+    RUNTIME_MAP_V1_MAX_TIMEOUT_MILLIS, RUNTIME_MAP_V1_MIN_COORDINATE,
+    RUNTIME_MAP_V1_PROTOCOL_VERSION, RUNTIME_MAP_V1_SCHEMA_DIGEST, RUNTIME_MAP_V1_SCHEMA_SOURCE,
+    RUNTIME_MAP_V1_SNAPSHOT_SCHEMA_VERSION, RuntimeMapV1ActionBinding, RuntimeMapV1Availability,
+    RuntimeMapV1CanonicalError, RuntimeMapV1Completeness, RuntimeMapV1Context,
+    RuntimeMapV1DecodeError, RuntimeMapV1Edge, RuntimeMapV1Freshness, RuntimeMapV1Message,
+    RuntimeMapV1MessageKind, RuntimeMapV1NavigationAction, RuntimeMapV1Node, RuntimeMapV1Position,
+    RuntimeMapV1Provenance, RuntimeMapV1RoomCategory, RuntimeMapV1Snapshot, RuntimeMapV1Timeout,
+    RuntimeMapV1ValidationError, canonical_map_message_json, canonical_map_snapshot_json,
+    decode_map_message, decode_map_snapshot, decode_runtime_map_message, map_content_digest,
+    map_navigation_digest, map_snapshot_digest, map_topology_digest, sha256_hex,
+};
 
 /// The initial neutral metadata profile owned by this package.
 pub const CONTRACT_PROFILE: &str = "sts2-neutral-contract-v1";
