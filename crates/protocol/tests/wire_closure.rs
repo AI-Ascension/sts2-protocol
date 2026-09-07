@@ -1,5 +1,12 @@
 // SPDX-License-Identifier: MIT
 
+#![allow(
+    clippy::expect_used,
+    clippy::panic,
+    clippy::unwrap_used,
+    reason = "fixture tests fail fast on invalid test data"
+)]
+
 use serde_json::Value;
 use sts2_protocol::{
     ContractManifest, ErrorEnvelope, NeutralMetadata, PocMessage, RuntimeMessage, RuntimeV2Message,

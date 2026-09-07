@@ -26,8 +26,10 @@ directories, Rust/C#/workflow/Markdown budgets, and path-specific exemptions. Th
 - a Cargo workspace, required lockfile, workspace package metadata, inherited lint policy, and
   toolchain/MSRV agreement.
 
-Warnings become failures under `--strict`. The checker does not claim schema semantics, live consumer
-compatibility, host behavior, or release readiness.
+Policy version 2 gives every finding a mandatory default and marks preferred `SIZE001` limits
+advisory, so those warnings remain visible without failing `--strict`. Version 1 remains supported
+for legacy callers and promotes every warning in strict mode. The checker does not claim schema
+semantics, live consumer compatibility, host behavior, or release readiness.
 
 ## Configuration changes
 
@@ -35,3 +37,13 @@ Change `policy.toml` and the checker in one focused review. Every new exemption 
 repository-relative path and a durable provenance/regeneration reason. Do not weaken a rule to make an
 unrelated check pass. Validate policy changes with the full local command set in
 [`TESTING.md`](TESTING.md).
+
+## Production lint scope
+
+The production Clippy lane selects workspace libraries and binaries and forbids
+unwrap, expect, panic, todo and unimplemented on the compiler command line.
+A source-level allowance cannot override that lane. The existing all-target lane
+still checks tests with their scoped allowances. `production_lints` runs real
+compiler fixtures for forbidden constructs, an attempted blanket allowance,
+and valid comments/test-only code. Missing Clippy or an unrelated compiler
+failure cannot satisfy a negative case: its diagnostic must identify the rule.

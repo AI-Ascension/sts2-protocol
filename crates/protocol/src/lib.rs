@@ -1,5 +1,21 @@
 // SPDX-License-Identifier: MIT
 
+//! Neutral STS2 contract metadata and deterministic serialization.
+//!
+//! Qualified identifiers round-trip through the package's canonical JSON helpers:
+//!
+//! ```
+//! use sts2_protocol::{QualifiedId, canonical_json, decode_json};
+//!
+//! # fn main() -> Result<(), Box<dyn std::error::Error>> {
+//! let id = QualifiedId::new("player", "one").map_err(|error| format!("{error:?}"))?;
+//! let encoded = canonical_json(&id)?;
+//! let decoded: QualifiedId = decode_json(&encoded)?;
+//! assert_eq!(decoded, id);
+//! # Ok(())
+//! # }
+//! ```
+
 mod coop_synchronization;
 mod descriptor;
 mod envelope;

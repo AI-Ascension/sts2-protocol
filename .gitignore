@@ -1,5 +1,6 @@
 # Rust build output
 target/
+standards/tools/standards-sync/target/
 **/*.rs.bk
 
 # Local configuration and credentials
