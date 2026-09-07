@@ -11,9 +11,9 @@ MCP, model, provider, or end-to-end compatibility.
 
 The accepted sixth-target decision permits this repository to be prepared and implemented. The
 initial neutral metadata package, schema, and golden/conformance files provide target-local
-static/serialization evidence but no released artifact or consumer integration. The STS2 host baseline
-used elsewhere in planning is not protocol runtime evidence. Consumer, host, gateway, MCP, harness,
-provider, and release boundaries remain runtime-unverified.
+source-derived/serialization evidence but no released artifact or consumer integration. The STS2 host
+baseline used elsewhere in planning is not protocol runtime evidence. Consumer, host, gateway, MCP,
+harness, provider, and release boundaries remain unverified.
 
 ## Future compatibility classes
 
@@ -38,7 +38,7 @@ cancelled, accepted, settled, and unknown outcomes rather than collapsing them.
 
 ## Evidence levels
 
-Use `confirmed`, `statically derived`, `inferred`, `proposed`, `unverified`, and `unsupported`
+Use `confirmed`, `source-derived`, `inferred`, `proposed`, `unverified`, and `unsupported`
 consistently. Protocol-only evidence can establish static artifact properties. It cannot establish a
 live game load, host-thread behavior, gateway lifecycle, MCP handshake, harness experiment, provider
 call, package installation, or release verification.
