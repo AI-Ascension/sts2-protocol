@@ -1,5 +1,10 @@
 // SPDX-License-Identifier: MIT
 
+#![allow(
+    clippy::expect_used,
+    reason = "fixture tests fail fast on invalid test data"
+)]
+
 use serde_json::{Value, json};
 use sts2_protocol::{
     RUNTIME_V4_EXPERT_ACTION_SCHEMA_DIGEST, RUNTIME_V4_EXPERT_SCHEMA_DIGEST, decode_json,
