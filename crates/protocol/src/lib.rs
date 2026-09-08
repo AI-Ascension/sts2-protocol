@@ -9,6 +9,7 @@ mod poc;
 mod runtime;
 mod runtime_v2;
 mod runtime_v3_gameplay;
+mod runtime_v4_expert;
 mod serialization;
 
 pub use coop_synchronization::{
@@ -61,6 +62,12 @@ pub use runtime_v3_gameplay::{
     RuntimeV3GameplayStateKind, RuntimeV3GameplayStatus, RuntimeV3GameplayTransitionWitness,
     RuntimeV3GameplayValidationError, RuntimeV3GameplayWaitOutcome, RuntimeV3Message,
     RuntimeV3MessageKind,
+};
+pub use runtime_v4_expert::{
+    RUNTIME_V4_EXPERT_ACTION_ARTIFACT, RUNTIME_V4_EXPERT_ACTION_PROTOCOL_VERSION,
+    RUNTIME_V4_EXPERT_ACTION_SCHEMA_DIGEST, RUNTIME_V4_EXPERT_ACTION_SCHEMA_SOURCE,
+    RUNTIME_V4_EXPERT_ARTIFACT, RUNTIME_V4_EXPERT_PROTOCOL_VERSION,
+    RUNTIME_V4_EXPERT_SCHEMA_DIGEST, RUNTIME_V4_EXPERT_SCHEMA_SOURCE,
 };
 pub use serialization::{canonical_json, decode_json};
 
