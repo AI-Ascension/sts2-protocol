@@ -7,6 +7,15 @@ Semantic Versioning once a protocol artifact or repository release exists.
 
 ### Added
 
+- (2026-09-08) Add the `runtime-map-v1` additive, host-owned read-only map projection with its
+  schema, release-like artifact, checksum inventory, three golden messages, typed decoder, and
+  implementation-neutral conformance case. The merged protocol main source at `b3d3034` has the
+  schema digest `ceab0d2dfc471d1ec36d12edaf4654b8c7fdced06548bf47265e11c63f98115b`; these checks
+  establish source and serialization evidence only. These protocol checks do not attest consumer
+  parsing, artifact migration, or route registration; separate current-head component evidence is
+  required for those claims. Native map visibility, navigation settlement, gameplay, and release
+  readiness remain unverified.
+
 - Add the consumed `coop-synchronization-v1` response artifact, full conformance vectors and
   closed Rust mirror for gateway peer-report serialization and executable MCP projection.
   Retire the unadmitted action/vote/effect prototype exports under ADR 0013; their original
@@ -42,8 +51,8 @@ Semantic Versioning once a protocol artifact or repository release exists.
 - Within this protocol-only change, no transport, host, game, gateway, MCP, model, provider,
   storage, or harness behavior was added; consumer mappings use copied release-like files rather
   than protocol implementation dependencies. The protocol package continues to own inert
-  Runtime-v1, Runtime-v2, and Runtime-v3 contracts; named consumers and live gameplay
-  compatibility are outside this target and remain unverified here.
+  Runtime-v1, Runtime-v2, Runtime-v3, and `runtime-map-v1` contracts; named consumers and live
+  gameplay compatibility are outside this target and remain unverified here.
 
 ### Deprecated
 

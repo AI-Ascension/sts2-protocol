@@ -7,7 +7,7 @@
 
 > **AI-Ascension · neutral metadata contracts (beside the ascent)** — Shared metadata contracts (identity, versions, error envelopes) in language-neutral schemas with golden test vectors.
 >
-> **Status:** deterministic Runtime-v1/Runtime-v2/co-op contract tests and the read-only coordinator-synchronization consumer path are `confirmed` at the recorded heads · native host compatibility, game settlement, and multiplayer gameplay remain `unverified`.
+> **Status:** deterministic Runtime-v1/Runtime-v2/runtime-map-v1/co-op contract tests and the read-only coordinator-synchronization consumer path are `confirmed` at the recorded heads · native host compatibility, game settlement, and multiplayer gameplay remain `unverified`.
 > **Proof:** [45-second browser replay](https://ai-ascension.github.io/proof.html) · [Evidence ledger](https://ai-ascension.github.io/evidence.html) · [This repository on the map](https://ai-ascension.github.io/repositories.html#sts2-protocol)
 > **Owner:** Protocol maintainers own only genuinely shared, language-neutral, transport-neutral contract artifacts; consumers accept explicit artifacts rather than importing another boundary's implementation.
 > **Contribute:** [Organization guide](https://github.com/AI-Ascension/.github/blob/main/CONTRIBUTING.md) · [First tasks](https://ai-ascension.github.io/contributing.html)
@@ -15,10 +15,10 @@
 > AI-Ascension is an independent project. It is not affiliated with or endorsed by Mega Crit or Valve and grants no rights to game files, assets, or marks.
 
 Status: deterministic contract owner for the accepted sixth STS2 build target. The `poc-v1`,
-`runtime-v1`, and `runtime-v2` artifacts are release-like and local-only; no public release or
-native host/game compatibility is claimed. The separately admitted `coop-synchronization-v1`
-artifact has a read-only gateway producer and MCP reader; that coordinator-report path does not
-authorize game effects or establish multiplayer gameplay.
+`runtime-v1`, `runtime-v2`, and `runtime-map-v1` artifacts are release-like and local-only; no
+public release or native host/game compatibility is claimed. The separately admitted
+`coop-synchronization-v1` artifact has a read-only gateway producer and MCP reader; that
+coordinator-report path does not authorize game effects or establish multiplayer gameplay.
 
 ## Ownership and consumers
 
@@ -115,6 +115,28 @@ reuse returns `idempotency_conflict`, and an uncertain result must be reconciled
 retried. These are neutral wire semantics. Game legality, host authority, leases, transport,
 reconciliation storage, and live compatibility remain with the named consumer boundaries and are
 unverified by this repository.
+
+## `runtime-map-v1` read-only map profile
+
+The checked-in [`runtime-map-v1` artifact](artifacts/runtime-map-v1/README.md) is the additive,
+host-owned read-only map projection. At the merged protocol main commit
+[`b3d3034`](https://github.com/AI-Ascension/sts2-protocol/commit/b3d3034f32e68d70c9e681f906ee37d74db153c4),
+its schema digest is `ceab0d2dfc471d1ec36d12edaf4654b8c7fdced06548bf47265e11c63f98115b`. The
+normative schema, release-like artifact copy, seven-entry checksum inventory, three golden files,
+typed map decoder, and implementation-neutral conformance case are present and hash-bound. This
+is source and serialization evidence in the protocol repository. The manifest names
+`sts2-game-mod`, `sts2-gateway`, `sts2-harness`, `sts2-mcp-server`, and
+`ascension-map-visualizer` as consumers. The [gateway map PR](https://github.com/AI-Ascension/sts2-gateway/pull/26)
+and [MCP map PR](https://github.com/AI-Ascension/sts2-mcp-server/pull/30) are separate consumer
+source changes. Protocol checks do not attest consumer behavior; selected current-head artifact-copy
+and bounded synthetic gateway/MCP checks are recorded separately. Host extraction, visualizer
+validation, native map visibility, navigation settlement, gameplay, and release readiness remain
+separate boundaries.
+
+The profile carries only player-visible map projection data and generation-bound read-only action
+bindings. It does not expose hidden map state, future outcomes, host objects, provider output, or
+mutation authority. Complete cross-repository integration, native map visibility, navigation
+settlement, gameplay, and release readiness remain unverified.
 
 The separate `coop-synchronization-v1` artifact describes the attached gateway's recent
 coordinator-reported peer agreement. Its full response is produced by the gateway and read by the
