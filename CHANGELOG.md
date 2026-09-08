@@ -7,6 +7,12 @@ Semantic Versioning once a protocol artifact or repository release exists.
 
 ### Added
 
+- (2026-09-08) Initialize the candidate `runtime-v4-expert-rest-action-v1` additive profile with
+  its hand-authored schema, release-like artifact, provenance, 16 synthetic goldens, 16 independent
+  mutation fixtures, checksum inventory, exported identity constants, and strict conformance case.
+  No downstream consumer is admitted; native producer, gateway, MCP, harness, host, and live
+  settlement evidence remain pending, while the existing potion action artifact is unchanged.
+
 - (2026-09-08) Add the `runtime-map-v1` additive, host-owned read-only map projection with its
   schema, release-like artifact, checksum inventory, three golden messages, typed decoder, and
   implementation-neutral conformance case. The merged protocol main source at `b3d3034` has the

@@ -121,3 +121,17 @@ and lease fencing. MCP consumes the complete closed response through its selecte
 profile. Protocol owns only its metadata, schema, canonical serialization and relationships.
 The required source label distinguishes these reports from native-host or independently
 authenticated peer evidence. No action, vote, effect, or mutation predicate is exported.
+
+## Candidate Runtime-v4 rest-action profile
+
+ADR 0032 initializes `runtime-v4-expert-rest-action-v1` as a separate candidate profile. The
+protocol target owns its inert schema, artifact copy, provenance, checksums, synthetic goldens,
+and semantic conformance vectors. Its typed rest-option and selector messages remain separate from
+the existing potion action profile, whose bytes and digest are preserved. The profile carries no
+HTTP, host, lifecycle, authentication, persistence, or mutation implementation.
+
+The prospective consumer chain is `sts2-game-mod` as native serialized producer,
+`sts2-gateway` as route and lease forwarder, `sts2-mcp-server` as thin mapping adapter, and
+`sts2-harness` as artifact-validating coordinator. The candidate manifest claims no consumers until
+those owners provide exact-digest source and round-trip evidence. A protocol test pass establishes
+candidate contract closure only; it does not promote the profile or establish live compatibility.

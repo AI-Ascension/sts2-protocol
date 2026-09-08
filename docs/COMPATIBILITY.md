@@ -82,6 +82,7 @@ call, package installation, or release verification.
 | `runtime-v2` | game-mod, gateway, harness, MCP | Separate schema, artifact bytes, lifecycle goldens, and conformance are confirmed | Consumer mapping, operation ledger, host settlement, reconciliation, and game compatibility |
 | `runtime-v3-gameplay` | game-mod, gateway, harness, MCP | Source/package schema, sanitized goldens, manifest, digest inventory, and local conformance are confirmed | Consumer mappings, fair-play host projection, gateway/MCP transport, Exo execution, and live full-run compatibility |
 | `runtime-map-v1` | game-mod, gateway, harness, MCP, map visualizer | At merged protocol main `b3d3034f32e68d70c9e681f906ee37d74db153c4`, schema digest `ceab0d2dfc471d1ec36d12edaf4654b8c7fdced06548bf47265e11c63f98115b` and the schema/artifact/checksum/golden/conformance set are confirmed by source and serialization checks | Protocol checks do not attest consumer behavior; host extraction, visualizer validation, native map visibility, navigation settlement, gameplay, and release remain separate boundaries |
+| `runtime-v4-expert-rest-action-v1` | none admitted; prospective game-mod, gateway, MCP, harness | Candidate schema/artifact bytes, provenance, 16 goldens, 16 mutation fixtures, checksums, and strict conformance at digest `bb3555fae28eb1f79d08a15e9884696a579e4c20836f5016509f17e0f4c36fbd` | Serialized native producer, route, consumer mappings, host compatibility, selector settlement, gameplay, and release remain pending |
 
 `runtime-v1` is contract-compatible only when the exact schema digest, provenance, bounds, and
 unknown-field behavior are preserved. Its accepted action is a host-visible probe; it is not a
@@ -105,6 +106,12 @@ The profile describes a host-owned read-only projection; protocol schema and art
 establish map extraction, route compatibility, native map visibility, navigation settlement,
 gameplay, or release readiness. Current consumer component evidence remains governed by each
 consumer's exact source head and checks.
+
+`runtime-v4-expert-rest-action-v1` is additive-compatible with the existing potion profile because
+it has an independent protocol version, schema, artifact, action vocabulary, and digest. The
+candidate's empty consumer list is intentional. Prospective owners must pin the exact digest and
+prove serialized producer or consumer round trips before adoption; protocol conformance does not
+promote the profile or establish native rest-option or selector settlement.
 
 The harness's Exo request and decision envelope is intentionally provider-owned. No separate
 `runtime-v3-gameplay-llm` or `agent-decision-v1` artifact is admitted without an independent
