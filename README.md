@@ -144,8 +144,9 @@ The [`runtime-v4-expert-rest-action-v1` artifact](artifacts/runtime-v4-expert-re
 is a candidate additive transport for native rest-site options and typed Smith/Mend selector
 follow-up actions. Its schema digest is
 `bb3555fae28eb1f79d08a15e9884696a579e4c20836f5016509f17e0f4c36fbd`; the existing potion action
-profile remains unchanged. The artifact includes synthetic goldens, structural and semantic
-mutation checks, provenance, and an HTTP assignment envelope owned by the gateway.
+profile remains unchanged. The artifact includes 16 synthetic goldens, 22 structural and semantic
+mutation checks, two serialized Smith/Mend producer-shaped lifecycles, provenance, and an HTTP assignment
+envelope owned by the gateway.
 
 This profile has no admitted consumers yet. The game-mod must first emit the exact serialized
 envelope from native evidence, then gateway, MCP, and harness owners must independently validate

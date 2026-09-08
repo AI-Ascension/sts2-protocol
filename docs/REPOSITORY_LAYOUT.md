@@ -65,9 +65,9 @@ The split preserves public paths, wire behavior, schemas, and frozen artifact by
 ## Candidate Runtime-v4 rest-action files
 
 The candidate `runtime-v4-expert-rest-action-v1` profile has one normative schema under
-`schemas/`, a copied artifact with manifest, checksums, and 16 golden messages under
-`artifacts/runtime-v4-expert-rest-action/`, and its implementation-neutral case and 16 mutation
-fixtures under `conformance/`. The Rust test
-`crates/protocol/tests/runtime_v4_expert_rest_action_conformance.rs` binds those files and exports
-only identity and bound constants. HTTP routes, native producer code, MCP tools, and harness
-coordination remain in their prospective consumer repositories.
+`schemas/`, a copied artifact with manifest, checksums, 16 golden messages, and two serialized
+producer-shaped lifecycles under `artifacts/runtime-v4-expert-rest-action/`, plus its
+implementation-neutral case and 22 mutation fixtures under `conformance/`. The Rust test and its
+focused support module bind those files and export only identity and bound constants. HTTP routes,
+native producer code, MCP tools, and harness coordination remain in their prospective consumer
+repositories.

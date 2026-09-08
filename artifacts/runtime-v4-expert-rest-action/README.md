@@ -11,10 +11,14 @@ must be equal. Selector transitions mirror their selection identity, selected ch
 typed legal-action catalog. Missing or ambiguous native evidence remains `unknown` and is recovered
 by the original operation identity.
 
-The schema, goldens, and mutation fixtures are deterministic, synthetic protocol evidence. They do
-not establish a serialized producer, gateway route, MCP mapping, harness consumer, host compatibility,
-or live game settlement. The manifest therefore has no admitted consumers yet; it records the named
-prospective owners that must independently pin this exact digest before adoption.
+The 16 goldens and 22 mutation fixtures are deterministic, synthetic protocol evidence. The two
+serialized producer-shaped fixtures bind Smith and Mend request/response lifecycles to the same
+schema and exercise a stateful selector-admission catalog; a completed selector response may move
+its final observation back to `rest`, so consumers retain the prior catalog while reconciling the
+operation. These fixtures do not establish the managed native producer, gateway route, MCP mapping,
+harness consumer, host compatibility, or live game settlement. The manifest therefore has no
+admitted consumers yet; it records the named prospective owners that must independently pin this
+exact digest before adoption.
 
 The HTTP paths in the conformance case are an assignment envelope for the gateway owner. HTTP
 implementation and lifecycle authority remain outside this protocol crate.

@@ -94,9 +94,12 @@ executable gateway/MCP evidence is recorded in ADR 0013; contract tests alone do
 
 `runtime_v4_expert_rest_action_conformance.rs` validates the candidate REST schema and artifact
 byte identity, nested expert observations, metadata and provenance, HTTP assignment envelope,
-candidate consumer status, all 16 request/response goldens, and the full checksum inventory. Its
-strict semantic checks cover response action and transition identity, generation fencing, selector
-catalog and count relationships, visible selected choices, and root/transition effect-witness
-equality. The 16 independent mutation fixtures are either schema-invalid or rejected by those
-cross-field checks. This is candidate protocol evidence; it does not verify the managed native
-producer, gateway route, MCP mapping, harness orchestration, host behavior, or live settlement.
+candidate consumer status, all 16 request/response goldens, two serialized producer-shaped
+lifecycles, and
+the full checksum inventory. Its strict semantic checks cover response action and transition
+identity, generation fencing, selector catalog and count relationships, visible legal choices, and
+root/transition effect-witness equality. Selector completion checks use the admission catalog from
+the earlier producer responses because the final observation may have returned to `rest`. The 22
+independent mutation fixtures are either schema-invalid or rejected by those cross-field checks.
+This is candidate protocol evidence; it does not verify the managed native producer, gateway route,
+MCP mapping, harness orchestration, host behavior, or live settlement.

@@ -53,11 +53,13 @@ protocol crate implements no HTTP route, lifecycle, authentication, persistence,
 
 ## Evidence and migration
 
-The conformance case covers all 16 synthetic request/response goldens and 16 independent mutation
-fixtures. Schema-valid mutations are rejected by cross-field checks for action identity, transition
-context, selector counts/catalogs, selected-choice visibility, and witness identity/evidence.
-Structural mutations remain schema-invalid. These checks establish candidate contract closure only;
-they do not authorize a release or consumer claim.
+The conformance case covers all 16 synthetic request/response goldens, 22 independent mutation
+fixtures, and two serialized Smith/Mend producer-shaped lifecycles. Schema-valid mutations are rejected by
+cross-field checks for action identity, transition context, selector counts/catalogs, visible legal
+choices, prior selector admission, and witness identity/evidence. A completed selector may have a
+final `rest` observation, so a stateful consumer retains the admission catalog from earlier
+responses. Structural mutations remain schema-invalid. These checks establish candidate contract
+closure only; they do not authorize a release or consumer claim.
 
 The mod owner must first produce the exact serialized envelope from managed native evidence,
 including Smith and Mend selector state. Gateway, MCP, and harness owners then validate round trips
