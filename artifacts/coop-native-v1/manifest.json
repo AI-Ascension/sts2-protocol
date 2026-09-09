@@ -33,6 +33,8 @@
     "golden/rejoin-recovered-request.json",
     "golden/rejoin-recovered-response.json"
   ],
+  "consumer_conformance": "consumer-conformance.json",
+  "consumer_conformance_status": "component_serialized_conformance",
   "conformance": "conformance.json",
   "checksums": "SHA256SUMS"
 }

@@ -1,16 +1,22 @@
 # `coop-native-v1` candidate
 
 This directory is an unadmitted, source-derived candidate. Its fixtures are projections of the
-managed producer capture at `root/coop-native-producer-capture-20260909-evidence-r3`; the capture
+managed producer capture at `root/coop-native-producer-capture-20260909-evidence-r4`; the capture
 wrapper records the complete producer request and response, while each golden here records one
 envelope. The vectors cover observation, local action settlement/rejection/uncertainty, same
 operation reconciliation, shared event voting, and rejoin/recovery.
 
-The producer currently declares schema digest
-`afe9bf3674f3e69b0f2454ec3fb1d6265a8e83ebccd996b6b0437208531d72b5`. The candidate schema digest is
-`3e555563023804383534d92118c3863aa2aee3d0d24b932f484d8fd97e452ca8`, so the candidate intentionally
-does not claim wire compatibility with that producer revision. The mod producer must be rebuilt
-with the exact candidate schema and its declared digest must then be refreshed.
+The corrected producer declares the exact candidate schema digest
+`3e555563023804383534d92118c3863aa2aee3d0d24b932f484d8fd97e452ca8` at source commit
+`8fa255e9ead3ad7077c26a5980c2f28710fae11f` (tree
+`25821adf9160e1bfa89ea578022b63f9e83c8699`). The r4 capture is freshly recaptured from that
+source revision and records the matching declaration; this establishes source serialization parity
+while the candidate remains unadmitted pending live native evidence. The bounded serialized
+source-to-consumer check is recorded in `consumer-conformance.json`: it names the exact
+`sts2-game-mod`, `sts2-mcp-server`, and `sts2-gateway` heads, profile, schema digest, wire hashes,
+and component test profiles. The source catalog and MCP projection are semantically equal while
+their canonical member ordering differs; the gateway proof records a validated `GET` route and
+status 200.
 
 `producer-capture.json` records the source commit/tree, the eight source capture wrapper hashes,
 and the one-to-one projection of their request/response members to the fifteen checked-in
@@ -23,7 +29,8 @@ checksum is readable. Recovery requests and settled/rejected recovery responses
 carry a `reconcile` value; an unknown response may retain the producer's `rejoin` recovery marker
 while a rejoin is pending. Rejoin requests are the only mutation-shaped rejoin messages.
 
-No consumer is admitted. The candidate does not move host authority, peer admission, gateway
+No consumer is admitted. Component serialization evidence does not satisfy the live native gate.
+The candidate does not move host authority, peer admission, gateway
 leases, MCP framing, harness coordination, transport, or provider behavior into this repository.
 Admission requires the exact producer digest to match, at least two named consumers, and
 independent cross-boundary conformance evidence. These fixtures do not establish a native STS2
