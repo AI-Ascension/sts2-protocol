@@ -103,3 +103,8 @@ the earlier producer responses because the final observation may have returned t
 independent mutation fixtures are either schema-invalid or rejected by those cross-field checks.
 This is candidate protocol evidence; it does not verify the managed native producer, gateway route,
 MCP mapping, harness orchestration, host behavior, or live settlement.
+
+The focused native-completion cases exercise both Mend and Lift evidence alternatives. Native
+completion binds its completion identity to the nested observation state; numeric evidence still
+requires an actual HP or stat change. Missing identity, stale state, and native-only Heal evidence
+remain invalid. These in-memory variants preserve the checked-in schema and artifact bytes.

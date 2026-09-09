@@ -25,6 +25,9 @@ const CHECKSUMS: &str = include_str!("../../../artifacts/runtime-v4-expert-rest-
 #[path = "runtime_v4_expert_rest_action_conformance/support.rs"]
 mod support;
 
+#[path = "runtime_v4_expert_rest_action_conformance/native_completion.rs"]
+mod native_completion;
+
 use support::{
     PRODUCER_FIXTURES, artifact_root, fixture_names, golden, mutation, nested_observation_is_valid,
     producer_fixture, request_actions, schema_validator, selector_admissions, strict_semantics,

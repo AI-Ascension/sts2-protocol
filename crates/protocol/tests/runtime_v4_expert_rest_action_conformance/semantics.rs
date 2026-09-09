@@ -222,9 +222,11 @@ fn effect_matches_option(value: &Value, transition: &Value) -> Option<bool> {
         }
         "heal" => hp_evidence_is_effectful(evidence)?,
         "kindle" => native_evidence_matches(value, evidence)?,
-        "lift" => {
-            stat_evidence_is_effectful(evidence)? || native_evidence_matches(value, evidence)?
-        }
+        "lift" => match string(evidence, "kind") {
+            Some("stat_change") => stat_evidence_is_effectful(evidence)?,
+            Some("native_completion") => native_evidence_matches(value, evidence)?,
+            _ => false,
+        },
         "smith" => {
             string(evidence, "kind") == Some("card_change")
                 && nonempty_array(evidence, "upgraded_card_ids")?
@@ -234,8 +236,11 @@ fn effect_matches_option(value: &Value, transition: &Value) -> Option<bool> {
             let selected = transition.get("selected_choice_ids")?.as_array()?;
             root.get("target_player_id") == selected.first()
                 && selected.len() == 1
-                && (hp_evidence_is_effectful(evidence)?
-                    || native_evidence_matches(value, evidence)?)
+                && match string(evidence, "kind") {
+                    Some("hp_change") => hp_evidence_is_effectful(evidence)?,
+                    Some("native_completion") => native_evidence_matches(value, evidence)?,
+                    _ => false,
+                }
         }
         _ => false,
     })

@@ -113,6 +113,12 @@ candidate's empty consumer list is intentional. Prospective owners must pin the 
 prove serialized producer or consumer round trips before adoption; protocol conformance does not
 promote the profile or establish native rest-option or selector settlement.
 
+The REST conformance correction selects Mend and Lift evidence validation by the evidence kind.
+This is contract-compatible: it restores validation of existing native-completion alternatives
+without requiring fields from an unrelated numeric evidence variant. Schema, artifact, digest,
+golden bytes, and candidate consumer status remain unchanged. Consumer and native execution
+verification remain separate requirements.
+
 The harness's Exo request and decision envelope is intentionally provider-owned. No separate
 `runtime-v3-gameplay-llm` or `agent-decision-v1` artifact is admitted without an independent
 cross-repository producer, consumer, and conformance requirement; this keeps model policy out of
