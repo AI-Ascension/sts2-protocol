@@ -32,6 +32,8 @@ jobs:
           (cd artifacts/coop-synchronization-v1 && sha256sum -c SHA256SUMS)
           jq -e '.["$id"] == "sts2-runtime-v3-gameplay" and .additionalProperties == false' schemas/runtime-v3-gameplay.schema.json >/dev/null
           jq -e '.["$id"] == "sts2-coop-synchronization-v1" and .additionalProperties == false' schemas/coop-synchronization-v1.schema.json >/dev/null
+          cmp artifacts/seeded-run-v1/schema.json schemas/seeded-run-v1.schema.json
+          jq -e '.["$id"] == "sts2-seeded-run-v1"' schemas/seeded-run-v1.schema.json >/dev/null
 
       - name: Install pinned Rust toolchain
         run: rustup toolchain install 1.97.1 --profile minimal --component clippy --component rustfmt --no-self-update
@@ -49,6 +51,10 @@ jobs:
 
       - name: Verify Runtime-v2 artifact checksums
         working-directory: artifacts/runtime-v2
+        run: sha256sum -c SHA256SUMS
+
+      - name: Verify seeded-run-v1 artifact checksums
+        working-directory: artifacts/seeded-run-v1
         run: sha256sum -c SHA256SUMS
 
       - name: Check formatting

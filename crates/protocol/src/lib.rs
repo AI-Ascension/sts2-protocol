@@ -10,6 +10,7 @@ mod runtime;
 mod runtime_v2;
 mod runtime_v3_gameplay;
 mod runtime_v4_expert;
+mod seeded_run;
 mod serialization;
 mod visible_map;
 
@@ -69,6 +70,17 @@ pub use runtime_v4_expert::{
     RUNTIME_V4_EXPERT_ACTION_SCHEMA_DIGEST, RUNTIME_V4_EXPERT_ACTION_SCHEMA_SOURCE,
     RUNTIME_V4_EXPERT_ARTIFACT, RUNTIME_V4_EXPERT_PROTOCOL_VERSION,
     RUNTIME_V4_EXPERT_SCHEMA_DIGEST, RUNTIME_V4_EXPERT_SCHEMA_SOURCE,
+};
+pub use seeded_run::{
+    SEEDED_RUN_ARTIFACT, SEEDED_RUN_EFFECT_KIND, SEEDED_RUN_GENERATOR, SEEDED_RUN_MAX_ACTS,
+    SEEDED_RUN_MAX_CONTEXT_ID_BYTES, SEEDED_RUN_MAX_CONTEXT_TEXT_BYTES, SEEDED_RUN_MAX_GENERATION,
+    SEEDED_RUN_MAX_IDENTITY_BYTES, SEEDED_RUN_MAX_MODIFIERS, SEEDED_RUN_MAX_SEED_BYTES,
+    SEEDED_RUN_PROTOCOL_VERSION, SEEDED_RUN_SCHEMA_DIGEST, SEEDED_RUN_SCHEMA_SOURCE,
+    SeededRunCharacter, SeededRunCompatibility, SeededRunContext, SeededRunEffectWitness,
+    SeededRunGameMode, SeededRunIdentityDigest, SeededRunMessage, SeededRunMessageKind,
+    SeededRunMode, SeededRunObservation, SeededRunProfileBaseline, SeededRunProfileKind,
+    SeededRunProvenance, SeededRunSavePolicy, SeededRunSelectionContext, SeededRunStatus,
+    SeededRunValidationError,
 };
 pub use serialization::{canonical_json, decode_json};
 pub use visible_map::{
