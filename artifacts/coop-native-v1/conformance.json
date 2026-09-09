@@ -31,5 +31,16 @@
     "non-peer actor identity",
     "settled recovery response with rejoin recovery kind",
     "unsupported installed action or effect kind"
-  ]
+  ],
+  "serialized_conformance": {
+    "evidence": "consumer-conformance.json",
+    "status": "component_serialized_conformance",
+    "source": "sts2-game-mod",
+    "consumers": [
+      "sts2-mcp-server",
+      "sts2-gateway"
+    ],
+    "live_status": "unverified",
+    "admission": "unadmitted"
+  }
 }
