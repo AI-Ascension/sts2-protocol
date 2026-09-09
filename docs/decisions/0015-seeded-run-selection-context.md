@@ -25,6 +25,15 @@ baseline, save policy, separate game and mod compatibility identities, and its S
 digest covers compact canonical JSON of every manifest field except `context_digest`; the top-level
 digest and the host observation digest must match it.
 
+Canonical digest serialization uses UTF-8 JSON without whitespace and the following member order:
+`context_id`, `game_mode`, `character`, `ascension`, `modifiers`, `acts`, `selection_policy`,
+`profile_baseline`, `save_policy`, `compatibility`. The profile object uses `kind`, `identity`,
+`digest`; compatibility uses `game`, `mod`; each build object uses `identity`, `digest`.
+`context_digest` is excluded. Consumers must reconstruct that order when hashing parsed values;
+ordinary JSON object member order on the transport is not significant. Alphabetically sorting
+object keys is not this profile's canonical digest encoding. The checked-in context digest vector
+and `SeededRunContextDigestInput` provide the conformance reference.
+
 Act order is semantic native campaign order and is preserved in the digest. Modifiers are a
 canonicalized sorted set. Unknown members and enum values fail closed. The protocol validates bounds,
 ASCII identity/text alphabets, digest shape, list uniqueness, and the content-addressed digest, but it
