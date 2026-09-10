@@ -75,8 +75,8 @@ fn serialized_consumer_evidence_registers_three_component_consumers() {
         ),
         (
             "sts2-harness",
-            "d87673840efc06300ec751169532f84035e1a059",
-            "a05a78b62464910cc8dc1c57a8ceaa42258cc91d",
+            "63dc563690c93c575e75228f54672c1689d8a879",
+            "575a84ccc7c0cef7c73f34759c5cb6563b0d0433",
         ),
     ]) {
         assert_eq!(consumer["name"], name);
@@ -87,7 +87,7 @@ fn serialized_consumer_evidence_registers_three_component_consumers() {
     }
     assert_eq!(
         consumers[2]["verification_scope"],
-        "dependency-only jsonschema 0.52.1 to 0.55.0 dev-dependency refresh plus lock/build-manifest digest; coop-native wire and serialization semantics unchanged"
+        "merged harness PR #53 runtime-v4 expert catalog/composition/transport additions plus runtime-v3 recovery fixture corrections; no coop-native wire or serialization files changed"
     );
     assert_eq!(evidence["cross_boundary"]["catalog_action_count"], 2);
     assert_eq!(evidence["cross_boundary"]["catalog_vote_count"], 1);
