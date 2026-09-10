@@ -7,8 +7,8 @@ legal catalog, local actions, shared votes, peer rejoin, effects, receipts, and 
 recovery.
 
 The managed producer at source commit
-`19ed5e1f9f7c2eea4279039ff0d439e367d255b9` (tree
-`ae4fcec30bcfdcb44ee7457a6bc183b9336654fd`) declares the exact schema digest
+`fd5499c67fb66c55dbeedfaa00af1b84b284621a` (tree
+`6271e90b468cf89ac0a7939d9eaeb4f75334c36b`) declares the exact schema digest
 `2f3bc99e53080fa11b39592b64fb0ab964a16f568719a2622d0b2caf766ab629`. The producer capture is
 source-only: `CapturePort` is synthetic and does not load STS2, connect native peers, or prove a
 live host outcome. The goldens are compact projections of the checked-in capture wrapper members,

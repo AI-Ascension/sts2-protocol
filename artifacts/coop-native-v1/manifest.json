@@ -20,8 +20,8 @@
   "producer_declared_schema_digest": "2f3bc99e53080fa11b39592b64fb0ab964a16f568719a2622d0b2caf766ab629",
   "producer_digest_matches_candidate": true,
   "producer_capture": "producer-capture.json",
-  "producer_source_commit": "19ed5e1f9f7c2eea4279039ff0d439e367d255b9",
-  "producer_source_tree": "ae4fcec30bcfdcb44ee7457a6bc183b9336654fd",
+  "producer_source_commit": "fd5499c67fb66c55dbeedfaa00af1b84b284621a",
+  "producer_source_tree": "6271e90b468cf89ac0a7939d9eaeb4f75334c36b",
   "goldens": [
     "golden/observation-response.json",
     "golden/legal-catalog-request.json",
