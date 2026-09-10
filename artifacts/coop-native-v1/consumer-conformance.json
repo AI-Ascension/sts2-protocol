@@ -42,9 +42,10 @@
       "name": "sts2-harness",
       "role": "coordination and provider boundary",
       "repository": "sts2-harness",
-      "commit": "682c2b5ba38010e16d43b04c43d40184bda70106",
-      "tree": "173be6477d81f83dae9ab5ad4e0c670d474e32d5",
+      "commit": "d23b490493c61ff8ea0161ec70f8ab800b2a9b32",
+      "tree": "8dd448e284893fb2d144160efcab14eaa2ce67f0",
       "result": "pass",
+      "verification_scope": "dependency-only sha2 0.10.9 to 0.11.0 digest API migration; coop-native wire and serialization semantics unchanged",
       "live_status": "unverified"
     }
   ],
