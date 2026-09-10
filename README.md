@@ -116,11 +116,22 @@ retried. These are neutral wire semantics. Game legality, host authority, leases
 reconciliation storage, and live compatibility remain with the named consumer boundaries and are
 unverified by this repository.
 
+## `runtime-v4-expert` source/component contract
+
+At current protocol main
+[`f2dac90529f584a6511c1760adce9da28f7f910a`](https://github.com/AI-Ascension/sts2-protocol/commit/f2dac90529f584a6511c1760adce9da28f7f910a),
+the additive `runtime-v4-expert` observation and `runtime-v4-expert-action` transport artifacts,
+manifests, checksum inventories, goldens, typed validators, and conformance cases are present.
+Their schema digests are `0ee034d5da83f34e9fa0ba23038738d56ef8cfccb1c6e752af3ab63d212c8e42` and
+`393318bda8c3522c0ecbacc78b95471a9f4dc3f825169d2048f4c74a7b7f2929`. This confirms the protocol
+source, serialization, and conformance boundary. Consumer mapping, native host legality, settled
+effects, provider execution, deployment, release, and live compatibility remain unverified.
+
 ## `runtime-map-v1` read-only map profile
 
 The checked-in [`runtime-map-v1` artifact](artifacts/runtime-map-v1/README.md) is the additive,
-host-owned read-only map projection. At the merged protocol main commit
-[`b3d3034`](https://github.com/AI-Ascension/sts2-protocol/commit/b3d3034f32e68d70c9e681f906ee37d74db153c4),
+host-owned read-only map projection. At current protocol main commit
+[`f2dac90`](https://github.com/AI-Ascension/sts2-protocol/commit/f2dac90529f584a6511c1760adce9da28f7f910a),
 its schema digest is `ceab0d2dfc471d1ec36d12edaf4654b8c7fdced06548bf47265e11c63f98115b`. The
 normative schema, release-like artifact copy, seven-entry checksum inventory, three golden files,
 typed map decoder, and implementation-neutral conformance case are present and hash-bound. This

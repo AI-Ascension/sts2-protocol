@@ -2,14 +2,13 @@
 
 ## Independent dimensions
 
-The unpublished gameplay proposals require the explicit
-[conformance correction and digest migration](decisions/0009-proposed-contract-conformance-corrections.md).
-Schema validation alone is insufficient; that decision lists mandatory semantic checks and the
-incompatible earlier proposal. The unadmitted six-family co-op prototype remains preserved in
-Git history. [ADR 0013](decisions/0013-coop-synchronization-admission.md) replaces its provisional
-exports with `coop-synchronization-v1`, consumed completely by gateway serialization and MCP
-projection. Its profile and digest are distinct; the old `coop-gameplay-v1` wire is rejected.
-This admits coordinator-reported synchronization metadata, not co-op actuation or host effects.
+The admitted co-op profile is `coop-synchronization-v1`: gateway serialization produces
+coordinator-reported synchronization metadata and MCP reads it under the declared profile. This
+profile carries no action, vote, shared-effect, or host-game authority. The preserved six-family
+`coop-gameplay-v1` prototype and other gameplay proposals remain unadmitted; their earlier wire is
+rejected. See [ADR 0013](decisions/0013-coop-synchronization-admission.md) and the explicit
+[conformance correction and digest migration](decisions/0009-proposed-contract-conformance-corrections.md)
+for the distinct profiles and required semantic checks.
 
 Protocol, schema/profile, repository, consumer, game-host, loader/ABI, gateway, MCP, harness,
 provider/model, and artifact versions are independent. A matching number or field name does not
@@ -81,7 +80,8 @@ call, package installation, or release verification.
 | `runtime-v1` | game-mod, gateway, harness, MCP | Schema, artifact bytes, goldens, typed envelope round-trip, wire closure, and conformance are confirmed | Host callback, network route, disposable profile, and game compatibility |
 | `runtime-v2` | game-mod, gateway, harness, MCP | Separate schema, artifact bytes, lifecycle goldens, and conformance are confirmed | Consumer mapping, operation ledger, host settlement, reconciliation, and game compatibility |
 | `runtime-v3-gameplay` | game-mod, gateway, harness, MCP | Source/package schema, sanitized goldens, manifest, digest inventory, and local conformance are confirmed | Consumer mappings, fair-play host projection, gateway/MCP transport, Exo execution, and live full-run compatibility |
-| `runtime-map-v1` | game-mod, gateway, harness, MCP, map visualizer | At merged protocol main `b3d3034f32e68d70c9e681f906ee37d74db153c4`, schema digest `ceab0d2dfc471d1ec36d12edaf4654b8c7fdced06548bf47265e11c63f98115b` and the schema/artifact/checksum/golden/conformance set are confirmed by source and serialization checks | Protocol checks do not attest consumer behavior; host extraction, visualizer validation, native map visibility, navigation settlement, gameplay, and release remain separate boundaries |
+| `runtime-v4-expert` / `runtime-v4-expert-action` | game-mod, gateway, harness, MCP | At current protocol main `f2dac90529f584a6511c1760adce9da28f7f910a`, source schemas, copied artifacts, manifests, goldens, checksum inventories, typed validators, and conformance cases are confirmed | Consumer mapping, host legality, settled effects, provider execution, deployment, release, and live compatibility |
+| `runtime-map-v1` | game-mod, gateway, harness, MCP, map visualizer | At current protocol main `f2dac90529f584a6511c1760adce9da28f7f910a`, schema digest `ceab0d2dfc471d1ec36d12edaf4654b8c7fdced06548bf47265e11c63f98115b` and the schema/artifact/checksum/golden/conformance set are confirmed by source and serialization checks | Protocol checks do not attest consumer behavior; host extraction, visualizer validation, native map visibility, navigation settlement, gameplay, and release remain separate boundaries |
 
 `runtime-v1` is contract-compatible only when the exact schema digest, provenance, bounds, and
 unknown-field behavior are preserved. Its accepted action is a host-visible probe; it is not a
