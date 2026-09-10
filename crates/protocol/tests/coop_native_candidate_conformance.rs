@@ -185,11 +185,11 @@ fn source_artifact_manifest_and_cases_are_bound() -> Result<(), Box<dyn std::err
     assert_eq!(manifest["producer_capture"], "producer-capture.json");
     assert_eq!(
         manifest["producer_source_commit"],
-        "19ed5e1f9f7c2eea4279039ff0d439e367d255b9"
+        "fd5499c67fb66c55dbeedfaa00af1b84b284621a"
     );
     assert_eq!(
         manifest["producer_source_tree"],
-        "ae4fcec30bcfdcb44ee7457a6bc183b9336654fd"
+        "6271e90b468cf89ac0a7939d9eaeb4f75334c36b"
     );
     let capture: Value = strict_json(PRODUCER_CAPTURE)?;
     assert_eq!(
