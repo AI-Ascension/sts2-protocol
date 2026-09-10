@@ -149,3 +149,18 @@ The prospective consumer chain is `sts2-game-mod` as native serialized producer,
 `sts2-harness` as artifact-validating coordinator. The candidate manifest claims no consumers until
 those owners provide exact-digest source and round-trip evidence. A protocol test pass establishes
 candidate contract closure only; it does not promote the profile or establish live compatibility.
+
+## Native co-op component contract
+
+ADR 0033 accepts the separate `coop-native-v1` component contract. It is an inert envelope for
+native-host observations, a generation-bound legal catalog, local actions, shared votes, peer
+rejoin, effects, receipts, and same-operation recovery. The artifact binds schema digest
+`2f3bc99e53080fa11b39592b64fb0ab964a16f568719a2622d0b2caf766ab629` and registers the game-mod,
+gateway, MCP, and harness as boundary consumers.
+
+The game-mod owns native host identity, legality, thread affinity, and settlement. Gateway owns
+leases and routing, MCP owns framing and projection, and harness owns coordination and provider
+decisions. The catalog is read-only and does not authorize a mutation. Component acceptance covers
+source and serialized boundary conformance; a live two-peer native session, model action and vote
+settlement, native checksum agreement, and disconnect/rejoin convergence remain a separate pending
+gate.

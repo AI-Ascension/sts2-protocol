@@ -10,6 +10,13 @@ rejected. See [ADR 0013](decisions/0013-coop-synchronization-admission.md) and t
 [conformance correction and digest migration](decisions/0009-proposed-contract-conformance-corrections.md)
 for the distinct profiles and required semantic checks.
 
+The `coop-native-v1` artifact is accepted for source and serialized component integration under
+[ADR 0033](decisions/0033-native-coop-component-acceptance.md). It is a separate actuation profile
+with a host-backed legal catalog, generation and identity fencing, explicit receipts, and
+same-operation recovery. Its component status does not establish native host compatibility or live
+multiplayer settlement; `live_status` remains `unverified` pending the owning boundaries' two-peer
+runtime evidence.
+
 Protocol, schema/profile, repository, consumer, game-host, loader/ABI, gateway, MCP, harness,
 provider/model, and artifact versions are independent. A matching number or field name does not
 establish compatibility. This target can describe a neutral artifact; it cannot claim host, service,
@@ -85,6 +92,8 @@ call, package installation, or release verification.
 | `runtime-map-v1` | game-mod, gateway, harness, MCP, map visualizer | At current protocol main `d3ab5fca7d9d74bb31eeb3e5b343d8024ee44404`, schema digest `ceab0d2dfc471d1ec36d12edaf4654b8c7fdced06548bf47265e11c63f98115b` and the schema/artifact/checksum/golden/conformance set are confirmed by source and serialization checks | Protocol checks do not attest consumer behavior; host extraction, visualizer validation, native map visibility, navigation settlement, gameplay, and release remain separate boundaries |
 | `seeded-run-v1` | game-mod, gateway, harness, MCP | At current protocol main `d3ab5fca7d9d74bb31eeb3e5b343d8024ee44404`, schema, selected-context digest vector, lifecycle goldens, manifest, checksum inventory, and conformance are confirmed by source and serialization checks | Consumer mapping, licensed-host selection, profile/save safety, live run settlement, gameplay, and release compatibility |
 | `runtime-v4-expert-rest-action-v1` | none admitted; prospective game-mod, gateway, MCP, harness | Candidate schema/artifact bytes, provenance, 16 goldens, 22 mutation fixtures, two serialized producer-shaped lifecycles, checksums, and strict conformance at digest `bb3555fae28eb1f79d08a15e9884696a579e4c20836f5016509f17e0f4c36fbd` | Managed native producer, route, consumer mappings, host compatibility, selector settlement, gameplay, and release remain pending |
+
+| `coop-native-v1` | game-mod, gateway, harness, MCP | Source producer, exact schema/artifact bytes, legal-catalog/action/vote/rejoin/receipt goldens, and component boundary records are accepted at digest `2f3bc99e53080fa11b39592b64fb0ab964a16f568719a2622d0b2caf766ab629` | Native two-peer launch, host/client settlement, native checksum agreement, model/provider execution, disconnect/rejoin convergence, and release compatibility |
 
 `runtime-v1` is contract-compatible only when the exact schema digest, provenance, bounds, and
 unknown-field behavior are preserved. Its accepted action is a host-visible probe; it is not a
