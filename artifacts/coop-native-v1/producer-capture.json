@@ -1,12 +1,12 @@
 {
   "report_kind": "managed_native_coop_producer_capture_projection",
-  "report_version": 2,
+  "report_version": 3,
   "status": "source_derived_component_accepted",
   "source": {
     "repository": "sts2-game-mod",
-    "capture_directory": "coop-native-final-capture-20260910-r6",
-    "commit": "ab702dbbc79bc5854bd0840b44a729834ae50e68",
-    "tree": "e3f0aa9d30fe25585fbb3c1fe8e3c1fcdfa43223"
+    "capture_directory": "coop-native-source-only-20260910-r7",
+    "commit": "d23ca838a7be875f32242123955b4a27782bac04",
+    "tree": "23336ca834b5870d15ee6369c101d5c67ff34caf"
   },
   "producer": {
     "implementation": "experiments/managed-rust-interop/game-loader/CoopNativeRuntime.Handle",
@@ -31,7 +31,8 @@
           "golden": "golden/observation-response.json",
           "golden_sha256": "00b2cd91eb488ab07ddb8a725c85a7daf44f0c655fd01635581bd3058a819942"
         }
-      ]
+      ],
+      "serialized_wrapper": "capture/observation.json"
     },
     {
       "name": "legal-catalog",
@@ -48,7 +49,8 @@
           "golden": "golden/legal-catalog-response.json",
           "golden_sha256": "bd39f6e71426ceb86d09b91d345eef22f360717d90ec34545bed451d344a07a4"
         }
-      ]
+      ],
+      "serialized_wrapper": "capture/legal-catalog.json"
     },
     {
       "name": "local-action-settled",
@@ -65,7 +67,8 @@
           "golden": "golden/local-action-settled-response.json",
           "golden_sha256": "ea8ef2bc1b83f25c65ce8acb9c3bda410d7d8bfd656df2909da91a1394576f98"
         }
-      ]
+      ],
+      "serialized_wrapper": "capture/local-action-settled.json"
     },
     {
       "name": "local-action-rejected",
@@ -82,7 +85,8 @@
           "golden": "golden/local-action-rejected-response.json",
           "golden_sha256": "9c3be3f8d50f48f605e80e1d2ae04e6efb724a5bd497a85ab8a383b5de4b273d"
         }
-      ]
+      ],
+      "serialized_wrapper": "capture/local-action-rejected.json"
     },
     {
       "name": "local-action-unknown",
@@ -99,7 +103,8 @@
           "golden": "golden/local-action-unknown-response.json",
           "golden_sha256": "1947b715da19ab45523304f00131084e8e2b7718b170d3bb7a4241bbc6cec0b4"
         }
-      ]
+      ],
+      "serialized_wrapper": "capture/local-action-unknown.json"
     },
     {
       "name": "local-action-recovered",
@@ -116,7 +121,8 @@
           "golden": "golden/local-action-recovered-response.json",
           "golden_sha256": "cd36de17023641f11f340b18cbc15527b31f910c0d16361d11dc8b1204ed613c"
         }
-      ]
+      ],
+      "serialized_wrapper": "capture/local-action-recovered.json"
     },
     {
       "name": "shared-vote-settled",
@@ -133,7 +139,8 @@
           "golden": "golden/shared-vote-settled-response.json",
           "golden_sha256": "599f72afa88f45c3aae9e154073a415ad4bbfaebf286df0bfbf42a570e6b5b32"
         }
-      ]
+      ],
+      "serialized_wrapper": "capture/shared-vote-settled.json"
     },
     {
       "name": "rejoin-pending",
@@ -150,7 +157,8 @@
           "golden": "golden/rejoin-pending-response.json",
           "golden_sha256": "122404bf65d9ce778e2b0b450e5c91bd9f97022234ae0af494616d64ba228b29"
         }
-      ]
+      ],
+      "serialized_wrapper": "capture/rejoin-pending.json"
     },
     {
       "name": "rejoin-recovered",
@@ -167,8 +175,19 @@
           "golden": "golden/rejoin-recovered-response.json",
           "golden_sha256": "dbc4c490c72ad96e2faa643da6892da7c725ac53ee825f0042b2c6ff1427e136"
         }
-      ]
+      ],
+      "serialized_wrapper": "capture/rejoin-recovered.json"
     }
   ],
-  "capture_directory": "coop-native-final-capture-20260910-r6"
+  "capture_directory": "coop-native-source-only-20260910-r7",
+  "capture_run": {
+    "id": "coop-native-source-only-20260910-r7",
+    "status": "fresh_source_only_pass",
+    "captured_at_utc": "2026-09-10T21:39:58Z",
+    "command": "dotnet run --project experiments/managed-rust-interop/coop-native-producer-tests/CoopNativeProducerProbe.csproj --configuration Release",
+    "sdk": "9.0.317",
+    "output_directory": "capture",
+    "wrapper_count": 9,
+    "projection_match": true
+  }
 }

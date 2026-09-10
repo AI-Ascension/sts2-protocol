@@ -185,11 +185,11 @@ fn source_artifact_manifest_and_cases_are_bound() -> Result<(), Box<dyn std::err
     assert_eq!(manifest["producer_capture"], "producer-capture.json");
     assert_eq!(
         manifest["producer_source_commit"],
-        "ab702dbbc79bc5854bd0840b44a729834ae50e68"
+        "d23ca838a7be875f32242123955b4a27782bac04"
     );
     assert_eq!(
         manifest["producer_source_tree"],
-        "e3f0aa9d30fe25585fbb3c1fe8e3c1fcdfa43223"
+        "23336ca834b5870d15ee6369c101d5c67ff34caf"
     );
     let capture: Value = strict_json(PRODUCER_CAPTURE)?;
     assert_eq!(
@@ -200,6 +200,11 @@ fn source_artifact_manifest_and_cases_are_bound() -> Result<(), Box<dyn std::err
         capture["producer"]["declared_schema_digest"],
         manifest["producer_declared_schema_digest"]
     );
+    assert_eq!(
+        capture["source"]["commit"],
+        manifest["producer_source_commit"]
+    );
+    assert_eq!(capture["source"]["tree"], manifest["producer_source_tree"]);
     let captures = capture["captures"].as_array().ok_or("missing captures")?;
     let mut mapped = HashSet::new();
     for capture in captures {
