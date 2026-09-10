@@ -42,10 +42,10 @@
       "name": "sts2-harness",
       "role": "coordination and provider boundary",
       "repository": "sts2-harness",
-      "commit": "d87673840efc06300ec751169532f84035e1a059",
-      "tree": "a05a78b62464910cc8dc1c57a8ceaa42258cc91d",
+      "commit": "63dc563690c93c575e75228f54672c1689d8a879",
+      "tree": "575a84ccc7c0cef7c73f34759c5cb6563b0d0433",
       "result": "pass",
-      "verification_scope": "dependency-only jsonschema 0.52.1 to 0.55.0 dev-dependency refresh plus lock/build-manifest digest; coop-native wire and serialization semantics unchanged",
+      "verification_scope": "merged harness PR #53 runtime-v4 expert catalog/composition/transport additions plus runtime-v3 recovery fixture corrections; no coop-native wire or serialization files changed",
       "live_status": "unverified"
     }
   ],
