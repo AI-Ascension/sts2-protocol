@@ -97,6 +97,20 @@ conflicting reuse returns `idempotency_conflict`, and an uncertain result is rec
 identity without a blind retry. The schema and fixtures describe these facts; they do not implement
 the ledger, queue, lease checks, host call, cancellation mechanism, or reconciliation storage.
 
+## Seeded-run launch profile
+
+ADR 0015 admits `seeded-run-v1` as a separate neutral artifact for an explicitly seeded launch. The
+harness chooses the requested seed, but only the game host can establish the canonical seed and the
+`run_started` effect. Every start request and lifecycle result carries a bounded `selected_context`
+manifest for standard mode, Ironclad, ascension, modifiers, ordered acts, selection policy, profile
+baseline, save policy, and separate game/mod compatibility identities. Its `context_digest` is
+content-addressed using the profile's specified compact canonical JSON member order.
+
+The protocol owns validation, serialization, and digest binding only. `accepted` is admission;
+`settled` requires a fresh host observation and `run_started` witness; `unknown` requires read-only
+reconciliation by the same operation identity. The profile does not select a character, access a
+save, dispatch a host call, decide game legality, or establish consumer or live-host compatibility.
+
 ## Runtime-v3 fair-play gameplay profile
 
 ADR 0007 admits `runtime-v3-gameplay` as the next neutral profile. It describes ordinary

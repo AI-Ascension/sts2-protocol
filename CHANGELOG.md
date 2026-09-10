@@ -7,6 +7,12 @@ Semantic Versioning once a protocol artifact or repository release exists.
 
 ### Added
 
+- (2026-09-09) Add the accepted `seeded-run-v1` explicit seeded-launch contract, including its
+  selected native context manifest, content-addressed context digest, lifecycle goldens, copied
+  artifact, and deterministic conformance case. These checks establish protocol source and
+  serialization evidence only; consumer compilation, licensed-host selection, save/profile
+  safety, live run settlement, and release compatibility remain unverified. See ADR 0015.
+
 - (2026-09-08) Add the `runtime-map-v1` additive, host-owned read-only map projection with its
   schema, release-like artifact, checksum inventory, three golden messages, typed decoder, and
   implementation-neutral conformance case. The merged protocol main source at `b3d3034` has the
