@@ -166,6 +166,22 @@ bindings. It does not expose hidden map state, future outcomes, host objects, pr
 mutation authority. Complete cross-repository integration, native map visibility, navigation
 settlement, gameplay, and release readiness remain unverified.
 
+## Candidate `runtime-v4-expert-rest-action-v1` profile
+
+The [`runtime-v4-expert-rest-action-v1` artifact](artifacts/runtime-v4-expert-rest-action/README.md)
+is a candidate additive transport for native rest-site options and typed Smith/Mend selector
+follow-up actions. Its schema digest is
+`bb3555fae28eb1f79d08a15e9884696a579e4c20836f5016509f17e0f4c36fbd`; the existing potion action
+profile remains unchanged. The artifact includes 16 synthetic goldens, 22 structural and semantic
+mutation checks, two serialized Smith/Mend producer-shaped lifecycles, provenance, and an HTTP assignment
+envelope owned by the gateway.
+
+This profile has no admitted consumers yet. The game-mod must first emit the exact serialized
+envelope from native evidence, then gateway, MCP, and harness owners must independently validate
+their integrations. Protocol schema and conformance results establish candidate contract evidence;
+they do not establish a producer, route, host compatibility, or live settlement. See
+[ADR 0032](docs/decisions/0032-runtime-v4-expert-rest-action-v1.md).
+
 The separate `coop-synchronization-v1` artifact describes the attached gateway's recent
 coordinator-reported peer agreement. Its full response is produced by the gateway and read by the
 executable MCP profile. The recorded exchange covers coordinator report convergence and fencing

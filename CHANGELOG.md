@@ -12,6 +12,13 @@ Semantic Versioning once a protocol artifact or repository release exists.
   artifact, and deterministic conformance case. These checks establish protocol source and
   serialization evidence only; consumer compilation, licensed-host selection, save/profile
   safety, live run settlement, and release compatibility remain unverified. See ADR 0015.
+- (2026-09-08) Initialize the candidate `runtime-v4-expert-rest-action-v1` additive profile with
+  its hand-authored schema, release-like artifact, provenance, 16 synthetic goldens, 22 independent
+  mutation fixtures, two serialized Smith/Mend producer-shaped lifecycles, checksum inventory, exported
+  identity constants, and strict conformance case. Selector completion checks retain prior admission
+  context when the final observation returns to `rest`. No downstream consumer is admitted; managed
+  native producer, gateway, MCP, harness, host, and live settlement evidence remain pending, while
+  the existing potion action artifact is unchanged.
 
 - (2026-09-08) Add the `runtime-map-v1` additive, host-owned read-only map projection with its
   schema, release-like artifact, checksum inventory, three golden messages, typed decoder, and

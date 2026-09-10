@@ -104,3 +104,20 @@ modifiers, ordered acts, and separate game/mod compatibility identities. Ordinar
 is transport-insensitive; the digest order is profile-defined. A reconciliation request remains
 read-only and must not carry launch context. Protocol checks do not select a native mode, access a
 save, dispatch a host call, or establish gameplay.
+
+`runtime_v4_expert_rest_action_conformance.rs` validates the candidate REST schema and artifact
+byte identity, nested expert observations, metadata and provenance, HTTP assignment envelope,
+candidate consumer status, all 16 request/response goldens, two serialized producer-shaped
+lifecycles, and
+the full checksum inventory. Its strict semantic checks cover response action and transition
+identity, generation fencing, selector catalog and count relationships, visible legal choices, and
+root/transition effect-witness equality. Selector completion checks use the admission catalog from
+the earlier producer responses because the final observation may have returned to `rest`. The 22
+independent mutation fixtures are either schema-invalid or rejected by those cross-field checks.
+This is candidate protocol evidence; it does not verify the managed native producer, gateway route,
+MCP mapping, harness orchestration, host behavior, or live settlement.
+
+The focused native-completion cases exercise both Mend and Lift evidence alternatives. Native
+completion binds its completion identity to the nested observation state; numeric evidence still
+requires an actual HP or stat change. Missing identity, stale state, and native-only Heal evidence
+remain invalid. These in-memory variants preserve the checked-in schema and artifact bytes.
