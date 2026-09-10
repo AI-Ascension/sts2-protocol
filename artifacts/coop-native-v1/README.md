@@ -7,12 +7,16 @@ legal catalog, local actions, shared votes, peer rejoin, effects, receipts, and 
 recovery.
 
 The managed producer at source commit
-`ab702dbbc79bc5854bd0840b44a729834ae50e68` (tree
-`e3f0aa9d30fe25585fbb3c1fe8e3c1fcdfa43223`) declares the exact schema digest
+`d23ca838a7be875f32242123955b4a27782bac04` (tree
+`23336ca834b5870d15ee6369c101d5c67ff34caf`) declares the exact schema digest
 `2f3bc99e53080fa11b39592b64fb0ab964a16f568719a2622d0b2caf766ab629`. The producer capture is
 source-only: `CapturePort` is synthetic and does not load STS2, connect native peers, or prove a
-live host outcome. The goldens are compact projections of the checked-in capture wrapper members,
-including explicit nullable envelope fields and receipt evidence.
+live host outcome. Fresh run `coop-native-source-only-20260910-r7` used the .NET 9.0.317
+source-only producer probe and checked in all nine serialized wrapper captures under `capture/`.
+The recorded wrapper hashes were recomputed from those files; each wrapper member is checked
+against its compact golden projection, including explicit nullable envelope fields and receipt
+evidence. The producer is deterministic, so this fresh run produces the same golden bytes as the
+previous source capture.
 
 The component contract registers `sts2-gateway`, `sts2-mcp-server`, and `sts2-harness` as
 boundary consumers. Each consumer must copy the exact artifact, preserve the closed JSON shape,
@@ -21,8 +25,8 @@ repository. Unknown members, duplicate keys, unsupported kinds, stale generation
 unfenced identities remain errors; an `unknown` outcome is retained for same-operation recovery
 and never retried as a new mutation.
 
-The serialized conformance record binds the reviewed source producer (`ab702db`), gateway
-(`de1fe723`), MCP (`47d63f6`), and harness (`a2cb481`) heads and their exact trees. This records
+The serialized conformance record binds the reviewed source producer (`d23ca83`), gateway
+(`c8be3a72`), MCP (`037d10de`), and harness (`682c2b5b`) heads and their exact trees. This records
 component serialization compatibility for those snapshots; it does not imply that later source
 heads or live deployments have been validated.
 

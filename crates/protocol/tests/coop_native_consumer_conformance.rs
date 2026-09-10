@@ -42,11 +42,11 @@ fn serialized_consumer_evidence_registers_three_component_consumers() {
     assert_eq!(evidence["source"]["role"], "producer");
     assert_eq!(
         evidence["source"]["commit"],
-        "ab702dbbc79bc5854bd0840b44a729834ae50e68"
+        "d23ca838a7be875f32242123955b4a27782bac04"
     );
     assert_eq!(
         evidence["source"]["tree"],
-        "e3f0aa9d30fe25585fbb3c1fe8e3c1fcdfa43223"
+        "23336ca834b5870d15ee6369c101d5c67ff34caf"
     );
     assert_eq!(evidence["source"]["result"], "pass");
     assert_eq!(evidence["source"]["live_status"], "unverified");
@@ -65,18 +65,18 @@ fn serialized_consumer_evidence_registers_three_component_consumers() {
     for (consumer, (name, commit, tree)) in consumers.iter().zip([
         (
             "sts2-gateway",
-            "de1fe72345ea972d56c05d30837da5327e5f1655",
-            "cbf10caa6775ca06adf7fe1e9d6cc98be6453a66",
+            "c8be3a72ba9e304392575a1b2bdbc262e392be21",
+            "69b9dc229237fe5db7b7e33461e5e7f89f028ee9",
         ),
         (
             "sts2-mcp-server",
-            "47d63f6ce41c9efb3431dea6dc31b39fddc5d79a",
-            "a6eb009912a4f624c49398f6cfc25022da65b563",
+            "037d10def1cbcb1c807e136d31b294355a92c010",
+            "53013a3f1b4871129d59198eb90c2499f8557bee",
         ),
         (
             "sts2-harness",
-            "a2cb481cfc57475f147d5c8c3783afc6d2b2d63b",
-            "083e1dc3ca88c35eedc10a6187a63c91a9864c46",
+            "682c2b5ba38010e16d43b04c43d40184bda70106",
+            "173be6477d81f83dae9ab5ad4e0c670d474e32d5",
         ),
     ]) {
         assert_eq!(consumer["name"], name);
