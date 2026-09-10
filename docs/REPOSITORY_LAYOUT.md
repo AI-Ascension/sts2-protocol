@@ -10,10 +10,12 @@
 ├── schemas/runtime-v1.schema.json # normative host-probe JSON Schema
 ├── schemas/runtime-v2.schema.json # normative gameplay-operation JSON Schema
 ├── schemas/runtime-v3-gameplay.schema.json # normative fair-play semantic gameplay schema
+├── schemas/runtime-v4-expert-rest-action-v1.schema.json # candidate rest-action schema
 ├── artifacts/poc-v1/        # release-like schema, manifest, fixtures, checksums
 ├── artifacts/runtime-v1/    # release-like runtime-v1 bundle
 ├── artifacts/runtime-v2/    # release-like runtime-v2 bundle
 ├── artifacts/runtime-v3-gameplay/ # release-like fair-play gameplay bundle
+├── artifacts/runtime-v4-expert-rest-action/ # candidate rest-action artifact and fixtures
 ├── conformance/             # hand-authored cases and legacy foundation fixtures
 ├── docs/decisions/          # accepted ownership and target decisions
 ├── crates/protocol/tests/   # target-owned deterministic conformance tests
@@ -59,3 +61,13 @@ module owns semantic actions, transition witnesses, and recovery outcomes; `meta
 artifact provenance and request context. `message` retains envelopes, constructors, and validation
 entrypoints. These handwritten modules use the ordinary production line budget without exemptions.
 The split preserves public paths, wire behavior, schemas, and frozen artifact bytes.
+
+## Candidate Runtime-v4 rest-action files
+
+The candidate `runtime-v4-expert-rest-action-v1` profile has one normative schema under
+`schemas/`, a copied artifact with manifest, checksums, 16 golden messages, and two serialized
+producer-shaped lifecycles under `artifacts/runtime-v4-expert-rest-action/`, plus its
+implementation-neutral case and 22 mutation fixtures under `conformance/`. The Rust test and its
+focused support module bind those files and export only identity and bound constants. HTTP routes,
+native producer code, MCP tools, and harness coordination remain in their prospective consumer
+repositories.
