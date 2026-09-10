@@ -75,8 +75,8 @@ fn serialized_consumer_evidence_registers_three_component_consumers() {
         ),
         (
             "sts2-harness",
-            "d23b490493c61ff8ea0161ec70f8ab800b2a9b32",
-            "8dd448e284893fb2d144160efcab14eaa2ce67f0",
+            "d87673840efc06300ec751169532f84035e1a059",
+            "a05a78b62464910cc8dc1c57a8ceaa42258cc91d",
         ),
     ]) {
         assert_eq!(consumer["name"], name);
@@ -87,7 +87,7 @@ fn serialized_consumer_evidence_registers_three_component_consumers() {
     }
     assert_eq!(
         consumers[2]["verification_scope"],
-        "dependency-only sha2 0.10.9 to 0.11.0 digest API migration; coop-native wire and serialization semantics unchanged"
+        "dependency-only jsonschema 0.52.1 to 0.55.0 dev-dependency refresh plus lock/build-manifest digest; coop-native wire and serialization semantics unchanged"
     );
     assert_eq!(evidence["cross_boundary"]["catalog_action_count"], 2);
     assert_eq!(evidence["cross_boundary"]["catalog_vote_count"], 1);
