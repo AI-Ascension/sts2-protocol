@@ -26,7 +26,10 @@ unfenced identities remain errors; an `unknown` outcome is retained for same-ope
 and never retried as a new mutation.
 
 The serialized conformance record binds the reviewed source producer (`d23ca83`), gateway
-(`c8be3a72`), MCP (`037d10de`), and harness (`682c2b5b`) heads and their exact trees. This records
+(`c8be3a72`), MCP (`037d10de`), and harness (`d23b490`) heads and their exact trees. The harness
+refresh is limited to the merged `sha2` 0.10.9 to 0.11.0 digest API migration; its native co-op
+wire and serialization semantics are unchanged, so the fresh producer capture and projections are
+reused. This records
 component serialization compatibility for those snapshots; it does not imply that later source
 heads or live deployments have been validated.
 

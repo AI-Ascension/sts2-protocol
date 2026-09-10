@@ -75,8 +75,8 @@ fn serialized_consumer_evidence_registers_three_component_consumers() {
         ),
         (
             "sts2-harness",
-            "682c2b5ba38010e16d43b04c43d40184bda70106",
-            "173be6477d81f83dae9ab5ad4e0c670d474e32d5",
+            "d23b490493c61ff8ea0161ec70f8ab800b2a9b32",
+            "8dd448e284893fb2d144160efcab14eaa2ce67f0",
         ),
     ]) {
         assert_eq!(consumer["name"], name);
@@ -85,6 +85,10 @@ fn serialized_consumer_evidence_registers_three_component_consumers() {
         assert_eq!(consumer["commit"], commit);
         assert_eq!(consumer["tree"], tree);
     }
+    assert_eq!(
+        consumers[2]["verification_scope"],
+        "dependency-only sha2 0.10.9 to 0.11.0 digest API migration; coop-native wire and serialization semantics unchanged"
+    );
     assert_eq!(evidence["cross_boundary"]["catalog_action_count"], 2);
     assert_eq!(evidence["cross_boundary"]["catalog_vote_count"], 1);
     assert_eq!(evidence["cross_boundary"]["source_to_consumer"], "pass");
