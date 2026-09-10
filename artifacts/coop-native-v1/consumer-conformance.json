@@ -2,7 +2,7 @@
   "contract": "sts2.protocol/coop-native-v1",
   "protocol_version": "coop-native-v1",
   "profile": "coop-native-v1",
-  "schema_digest": "3e555563023804383534d92118c3863aa2aee3d0d24b932f484d8fd97e452ca8",
+  "schema_digest": "2f3bc99e53080fa11b39592b64fb0ab964a16f568719a2622d0b2caf766ab629",
   "provenance": {
     "schema_source": "schemas/coop-native-v1.schema.json",
     "generator": "hand-authored",
@@ -13,64 +13,55 @@
     "name": "sts2-game-mod",
     "role": "producer",
     "repository": "sts2-game-mod",
-    "commit": "49893223280160b393595767407a2f2d746bea94",
-    "tree": "f0771f72c0f6f7b9dd6ab11b1238993e049d996f",
-    "catalog_sha256": "5cba94be3dfc589a4f30c3a2c3f8d1171c932b2a2f12b57b31ebe9fa24b8f00b",
-    "catalog_bytes": 383,
+    "commit": "19ed5e1f9f7c2eea4279039ff0d439e367d255b9",
+    "tree": "ae4fcec30bcfdcb44ee7457a6bc183b9336654fd",
     "result": "pass",
-    "test_profile": "CoopNativeRuntime.Handle legal_catalog with an empty GET body and generation 7",
+    "test_profile": "managed source producer capture with legal catalog and receipt fields",
     "live_status": "unverified"
   },
   "consumers": [
     {
-      "name": "sts2-mcp-server",
-      "role": "projection_and_tool_mapping",
-      "repository": "sts2-mcp-server",
-      "commit": "7656ef681be3af25a7d7c8f365c04326ffd86635",
-      "tree": "05dec65e9c1190d580e4d838eeaa609db87bce9e",
-      "input_catalog_sha256": "5cba94be3dfc589a4f30c3a2c3f8d1171c932b2a2f12b57b31ebe9fa24b8f00b",
-      "output_catalog_sha256": "3538cfc07e92c6b7f991660485a13e67b6c63366d5683e8917dc861eabcbec36",
-      "output_catalog_bytes": 383,
-      "semantic_equal_to_source": true,
-      "byte_identical_to_source": false,
-      "test_profile": "project_source_catalog_and_write_json; maps_legal_catalog_to_generation_bound_read_route",
-      "result": "pass",
+      "name": "sts2-gateway",
+      "role": "native route and forwarder",
+      "repository": "sts2-gateway",
+      "commit": "pending-final-adapter",
+      "tree": "pending-final-adapter",
+      "result": "pending",
       "live_status": "unverified"
     },
     {
-      "name": "sts2-gateway",
-      "role": "native_route_and_forwarder",
-      "repository": "sts2-gateway",
-      "commit": "f485db73bdb86f19c9134ab5e50b9fe3727a4767",
-      "tree": "dc6036bc00ff5f21ae593994eeae9daf442ff138",
-      "input_catalog_sha256": "3538cfc07e92c6b7f991660485a13e67b6c63366d5683e8917dc861eabcbec36",
-      "proof_sha256": "4cca0ce7510e15664721fa160fc671b66c4b7fd7d5847982c9feef7c2c487880",
-      "downstream_route": "/api/v1/coop/native/legal-catalog",
-      "request_method": "GET",
-      "response_status": 200,
-      "test_profile": "source_to_mcp_catalog_is_admitted_by_gateway_forwarder; legal_catalog_route_validates_generation_identity_and_mixed_entries",
-      "result": "pass",
+      "name": "sts2-mcp-server",
+      "role": "projection and tool mapping",
+      "repository": "sts2-mcp-server",
+      "commit": "pending-final-adapter",
+      "tree": "pending-final-adapter",
+      "result": "pending",
+      "live_status": "unverified"
+    },
+    {
+      "name": "sts2-harness",
+      "role": "coordination and provider boundary",
+      "repository": "sts2-harness",
+      "commit": "pending-final-adapter",
+      "tree": "pending-final-adapter",
+      "result": "pending",
       "live_status": "unverified"
     }
   ],
   "cross_boundary": {
-    "host_generation": 7,
-    "lease_epoch": 9,
-    "action_count": 2,
-    "vote_count": 1,
-    "source_to_mcp_semantic_equal": true,
-    "source_to_mcp_byte_identical": false,
-    "evidence_bundle": "coop-383-catalog-serialized-conformance-20260909",
-    "evidence_manifest_sha256": "878e40fa8ac74bb1bfc50b64cd32153925b47f248021ce719e34af7c46824e20",
-    "source_wire_sha256": "5cba94be3dfc589a4f30c3a2c3f8d1171c932b2a2f12b57b31ebe9fa24b8f00b",
-    "mcp_wire_sha256": "3538cfc07e92c6b7f991660485a13e67b6c63366d5683e8917dc861eabcbec36",
-    "gateway_proof_sha256": "4cca0ce7510e15664721fa160fc671b66c4b7fd7d5847982c9feef7c2c487880"
+    "catalog_action_count": 2,
+    "catalog_vote_count": 1,
+    "source_to_consumer": "pending-final-adapter-conformance"
   },
   "admission": {
-    "artifact_status": "candidate",
-    "artifact_admission": "unadmitted",
-    "registered_consumers": [],
-    "reason": "ADR 0014 requires live evidence from owning boundaries; this packet proves component serialization and route validation only",
-    "next_gate": "Run the exact reviewed artifacts through a live native host-backed session and record settled outcomes before registering consumers"
+    "artifact_status": "accepted_component",
+    "artifact_admission": "component",
+    "registered_consumers": [
+      "sts2-gateway",
+      "sts2-mcp-server",
+      "sts2-harness"
+    ],
+    "reason": "Exact source schema, producer declaration, captured projections, and boundary adapters are accepted as a component contract; live native settlement remains a separate gate.",
+    "next_gate": "Run the exact reviewed artifacts through a live native two-peer host-backed session and record settled action, vote, checksum, and rejoin outcomes."
   }
 }

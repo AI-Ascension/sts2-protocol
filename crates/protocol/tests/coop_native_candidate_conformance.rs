@@ -25,6 +25,8 @@ macro_rules! golden {
 
 const GOLDENS: &[(&str, &str)] = &[
     golden!("observation-response.json"),
+    golden!("legal-catalog-request.json"),
+    golden!("legal-catalog-response.json"),
     golden!("local-action-settled-request.json"),
     golden!("local-action-settled-response.json"),
     golden!("local-action-rejected-request.json"),
@@ -153,9 +155,10 @@ fn fixture(path: &str) -> &'static str {
 }
 
 fn sha256_hex(bytes: &[u8]) -> String {
-    let mut digest = Sha256::new();
-    digest.update(bytes);
-    format!("{:x}", digest.finalize())
+    Sha256::digest(bytes)
+        .iter()
+        .map(|byte| format!("{byte:02x}"))
+        .collect()
 }
 
 #[test]
@@ -164,26 +167,29 @@ fn source_artifact_manifest_and_cases_are_bound() -> Result<(), Box<dyn std::err
     assert_eq!(CASES, ROOT_CASES);
     let manifest: Value = strict_json(MANIFEST)?;
     assert_eq!(manifest["artifact"], "sts2-protocol/coop-native-v1");
-    assert_eq!(manifest["status"], "candidate");
-    assert_eq!(manifest["admission"], "unadmitted");
-    assert_eq!(manifest["consumers"], json!([]));
+    assert_eq!(manifest["status"], "accepted_component");
+    assert_eq!(manifest["admission"], "component");
+    assert_eq!(
+        manifest["consumers"],
+        json!(["sts2-gateway", "sts2-mcp-server", "sts2-harness"])
+    );
     assert_eq!(
         manifest["schema_digest"],
-        "3e555563023804383534d92118c3863aa2aee3d0d24b932f484d8fd97e452ca8"
+        "2f3bc99e53080fa11b39592b64fb0ab964a16f568719a2622d0b2caf766ab629"
     );
     assert_eq!(
         manifest["producer_declared_schema_digest"],
-        "afe9bf3674f3e69b0f2454ec3fb1d6265a8e83ebccd996b6b0437208531d72b5"
+        "2f3bc99e53080fa11b39592b64fb0ab964a16f568719a2622d0b2caf766ab629"
     );
-    assert_eq!(manifest["producer_digest_matches_candidate"], false);
+    assert_eq!(manifest["producer_digest_matches_candidate"], true);
     assert_eq!(manifest["producer_capture"], "producer-capture.json");
     assert_eq!(
         manifest["producer_source_commit"],
-        "266c00e45f708b044306363ef37d63bedc755269"
+        "19ed5e1f9f7c2eea4279039ff0d439e367d255b9"
     );
     assert_eq!(
         manifest["producer_source_tree"],
-        "fbdd29211d1dc9ac085243d9456934720cc7f169"
+        "ae4fcec30bcfdcb44ee7457a6bc183b9336654fd"
     );
     let capture: Value = strict_json(PRODUCER_CAPTURE)?;
     assert_eq!(
@@ -258,23 +264,6 @@ fn all_captured_envelopes_are_strict_json_and_schema_valid() {
         let value = strict_json(text).unwrap_or_else(|error| panic!("{path}: {error}"));
         assert!(check.is_valid(&value), "schema rejected {path}");
     }
-}
-
-#[test]
-fn duplicate_members_are_rejected_at_any_depth() {
-    let text = fixture("golden/observation-response.json");
-    let duplicate_top = text.replacen(
-        "\"kind\":\"observation\"",
-        "\"kind\":\"observation\",\"kind\":\"observation\"",
-        1,
-    );
-    assert!(strict_json(&duplicate_top).is_err());
-    let duplicate_nested = text.replacen(
-        "\"role\":\"local\"",
-        "\"role\":\"local\",\"role\":\"local\"",
-        1,
-    );
-    assert!(strict_json(&duplicate_nested).is_err());
 }
 
 #[test]

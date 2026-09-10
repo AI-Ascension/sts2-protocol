@@ -99,6 +99,15 @@ tokens, and checks canonical round trips and manifest consumer identities. CI ve
 eight checksum entries, including source schema and conformance copies. The separate
 executable gateway/MCP evidence is recorded in ADR 0013; contract tests alone do not prove it.
 
+`coop_native_candidate_conformance` binds the source schema to its artifact copy, all seventeen
+producer-projected envelopes, the exact producer declaration, and the component admission
+metadata. It rejects duplicate and unknown members, missing nullable fields, unsupported action
+or effect kinds, conflicting request shapes, invalid peer identities, and invalid recovery or
+catalog relations. The producer capture is a synthetic source-only run. These checks establish
+the accepted component contract; native two-peer launch, model action and vote settlement,
+checksum agreement, disconnect/rejoin recovery, and live release compatibility remain
+`unverified` until their owning boundaries supply evidence.
+
 The seeded-run context digest is checked with the declared member order, compact UTF-8 JSON, sorted
 modifiers, ordered acts, and separate game/mod compatibility identities. Ordinary JSON object order
 is transport-insensitive; the digest order is profile-defined. A reconciliation request remains

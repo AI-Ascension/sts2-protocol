@@ -7,7 +7,7 @@
 
 > **AI-Ascension · neutral metadata contracts (beside the ascent)** — Shared metadata contracts (identity, versions, error envelopes) in language-neutral schemas with golden test vectors.
 >
-> **Status:** deterministic Runtime-v1/Runtime-v2/runtime-map-v1/seeded-run-v1/co-op contract tests and the read-only coordinator-synchronization consumer path are `confirmed` at the recorded heads · native host compatibility, game settlement, seeded-run selection, and multiplayer gameplay remain `unverified`.
+> **Status:** deterministic Runtime-v1/Runtime-v2/runtime-map-v1/seeded-run-v1/co-op contract tests and the read-only coordinator-synchronization consumer path are `confirmed`; the `coop-native-v1` source and serialized component contract is accepted at its recorded digest · native host compatibility, game settlement, seeded-run selection, and multiplayer gameplay remain `unverified`.
 > **Proof:** [45-second browser replay](https://ai-ascension.github.io/proof.html) · [Evidence ledger](https://ai-ascension.github.io/evidence.html) · [This repository on the map](https://ai-ascension.github.io/repositories.html#sts2-protocol)
 > **Owner:** Protocol maintainers own only genuinely shared, language-neutral, transport-neutral contract artifacts; consumers accept explicit artifacts rather than importing another boundary's implementation.
 > **Contribute:** [Organization guide](https://github.com/AI-Ascension/.github/blob/main/CONTRIBUTING.md) · [First tasks](https://ai-ascension.github.io/contributing.html)
@@ -19,6 +19,9 @@ Status: deterministic contract owner for the accepted sixth STS2 build target. T
 local-only; no public release or native host/game compatibility is claimed. The separately admitted
 `coop-synchronization-v1` artifact has a read-only gateway producer and MCP reader; that
 coordinator-report path does not authorize game effects or establish multiplayer gameplay.
+The accepted `coop-native-v1` component artifact adds a strict host-backed catalog and actuation
+envelope for the game-mod, gateway, MCP, and harness boundaries. Its producer capture is synthetic,
+and live native settlement remains unverified.
 
 ## Ownership and consumers
 
