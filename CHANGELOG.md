@@ -7,6 +7,10 @@ Semantic Versioning once a protocol artifact or repository release exists.
 
 ### Added
 
+- (2026-09-10) Bind the accepted `coop-native-v1` serialized consumer record to the exact
+  source producer, gateway, MCP, and harness commit/tree identities. The source-to-consumer
+  component boundary is recorded as passing while native host settlement, multiplayer gameplay,
+  and live compatibility remain unverified.
 - (2026-09-09) Add the accepted `seeded-run-v1` explicit seeded-launch contract, including its
   selected native context manifest, content-addressed context digest, lifecycle goldens, copied
   artifact, and deterministic conformance case. These checks establish protocol source and

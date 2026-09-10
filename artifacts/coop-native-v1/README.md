@@ -21,6 +21,11 @@ repository. Unknown members, duplicate keys, unsupported kinds, stale generation
 unfenced identities remain errors; an `unknown` outcome is retained for same-operation recovery
 and never retried as a new mutation.
 
+The serialized conformance record binds the reviewed source producer (`ab702db`), gateway
+(`de1fe723`), MCP (`47d63f6`), and harness (`a2cb481`) heads and their exact trees. This records
+component serialization compatibility for those snapshots; it does not imply that later source
+heads or live deployments have been validated.
+
 Component acceptance does not establish live native support. The separate runtime gate still
 requires a disposable two-peer native STS2 session with distinct peer identities, a settled
 model action and supported shared votes, matching native checksums, disconnect/rejoin recovery,
