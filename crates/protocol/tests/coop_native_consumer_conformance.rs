@@ -65,18 +65,18 @@ fn serialized_consumer_evidence_registers_three_component_consumers() {
     for (consumer, (name, commit, tree)) in consumers.iter().zip([
         (
             "sts2-gateway",
-            "c8be3a72ba9e304392575a1b2bdbc262e392be21",
-            "69b9dc229237fe5db7b7e33461e5e7f89f028ee9",
+            "f4d14091ce1f3b5327925a7a536e2c7bf7b0c56b",
+            "98fe7bbd0b57c44761238d86f9bf0b5594c97da4",
         ),
         (
             "sts2-mcp-server",
-            "037d10def1cbcb1c807e136d31b294355a92c010",
-            "53013a3f1b4871129d59198eb90c2499f8557bee",
+            "98ab84b3fad371b45b141e6d81dd9124769a4c59",
+            "796ee080b34d0add13e53cc9324fe8122bc05f59",
         ),
         (
             "sts2-harness",
-            "63dc563690c93c575e75228f54672c1689d8a879",
-            "575a84ccc7c0cef7c73f34759c5cb6563b0d0433",
+            "00bd9e123a86fca39bbffb65b370aac7ed2c8218",
+            "2f253945e301c509ca098d740b8797f16bff9a30",
         ),
     ]) {
         assert_eq!(consumer["name"], name);
@@ -87,7 +87,7 @@ fn serialized_consumer_evidence_registers_three_component_consumers() {
     }
     assert_eq!(
         consumers[2]["verification_scope"],
-        "merged harness PR #53 runtime-v4 expert catalog/composition/transport additions plus runtime-v3 recovery fixture corrections; no coop-native wire or serialization files changed"
+        "current-main native co-op wire, coordinator, artifact-verification, and replay component tests"
     );
     assert_eq!(evidence["cross_boundary"]["catalog_action_count"], 2);
     assert_eq!(evidence["cross_boundary"]["catalog_vote_count"], 1);
