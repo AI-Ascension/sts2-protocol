@@ -103,6 +103,18 @@ host-to-origin-client settlement return exist. A separate profile is considered
 only when a proven causal native dispatch/message identity must cross the
 neutral boundary; fingerprint-only correlation is not sufficient.
 
+ADR 0035 records a compatible implementation path conditional on a candidate
+first-party native-message registration surface: an owner-local carrier may
+preserve the existing v1 operation/session/lease/peer/generation identities and
+return the existing receipt/effect shapes. The current game-mod reflection probe
+uses `Assembly.LoadFrom` and is not admissible metadata-only evidence; a
+complete `PEReader`/`MetadataReader` replacement with decoded complete-signature
+output, unresolved-signature diagnostics, and a synthetic no-load fixture is
+required before the candidate is treated as verified. Neither candidate proves serializer behavior,
+delivery, or settlement, and it adds no v1 field or artifact claim. Harness
+cohort, roster, and convergence requirements remain owner implementation gates;
+v2 is reserved only for a proven new cross-boundary value.
+
 `runtime-v1` is contract-compatible only when the exact schema digest, provenance, bounds, and
 unknown-field behavior are preserved. Its accepted action is a host-visible probe; it is not a
 compatibility claim for gameplay mutation.
