@@ -97,6 +97,20 @@ conflicting reuse returns `idempotency_conflict`, and an uncertain result is rec
 identity without a blind retry. The schema and fixtures describe these facts; they do not implement
 the ledger, queue, lease checks, host call, cancellation mechanism, or reconciliation storage.
 
+## Seeded-run launch profile
+
+ADR 0015 admits `seeded-run-v1` as a separate neutral artifact for an explicitly seeded launch. The
+harness chooses the requested seed, but only the game host can establish the canonical seed and the
+`run_started` effect. Every start request and lifecycle result carries a bounded `selected_context`
+manifest for standard mode, Ironclad, ascension, modifiers, ordered acts, selection policy, profile
+baseline, save policy, and separate game/mod compatibility identities. Its `context_digest` is
+content-addressed using the profile's specified compact canonical JSON member order.
+
+The protocol owns validation, serialization, and digest binding only. `accepted` is admission;
+`settled` requires a fresh host observation and `run_started` witness; `unknown` requires read-only
+reconciliation by the same operation identity. The profile does not select a character, access a
+save, dispatch a host call, decide game legality, or establish consumer or live-host compatibility.
+
 ## Runtime-v3 fair-play gameplay profile
 
 ADR 0007 admits `runtime-v3-gameplay` as the next neutral profile. It describes ordinary
@@ -121,3 +135,32 @@ and lease fencing. MCP consumes the complete closed response through its selecte
 profile. Protocol owns only its metadata, schema, canonical serialization and relationships.
 The required source label distinguishes these reports from native-host or independently
 authenticated peer evidence. No action, vote, effect, or mutation predicate is exported.
+
+## Candidate Runtime-v4 rest-action profile
+
+ADR 0032 initializes `runtime-v4-expert-rest-action-v1` as a separate candidate profile. The
+protocol target owns its inert schema, artifact copy, provenance, checksums, synthetic goldens,
+and semantic conformance vectors. Its typed rest-option and selector messages remain separate from
+the existing potion action profile, whose bytes and digest are preserved. The profile carries no
+HTTP, host, lifecycle, authentication, persistence, or mutation implementation.
+
+The prospective consumer chain is `sts2-game-mod` as native serialized producer,
+`sts2-gateway` as route and lease forwarder, `sts2-mcp-server` as thin mapping adapter, and
+`sts2-harness` as artifact-validating coordinator. The candidate manifest claims no consumers until
+those owners provide exact-digest source and round-trip evidence. A protocol test pass establishes
+candidate contract closure only; it does not promote the profile or establish live compatibility.
+
+## Native co-op component contract
+
+ADR 0033 accepts the separate `coop-native-v1` component contract. It is an inert envelope for
+native-host observations, a generation-bound legal catalog, local actions, shared votes, peer
+rejoin, effects, receipts, and same-operation recovery. The artifact binds schema digest
+`2f3bc99e53080fa11b39592b64fb0ab964a16f568719a2622d0b2caf766ab629` and registers the game-mod,
+gateway, MCP, and harness as boundary consumers.
+
+The game-mod owns native host identity, legality, thread affinity, and settlement. Gateway owns
+leases and routing, MCP owns framing and projection, and harness owns coordination and provider
+decisions. The catalog is read-only and does not authorize a mutation. Component acceptance covers
+source and serialized boundary conformance; a live two-peer native session, model action and vote
+settlement, native checksum agreement, and disconnect/rejoin convergence remain a separate pending
+gate.

@@ -1,0 +1,68 @@
+{
+  "contract": "sts2.protocol/coop-native-v1",
+  "protocol_version": "coop-native-v1",
+  "profile": "coop-native-v1",
+  "schema_digest": "2f3bc99e53080fa11b39592b64fb0ab964a16f568719a2622d0b2caf766ab629",
+  "provenance": {
+    "schema_source": "schemas/coop-native-v1.schema.json",
+    "generator": "hand-authored",
+    "license": "MIT"
+  },
+  "status": "component_serialized_conformance",
+  "source": {
+    "name": "sts2-game-mod",
+    "role": "producer",
+    "repository": "sts2-game-mod",
+    "commit": "d23ca838a7be875f32242123955b4a27782bac04",
+    "tree": "23336ca834b5870d15ee6369c101d5c67ff34caf",
+    "result": "pass",
+    "test_profile": "managed source producer capture with legal catalog and receipt fields",
+    "live_status": "unverified"
+  },
+  "consumers": [
+    {
+      "name": "sts2-gateway",
+      "role": "native route and forwarder",
+      "repository": "sts2-gateway",
+      "commit": "c8be3a72ba9e304392575a1b2bdbc262e392be21",
+      "tree": "69b9dc229237fe5db7b7e33461e5e7f89f028ee9",
+      "result": "pass",
+      "live_status": "unverified"
+    },
+    {
+      "name": "sts2-mcp-server",
+      "role": "projection and tool mapping",
+      "repository": "sts2-mcp-server",
+      "commit": "037d10def1cbcb1c807e136d31b294355a92c010",
+      "tree": "53013a3f1b4871129d59198eb90c2499f8557bee",
+      "result": "pass",
+      "live_status": "unverified"
+    },
+    {
+      "name": "sts2-harness",
+      "role": "coordination and provider boundary",
+      "repository": "sts2-harness",
+      "commit": "63dc563690c93c575e75228f54672c1689d8a879",
+      "tree": "575a84ccc7c0cef7c73f34759c5cb6563b0d0433",
+      "result": "pass",
+      "verification_scope": "merged harness PR #53 runtime-v4 expert catalog/composition/transport additions plus runtime-v3 recovery fixture corrections; no coop-native wire or serialization files changed",
+      "live_status": "unverified"
+    }
+  ],
+  "cross_boundary": {
+    "catalog_action_count": 2,
+    "catalog_vote_count": 1,
+    "source_to_consumer": "pass"
+  },
+  "admission": {
+    "artifact_status": "accepted_component",
+    "artifact_admission": "component",
+    "registered_consumers": [
+      "sts2-gateway",
+      "sts2-mcp-server",
+      "sts2-harness"
+    ],
+    "reason": "Exact source schema, producer declaration, captured projections, and boundary adapters are accepted as a component contract; live native settlement remains a separate gate.",
+    "next_gate": "Run the exact reviewed artifacts through a live native two-peer host-backed session and record settled action, vote, checksum, and rejoin outcomes."
+  }
+}

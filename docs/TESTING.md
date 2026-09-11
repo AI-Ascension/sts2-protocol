@@ -52,6 +52,13 @@ unknown-field rejection, stable operation identity, duplicate replay, idempotenc
 unknown-to-settled reconciliation vector. The contract vector is `confirmed` for this inert target;
 consumer, host, transport, and live gameplay settlement remain `unverified`.
 
+`seeded_run_conformance.rs` validates the separate `seeded-run-v1` schema/artifact byte identity,
+selected-context canonical digest vector, explicit seed and context binding, lifecycle goldens,
+operation identity, cancellation, unknown-result reconciliation, bounds, and unknown-field closure.
+These checks confirm the neutral contract's serialization and lifecycle shape at current protocol
+main `d3ab5fca7d9d74bb31eeb3e5b343d8024ee44404`; they do not prove consumer mapping, licensed-host
+selection, profile or save safety, live run settlement, or release compatibility.
+
 `runtime_v3_gameplay_conformance.rs` validates the separate fair-play schema/artifact byte identity,
 typed state/action goldens, complete-message bounds, duplicate action rejection, unknown-field
 rejection, visible-seed representation, and the dispatch settlement witness shape. It is
@@ -91,3 +98,35 @@ validation, closes every object, rejects missing/duplicate fields and fractional
 tokens, and checks canonical round trips and manifest consumer identities. CI verifies all
 eight checksum entries, including source schema and conformance copies. The separate
 executable gateway/MCP evidence is recorded in ADR 0013; contract tests alone do not prove it.
+
+`coop_native_candidate_conformance` binds the source schema to its artifact copy, all seventeen
+producer-projected envelopes, the exact producer declaration, and the component admission
+metadata. It rejects duplicate and unknown members, missing nullable fields, unsupported action
+or effect kinds, conflicting request shapes, invalid peer identities, and invalid recovery or
+catalog relations. The producer capture is a synthetic source-only run. These checks establish
+the accepted component contract; native two-peer launch, model action and vote settlement,
+checksum agreement, disconnect/rejoin recovery, and live release compatibility remain
+`unverified` until their owning boundaries supply evidence.
+
+The seeded-run context digest is checked with the declared member order, compact UTF-8 JSON, sorted
+modifiers, ordered acts, and separate game/mod compatibility identities. Ordinary JSON object order
+is transport-insensitive; the digest order is profile-defined. A reconciliation request remains
+read-only and must not carry launch context. Protocol checks do not select a native mode, access a
+save, dispatch a host call, or establish gameplay.
+
+`runtime_v4_expert_rest_action_conformance.rs` validates the candidate REST schema and artifact
+byte identity, nested expert observations, metadata and provenance, HTTP assignment envelope,
+candidate consumer status, all 16 request/response goldens, two serialized producer-shaped
+lifecycles, and
+the full checksum inventory. Its strict semantic checks cover response action and transition
+identity, generation fencing, selector catalog and count relationships, visible legal choices, and
+root/transition effect-witness equality. Selector completion checks use the admission catalog from
+the earlier producer responses because the final observation may have returned to `rest`. The 22
+independent mutation fixtures are either schema-invalid or rejected by those cross-field checks.
+This is candidate protocol evidence; it does not verify the managed native producer, gateway route,
+MCP mapping, harness orchestration, host behavior, or live settlement.
+
+The focused native-completion cases exercise both Mend and Lift evidence alternatives. Native
+completion binds its completion identity to the nested observation state; numeric evidence still
+requires an actual HP or stat change. Missing identity, stale state, and native-only Heal evidence
+remain invalid. These in-memory variants preserve the checked-in schema and artifact bytes.
