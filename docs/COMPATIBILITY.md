@@ -26,8 +26,7 @@ MCP, model, provider, or end-to-end compatibility.
 
 The accepted sixth-target decision permits this repository to be prepared and implemented. The
 `poc-v1` schema, release-like bundle, and golden/conformance files provide target-local
-source-derived/serialization evidence. Current protocol main commit
-`d3ab5fca7d9d74bb31eeb3e5b343d8024ee44404` also contains the `runtime-map-v1` and `seeded-run-v1`
+source-derived/serialization evidence. The checked-in artifact set also contains the `runtime-map-v1` and `seeded-run-v1`
 schemas, release-like artifacts, checksum inventories, goldens, and conformance cases. The map
 artifact has schema digest `ceab0d2dfc471d1ec36d12edaf4654b8c7fdced06548bf47265e11c63f98115b`;
 the seeded-run artifact binds its selected-context digest vector and lifecycle shape. These provide
@@ -88,12 +87,21 @@ call, package installation, or release verification.
 | `runtime-v1` | game-mod, gateway, harness, MCP | Schema, artifact bytes, goldens, typed envelope round-trip, wire closure, and conformance are confirmed | Host callback, network route, disposable profile, and game compatibility |
 | `runtime-v2` | game-mod, gateway, harness, MCP | Separate schema, artifact bytes, lifecycle goldens, and conformance are confirmed | Consumer mapping, operation ledger, host settlement, reconciliation, and game compatibility |
 | `runtime-v3-gameplay` | game-mod, gateway, harness, MCP | Source/package schema, sanitized goldens, manifest, digest inventory, and local conformance are confirmed | Consumer mappings, fair-play host projection, gateway/MCP transport, Exo execution, and live full-run compatibility |
-| `runtime-v4-expert` / `runtime-v4-expert-action` | game-mod, gateway, harness, MCP | At current protocol main `d3ab5fca7d9d74bb31eeb3e5b343d8024ee44404`, source schemas, copied artifacts, manifests, goldens, checksum inventories, typed validators, and conformance cases are confirmed | Consumer mapping, host legality, settled effects, provider execution, deployment, release, and live compatibility |
-| `runtime-map-v1` | game-mod, gateway, harness, MCP, map visualizer | At current protocol main `d3ab5fca7d9d74bb31eeb3e5b343d8024ee44404`, schema digest `ceab0d2dfc471d1ec36d12edaf4654b8c7fdced06548bf47265e11c63f98115b` and the schema/artifact/checksum/golden/conformance set are confirmed by source and serialization checks | Protocol checks do not attest consumer behavior; host extraction, visualizer validation, native map visibility, navigation settlement, gameplay, and release remain separate boundaries |
-| `seeded-run-v1` | game-mod, gateway, harness, MCP | At current protocol main `d3ab5fca7d9d74bb31eeb3e5b343d8024ee44404`, schema, selected-context digest vector, lifecycle goldens, manifest, checksum inventory, and conformance are confirmed by source and serialization checks | Consumer mapping, licensed-host selection, profile/save safety, live run settlement, gameplay, and release compatibility |
+| `runtime-v4-expert` / `runtime-v4-expert-action` | game-mod, gateway, harness, MCP | Source schemas, copied artifacts, manifests, goldens, checksum inventories, typed validators, and conformance cases are confirmed | Consumer mapping, host legality, settled effects, provider execution, deployment, release, and live compatibility |
+| `runtime-map-v1` | game-mod, gateway, harness, MCP, map visualizer | Schema digest `ceab0d2dfc471d1ec36d12edaf4654b8c7fdced06548bf47265e11c63f98115b` and the schema/artifact/checksum/golden/conformance set are confirmed by source and serialization checks | Protocol checks do not attest consumer behavior; host extraction, visualizer validation, native map visibility, navigation settlement, gameplay, and release remain separate boundaries |
+| `seeded-run-v1` | game-mod, gateway, harness, MCP | Schema, selected-context digest vector, lifecycle goldens, manifest, checksum inventory, and conformance are confirmed by source and serialization checks | Consumer mapping, licensed-host selection, profile/save safety, live run settlement, gameplay, and release compatibility |
 | `runtime-v4-expert-rest-action-v1` | none admitted; prospective game-mod, gateway, MCP, harness | Candidate schema/artifact bytes, provenance, 16 goldens, 22 mutation fixtures, two serialized producer-shaped lifecycles, checksums, and strict conformance at digest `bb3555fae28eb1f79d08a15e9884696a579e4c20836f5016509f17e0f4c36fbd` | Managed native producer, route, consumer mappings, host compatibility, selector settlement, gameplay, and release remain pending |
 
 | `coop-native-v1` | game-mod, gateway, harness, MCP | Source producer, exact schema/artifact bytes, legal-catalog/action/vote/rejoin/receipt goldens, and component boundary records are accepted at digest `2f3bc99e53080fa11b39592b64fb0ab964a16f568719a2622d0b2caf766ab629` | Native two-peer launch, host/client settlement, native checksum agreement, model/provider execution, disconnect/rejoin convergence, and release compatibility |
+
+`watchdog-recovery-v1` is not a protocol artifact: it is currently an owner-local
+gateway/harness recovery sideband. Its matching digest does not establish
+protocol ownership, game-mod/MCP consumption, or live recovery. ADR 0034
+records the v1 co-op coverage gap and the compatible peer-local settlement
+implementation gate. It does not claim that current gateway/MCP bindings or a
+host-to-origin-client settlement return exist. A separate profile is considered
+only when a proven causal native dispatch/message identity must cross the
+neutral boundary; fingerprint-only correlation is not sufficient.
 
 `runtime-v1` is contract-compatible only when the exact schema digest, provenance, bounds, and
 unknown-field behavior are preserved. Its accepted action is a host-visible probe; it is not a
