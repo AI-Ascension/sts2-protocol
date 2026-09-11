@@ -30,6 +30,14 @@ and live native settlement remains unverified.
 
 ## Ownership and consumers
 
+The [recorded-run bundle candidate](artifacts/recorded-run-bundle-v1-candidate3/README.md)
+adds a closed inspection envelope, public numeric observation summaries, separate
+accounting and evidence states, and ZIP/JCS conformance tooling. Candidate 3 is
+under producer/Studio/observability review; it does not establish Train import,
+live compatibility or a release. See [ADR 0035](docs/decisions/0035-recorded-run-candidate3-review.md).
+The [admission and release gates](docs/recorded-run-admission.md) distinguish
+source-owner and consumer evidence from protocol review and publication authority.
+
 Protocol maintainers own only genuinely shared, language-neutral, transport-neutral contract
 artifacts. The accepted `poc-v1` artifact consumers are `sts2-game-core`, `sts2-game-mod`,
 `sts2-gateway`, `sts2-harness`, and `sts2-mcp-server`, each consuming an explicitly accepted artifact

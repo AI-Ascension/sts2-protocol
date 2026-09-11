@@ -60,6 +60,19 @@ jobs:
       - name: Check formatting
         run: cargo fmt --all --check
 
+      - name: Install conformance Node runtime
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
+        with:
+          node-version: '24.16.0'
+
+      - name: Verify recorded-run candidate
+        run: |
+          node --test tools/recorded-run/*.test.mjs
+          cmp schemas/recorded-run-bundle-v1.schema.json artifacts/recorded-run-bundle-v1/schema.json
+          (cd artifacts/recorded-run-bundle-v1 && sha256sum -c SHA256SUMS)
+          cmp schemas/recorded-run-bundle-v1-candidate3.schema.json artifacts/recorded-run-bundle-v1-candidate3/schema.json
+          (cd artifacts/recorded-run-bundle-v1-candidate3 && sha256sum -c SHA256SUMS)
+
       - name: Run Clippy
         run: cargo clippy --workspace --all-targets --all-features --locked -- -D warnings
 

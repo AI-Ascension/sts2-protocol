@@ -1,5 +1,27 @@
 # Testing and Evidence
 
+## Recorded-run candidate
+
+From the repository root with Node 24:
+
+```sh
+node --test tools/recorded-run/*.test.mjs
+node tools/recorded-run/validate.mjs artifacts/recorded-run-bundle-v1-candidate3/golden/legacy-failed.zip
+(cd artifacts/recorded-run-bundle-v1-candidate3 && sha256sum -c SHA256SUMS)
+```
+
+The CLI returns a validated summary or a fixed rejection code. The schema is
+independently compiled by the Rust recorded-run conformance tests. Generate
+synthetic vectors with `node tools/recorded-run/generate.mjs`; inspect changed
+checksums and distribute any changed candidate pin before consumers proceed.
+These tests establish candidate parser and synthetic-source evidence only.
+
+Candidate 2 stays byte-pinned for historical reproducibility; use its archived
+validator under history/recorded-run-candidate2/tools/recorded-run/validate.mjs.
+Candidate 3 regressions include valid owner identity aliases, strict STS2 source
+mapping, reason/disposition consistency and resource rejection before allocation
+or record materialization. Neither revision is admitted by these local checks.
+
 ## Foundation commands
 
 Run from this target root:
