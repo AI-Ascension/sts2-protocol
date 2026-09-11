@@ -12,10 +12,46 @@ a6c32127290f4d5e670d8863f97a74a7b8e3e411e735d81394b51fe1578b4eb6 and inventory
 580c1cf3be4bb3e4eb37b9acd9166808b7386b0eb84286cc0798a0d88e35bb35.
 Its scope was the reported regressions, not exhaustive source or runtime proof.
 Review commands passed 62 Node tests, 3 Rust schema tests and 44 archived tests.
-The coordinator reports Studio ad9f764 and observability c5f9d36 pinned to
-candidate 3; the fresh harness candidate-3 real-export round trip remains pending.
-These consumer references are coordinator evidence, not protocol-owned runtime
-verification.
+
+The coordinator's final actual Train review2 evidence records two identical
+11,506-byte candidate-3 exports, with all inventoried source files preserved:
+
+- ZIP SHA-256: fe10fe2d9674493469f17a51f59d2b01f07b4cbd1c5179e061148e97bf476317.
+- Semantic digest: e5bd1aaac5209573192861c81f3bbac6b6356c24f48c129b52e93e508454b686.
+- Reconciliation: 240 source records = 9 emitted (8 events, 1 accounting) +
+  231 filtered. Seed start is settled; gameplay is episode_failed and process
+  evidence is failed. Both gameplay action outcomes remain unknown.
+- Protocol, Studio and observability CLIs passed. Cross-consumer checks confirmed
+  exact stored events, accounting, omissions, identities, provenance and evidence.
+- Real MLflow recorded 19 spans and one revision; retry and restart preserved
+  the trace. Browser import, numeric observations, privacy regressions and node
+  contrast passed through the LAN URL from VM-origin Chromium.
+
+The final source revisions are harness
+a065fe5187afefa9deccba2355ed5c1f00ba20ac, Studio
+ad9f764c5caf6a7208b55d380e4f79f7ad8e6455 and observability
+f6861dffb0f45cdc01f122c027f219437f4773fd. Harness reports 656 tests passed,
+zero failed and five ignored, plus passing format, Clippy, strict policy and
+build checks. Its independent reviewer closed the remaining specific findings,
+independently reran all five review2 cases and validated the actual Train ZIP.
+That review confirmed seed settlement, three raw-seed omission rows and the
+invalid-versus-unsupported accounting distinction, with no new defect found.
+
+The workspace integration ledger preserves the execution evidence in
+`recorded-run-integration/train-candidate3-review2-export-result.json`,
+`train-candidate3-review2-seed-evidence.json`,
+`train-candidate3-review2-cross-consumer.json`,
+`train-candidate3-review2-backend.json` and `train-lan-candidate3-review2.json`;
+review closure is in `recorded-run-integration/reviews/harness-independent.md`.
+These are coordinator execution and bounded independent-review evidence, not
+protocol-owned host verification. Source completeness remains partial with an
+unverified source snapshot. Laminar remains unverified. Final review2 content
+verification used VM-origin Chromium. Separately, the user's Edge screenshot
+from another LAN computer displaying http://192.168.1.146:4173 supplies
+user-provided independent-LAN reachability evidence for the unchanged Studio
+release. It predates the final review2 input and does not verify that input's
+content. Seed launch settlement does not establish successful gameplay or
+settled gameplay actions.
 
 Protocol maintainers own technical contract admission: the exact schema, profile,
 semantic rules, artifact inventory, compatibility classification and conformance.
@@ -27,16 +63,14 @@ moving technical ownership or turning protocol checks into organization-wide pro
 
 ## Before admission
 
-1. Complete harness review fixes and export the real source recording again,
-   preserving the source. Record exporter/source versions, adapter revision,
-   artifact bytes and source-to-output reconciliation.
-2. Validate those exact candidate-3 bytes with the protocol oracle, then process
-   the same artifact in both pinned consumers. Reconcile identities, counts,
-   evidence, numeric observations and accounting, including unknown states.
-3. Resolve any new independent-review or consumer findings. Record scope and
-   limitations explicitly. Complete the applicable browser/tracking integration
-   gates without substituting candidate-2 evidence for the new round trip.
-4. Protocol maintainers record admission against the exact approved source commit
+The fresh export, shared consumer round trip and scoped harness review closure
+are complete as recorded above. They supply evidence for an admission decision;
+they do not themselves authorize admission.
+
+1. Authorized protocol maintainers assess the final source-owner, consumer and
+   independent-review evidence and its stated limitations. Resolve any additional
+   findings required by that assessment before approving the contract.
+2. Protocol maintainers record admission against the exact approved source commit
    and schema/inventory pins, with the named consumer evidence and migration
    classification. Any changed artifact metadata gets a new digest and explicit
    redistribution. Keep candidate-3 bytes and wire name unchanged until a

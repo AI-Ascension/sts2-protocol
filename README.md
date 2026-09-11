@@ -32,9 +32,10 @@ and live native settlement remains unverified.
 
 The [recorded-run bundle candidate](artifacts/recorded-run-bundle-v1-candidate3/README.md)
 adds a closed inspection envelope, public numeric observation summaries, separate
-accounting and evidence states, and ZIP/JCS conformance tooling. Candidate 3 is
-under producer/Studio/observability review; it does not establish Train import,
-live compatibility or a release. See [ADR 0035](docs/decisions/0035-recorded-run-candidate3-review.md).
+accounting and evidence states, and ZIP/JCS conformance tooling. Candidate 3 now
+has coordinator evidence for actual Train export and both consumer imports,
+with scoped independent reviews closed. Authorized maintainer admission remains
+pending; no release is claimed. See [ADR 0035](docs/decisions/0035-recorded-run-candidate3-review.md).
 The [admission and release gates](docs/recorded-run-admission.md) distinguish
 source-owner and consumer evidence from protocol review and publication authority.
 
