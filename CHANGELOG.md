@@ -7,6 +7,15 @@ Semantic Versioning once a protocol artifact or repository release exists.
 
 ### Added
 
+- Candidate 3 corrects six independently reproduced recorded-run validation gaps,
+  clarifies identity alias semantics, and adds record/allocation boundary probes.
+  Candidate 2 bytes and original tooling remain preserved for historical validation.
+
+- Add candidate 2 recorded-run ZIP/JCS schema, closed inspection profiles, public
+  numeric observation summaries, reconciliation/evidence/accounting semantics,
+  deterministic synthetic valid/invalid bundles and executable bounded validation.
+  Consumers and real Train integration remain under review; no release is claimed.
+
 - (2026-09-10) Bind the accepted `coop-native-v1` serialized consumer record to the exact
   source producer, gateway, MCP, and harness commit/tree identities. The source-to-consumer
   component boundary is recorded as passing while native host settlement, multiplayer gameplay,

@@ -1,0 +1,28 @@
+{
+  "profile": "recorded-run-bundle-v1",
+  "version": "1.0.0-candidate.2",
+  "status": "candidate",
+  "schema": "schemas/recorded-run-bundle-v1.schema.json",
+  "artifact": "artifacts/recorded-run-bundle-v1",
+  "vectors": "artifacts/recorded-run-bundle-v1/conformance.json",
+  "validator": "node tools/recorded-run/validate.mjs BUNDLE.zip",
+  "tests": "node --test tools/recorded-run/*.test.mjs",
+  "requirements": [
+    "classic bounded ZIP and actual bounded decompression",
+    "JCS canonical bytes, duplicate rejection, UTF-16 order and precision",
+    "entry length, CRC, SHA-256 and manifest semantic digest",
+    "separate identity namespaces and snapshot revision semantics",
+    "disjoint source-row dispositions and output-record counts",
+    "per-counter accounting evidence without unknown-to-zero conversion",
+    "strict public numeric observation summary with absent counters preserved",
+    "unknown action receipts and episode failure retained",
+    "completed gameplay requires common authority and witness references",
+    "inspection-only capabilities and digest-only optional opaque records"
+  ],
+  "provenance": {
+    "license": "MIT",
+    "kind": "synthetic",
+    "source": "original fixtures informed by coordinator sanitized type and vocabulary probes",
+    "host_data": false
+  }
+}
