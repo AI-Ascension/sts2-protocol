@@ -3,7 +3,12 @@
   <img alt="AI-Ascension — Inspect how AI requests to a game get fenced, one Rust contract at a time. Runtime contracts: confirmed. Live compatibility: unverified." src="https://raw.githubusercontent.com/AI-Ascension/.github/main/profile/assets/banner-light.svg" width="100%">
 </picture>
 
-# sts2-protocol
+# STS2 Protocol
+
+Part of [Ascension](https://github.com/AI-Ascension/sts2-harness), the AI
+Ascension flagship toolkit. The repository slug remains `sts2-protocol`;
+**The Climb — by AI Ascension** treats these contracts as a bounded evidence
+surface, not a universal agent protocol.
 
 > **AI-Ascension · neutral metadata contracts (beside the ascent)** — Shared metadata contracts (identity, versions, error envelopes) in language-neutral schemas with golden test vectors.
 >
