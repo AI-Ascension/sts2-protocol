@@ -25,13 +25,10 @@ repository. Unknown members, duplicate keys, unsupported kinds, stale generation
 unfenced identities remain errors; an `unknown` outcome is retained for same-operation recovery
 and never retried as a new mutation.
 
-The serialized conformance record binds the reviewed source producer (`d23ca83`), gateway
-(`c8be3a72`), MCP (`037d10de`), and harness (`63dc563`) heads and their exact trees. The harness
-refresh covers merged PR #53 runtime-v4 expert catalog, composition, and transport additions plus
-runtime-v3 recovery fixture corrections; its diff contains no native co-op wire or serialization
-files, so the fresh producer capture and projections are reused. This records
-component serialization compatibility for those snapshots; it does not imply that later source
-heads or live deployments have been validated.
+The serialized conformance record binds the reviewed source producer (`d23ca83`), current gateway
+main (`f4d14091`), MCP main (`98ab84b3`), and harness main (`00bd9e12`) heads and their exact
+trees. This records current-main component serialization compatibility; it does not imply that
+later source heads or live deployments have been validated.
 
 Component acceptance does not establish live native support. The separate runtime gate still
 requires a disposable two-peer native STS2 session with distinct peer identities, a settled
