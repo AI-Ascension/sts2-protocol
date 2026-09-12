@@ -65,18 +65,18 @@ fn serialized_consumer_evidence_registers_three_component_consumers() {
     for (consumer, (name, commit, tree)) in consumers.iter().zip([
         (
             "sts2-gateway",
-            "d5dedd264115472799b780b49fd9a545cb6a1507",
-            "7868858f187b6b121981b3e36cf54e85665cefad",
+            "8940fba823a0893b31d1a96301831c182d37ed32",
+            "99db77111acec45f87ab3d47bb2d48c064614e49",
         ),
         (
             "sts2-mcp-server",
-            "f376105ab779ea692855557a5ad6fdab32f9891d",
-            "679e8eae14f0269ab1dfa0244919ef419684560a",
+            "f3b6eaa8bcf2241b8d6c47587c958388a8fe1031",
+            "ef60b30ca2b2ea3d6c51b1c79c7bd887e82d4d32",
         ),
         (
             "sts2-harness",
-            "4e738133822a48b99bea9a710aa49cf635e7cd2d",
-            "f9200703423d98ee2121a79864877342bb2ac5cd",
+            "9e85c29049e942140b97d8fbab2e52ba95475964",
+            "0419eba01298b426bb3ae557e4adcaa581efb63e",
         ),
     ]) {
         assert_eq!(consumer["name"], name);
