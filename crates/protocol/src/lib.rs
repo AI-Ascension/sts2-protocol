@@ -4,6 +4,7 @@ mod coop_synchronization;
 mod descriptor;
 mod envelope;
 mod exact_state;
+mod exact_state_diff;
 mod identity;
 mod lifecycle;
 mod poc;
@@ -31,6 +32,9 @@ pub use exact_state::{
     EXACT_STATE_DIGEST_PREFIX, EXACT_STATE_DOMAIN, EXACT_STATE_SCHEMA, ExactCheckpointId,
     ExactStateDigest, IdentityError, MAX_CANONICAL_BYTES, MAX_DEPTH, MAX_INPUT_BYTES,
     MAX_SAFE_INTEGER, blob_digest,
+};
+pub use exact_state_diff::{
+    DiffError, Difference, DifferenceKind, MAX_DIFF_DEPTH, MAX_DIFF_ENTRIES, describe_differences,
 };
 pub use identity::{
     CorrelationMetadata, IdentityMetadata, LineageMetadata, QualifiedId, SequenceMetadata,
