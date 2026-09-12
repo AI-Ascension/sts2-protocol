@@ -13,8 +13,28 @@ are separate states. Green CI does not prove a live game, gateway, MCP, harness,
 ## Current automation
 
 - `policy.yml` tests the Rust repository-policy package and enforces `policy.toml`.
-- `ci.yml` runs metadata, verifies each release-like artifact bundle's `SHA256SUMS` inventory
-  against actual bytes, then runs formatting, Clippy, and workspace tests.
+- `ci.yml` runs metadata, discovers and verifies each artifact bundle's `SHA256SUMS`
+  inventory against actual bytes, and compares the matrix's schema and golden bytes
+  with the immutable consumer revisions in `conformance/consumer-matrix/`, then runs formatting,
+  Clippy, and workspace tests. The comparison is read-only and does not run consumer code.
+
+The matrix covers five consumers and 41 profile/consumer pairs across 11 profiles.
+It compares only protocol-owned wire bytes: `schema.json` and the `golden/` files
+named by the inventories. Both producer and consumer must retain the same wire-file
+coverage and manifest golden declarations, so removing a producer golden cannot
+silently reduce a frozen consumer's coverage. Local verification also checks Git
+HEAD against each matrix pin. Consumer README text, whole checksum inventories, and
+producer-capture records may differ by owner and are not evidence of wire incompatibility. A
+matrix revision must pin every consumer commit, classify it as `required` or `advisory`, and be
+updated in the same coordinated change as any accepted wire-byte rollover. A required entry fails
+CI on a missing or changed byte; an advisory entry is reported with the same check but does not
+establish a release waiver.
+
+Run `node --test tools/consumer-compatibility/*.test.mjs` and
+`node tools/consumer-compatibility/verify.mjs` for the CI path. For existing local
+checkouts at the pinned commits, add `--consumer-root /path/to/checkouts`.
+The unadmitted receipt-query proposal, separately owned watchdog worker contract,
+and private planning evidence copy are outside this public product matrix.
 
 Both workflows use `pull_request` and pushes to `main`, top-level `contents: read`, explicit timeouts,
 pull-request concurrency cancellation, checkout with credentials disabled, and full immutable action

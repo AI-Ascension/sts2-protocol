@@ -41,21 +41,16 @@ jobs:
       - name: Check repository metadata
         run: cargo metadata --locked --no-deps --format-version 1
 
-      - name: Verify protocol artifact checksums
-        working-directory: artifacts/poc-v1
-        run: sha256sum -c SHA256SUMS
-
-      - name: Verify Runtime-v1 artifact checksums
-        working-directory: artifacts/runtime-v1
-        run: sha256sum -c SHA256SUMS
-
-      - name: Verify Runtime-v2 artifact checksums
-        working-directory: artifacts/runtime-v2
-        run: sha256sum -c SHA256SUMS
-
-      - name: Verify seeded-run-v1 artifact checksums
-        working-directory: artifacts/seeded-run-v1
-        run: sha256sum -c SHA256SUMS
+      - name: Verify every protocol artifact inventory
+        run: |
+          set -euo pipefail
+          inventory_count=0
+          while IFS= read -r -d '' artifact; do
+            test -s "$artifact/SHA256SUMS"
+            (cd "$artifact" && sha256sum --strict -c SHA256SUMS)
+            inventory_count=$((inventory_count + 1))
+          done < <(find artifacts -mindepth 1 -maxdepth 1 -type d -print0 | sort -z)
+          test "$inventory_count" -gt 0
 
       - name: Check formatting
         run: cargo fmt --all --check
@@ -68,10 +63,14 @@ jobs:
       - name: Verify recorded-run candidate
         run: |
           node --test tools/recorded-run/*.test.mjs
+          node --test tools/consumer-compatibility/*.test.mjs
           cmp schemas/recorded-run-bundle-v1.schema.json artifacts/recorded-run-bundle-v1/schema.json
           (cd artifacts/recorded-run-bundle-v1 && sha256sum -c SHA256SUMS)
           cmp schemas/recorded-run-bundle-v1-candidate3.schema.json artifacts/recorded-run-bundle-v1-candidate3/schema.json
           (cd artifacts/recorded-run-bundle-v1-candidate3 && sha256sum -c SHA256SUMS)
+
+      - name: Verify pinned protocol consumer wire contracts
+        run: node tools/consumer-compatibility/verify.mjs
 
       - name: Run Clippy
         run: cargo clippy --workspace --all-targets --all-features --locked -- -D warnings

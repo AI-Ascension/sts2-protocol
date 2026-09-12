@@ -1,0 +1,27 @@
+{
+  "matrix_version": 2,
+  "consumers": {
+    "game-core": {"repository": "AI-Ascension/sts2-game-core", "commit": "f5daf69f4f2c43fddbb04e7799d32503f7066110", "artifact_root": "protocol-artifact", "tier": "required"},
+    "game-mod": {"repository": "AI-Ascension/sts2-game-mod", "commit": "afa44d6f8da66625b67a10d758725da01492a27a", "artifact_root": "protocol-artifact", "tier": "required"},
+    "gateway": {"repository": "AI-Ascension/sts2-gateway", "commit": "8940fba823a0893b31d1a96301831c182d37ed32", "artifact_root": "protocol-artifact", "tier": "required"},
+    "mcp-server": {"repository": "AI-Ascension/sts2-mcp-server", "commit": "f3b6eaa8bcf2241b8d6c47587c958388a8fe1031", "artifact_root": "protocol-artifact", "tier": "required"},
+    "harness": {"repository": "AI-Ascension/sts2-harness", "commit": "9e85c29049e942140b97d8fbab2e52ba95475964", "artifact_root": "protocol-artifact", "tier": "required"}
+  },
+  "profiles": [
+    {"artifact": "poc-v1", "schema_digest": "242b8f9233e915a55ea8d2e72ca476c1258169a67e62de72ee5aed848a6a0a19", "consumers": ["game-core", "game-mod", "gateway", "mcp-server", "harness"]},
+    {"artifact": "runtime-v1", "schema_digest": "a76086d7a68668fd4cff53999369d2b450b0d6623827393882f458f2aa1f93eb", "consumers": ["game-mod", "gateway", "mcp-server", "harness"]},
+    {"artifact": "runtime-v2", "schema_digest": "f7963b19c8ed5bbdc02c08e83c7a2e16c4771ed5eb798b29a8208d7a917a86c2", "consumers": ["game-mod", "gateway", "mcp-server", "harness"]},
+    {"artifact": "runtime-v3-gameplay", "schema_digest": "8e99cea36b7ede97532348fd8efe302ca79260895265a7bf14ddf7e006d8ff63", "consumers": ["game-mod", "gateway", "mcp-server", "harness"]},
+    {"artifact": "runtime-v4-expert", "schema_digest": "0ee034d5da83f34e9fa0ba23038738d56ef8cfccb1c6e752af3ab63d212c8e42", "consumers": ["game-mod", "gateway", "mcp-server", "harness"]},
+    {"artifact": "runtime-v4-expert-action", "schema_digest": "393318bda8c3522c0ecbacc78b95471a9f4dc3f825169d2048f4c74a7b7f2929", "consumers": ["game-mod", "gateway", "mcp-server", "harness"]},
+    {"artifact": "runtime-v4-expert-rest-action", "schema_digest": "bb3555fae28eb1f79d08a15e9884696a579e4c20836f5016509f17e0f4c36fbd", "consumers": ["game-mod", "gateway", "mcp-server", "harness"]},
+    {"artifact": "seeded-run-v1", "schema_digest": "5c659f344be78f84e8d783986925d462714f933cac95d18943358992f7d3e2b8", "consumers": ["game-mod", "gateway", "mcp-server", "harness"]},
+    {"artifact": "runtime-map-v1", "schema_digest": "ceab0d2dfc471d1ec36d12edaf4654b8c7fdced06548bf47265e11c63f98115b", "consumers": ["game-mod", "gateway", "mcp-server"]},
+    {"artifact": "coop-synchronization-v1", "schema_digest": "d410858cabbd38612345120c2196423130c7b21d788fd2b0d775cd82887087ec", "consumers": ["gateway", "mcp-server"]},
+    {"artifact": "coop-native-v1", "schema_digest": "2f3bc99e53080fa11b39592b64fb0ab964a16f568719a2622d0b2caf766ab629", "consumers": ["gateway", "mcp-server", "harness"]}
+  ],
+  "owner_local_artifacts": {
+    "coop-receipt-query-v1": "Copied proposed_unadmitted profile with no admitted consumers; absent from the protocol default branch. This exclusion is not a compatibility claim.",
+    "watchdog-worker-v1": "Manifest names architecture-contracts as owner and watchdog/harness as consumers; this transport contract is not published by sts2-protocol."
+  }
+}
