@@ -1,0 +1,26 @@
+{
+  "case_id": "CT-EXACT-CHECKPOINT-REFERENCE-V1-001",
+  "contract": "sts2.protocol/exact-checkpoint-reference-v1",
+  "profile": "exact-checkpoint-reference-v1",
+  "schema": "schemas/exact-checkpoint-reference-v1.schema.json",
+  "goldens": [
+    "artifacts/exact-checkpoint-reference-v1/golden/reference.json"
+  ],
+  "invalid": [
+    "artifacts/exact-checkpoint-reference-v1/golden/invalid-privileged.json",
+    "artifacts/exact-checkpoint-reference-v1/golden/unsupported-version.json"
+  ],
+  "checksums": "artifacts/exact-checkpoint-reference-v1/SHA256SUMS",
+  "provenance": "Hand-authored public reference envelope. No value is a game capture or a real issued handle.",
+  "setup": {
+    "live_runtime": false,
+    "network": false,
+    "credentials": false,
+    "proprietary_data": false
+  },
+  "oracle": [
+    "the reference envelope is closed and carries no privileged digest member",
+    "a privileged member or an unsupported reference version is rejected, not ignored",
+    "assurance labels stay within the declared enum"
+  ]
+}

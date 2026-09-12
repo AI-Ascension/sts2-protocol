@@ -237,3 +237,14 @@ unverified until each pins the digest and provides round-trip evidence. Engine c
 the live supported-boundary matrix remain open. See
 [ADR 0036](docs/decisions/0036-exact-state-identity-contract.md) and the
 [conformance case](conformance/cases/exact-state-v1.json).
+
+## Public checkpoint-reference contract
+
+The `exact-checkpoint-reference-v1` artifact is the digest-free public reference for an exact
+checkpoint: a keyed `ckpt-h1:` handle plus boundary and assurance labels. The envelope is closed, so
+no member exists for an exact-state, checkpoint, blob, or compatibility digest and a privileged
+member or unsupported reference version is a validation error rather than silently ignored data.
+Schema validity proves nothing about coverage, restorability, or honest handle issuance; those come
+from the trusted producer, the coverage contract, and a verified restore. See
+[ADR 0037](docs/decisions/0037-public-checkpoint-reference-contract.md) and the
+[conformance case](conformance/cases/exact-checkpoint-reference-v1.json).
