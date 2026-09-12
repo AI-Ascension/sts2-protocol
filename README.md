@@ -206,3 +206,29 @@ with zero downstream game connections; it has no action, vote, or shared-effect 
 [ADR 0013](docs/decisions/0013-coop-synchronization-admission.md) and the [MCP executable
 evidence](https://github.com/AI-Ascension/sts2-mcp-server/blob/main/docs/evidence/coop-synchronization-20260906.md)
 for identity lifetimes, conformance, and the distinction from multiplayer gameplay.
+
+## Inert exact-state identity contract
+
+The `asc-jcs-state-v1` profile defines canonical bytes and domain-separated SHA-256 identities for
+an exact point in a game run so different agents, replays, and policies can recognize equal
+starting conditions. It is additive and inert: `exact_state_digest` and `exact_checkpoint_id` are
+separate namespaces from the existing Runtime-v3/v4 `state_id`, public observation fingerprints,
+native checkpoint ordinals, raw legal-action catalog digests, and live execution fences. Existing
+identities keep their present meanings.
+
+The restricted canonical profile narrows RFC 8785 to ASCII schema field names, safe-range integers
+with tagged `uint64` and `float64_bits` objects, and explicit binary encodings; floats, exponents,
+lexical negative zero, duplicate keys, lone surrogates, BOMs, and ambiguous unknown values are
+rejected. Object keys sort ordinally, engine-meaningful collection order is preserved, and absent,
+null, empty, and explicit unknown remain distinct. Bounds are 16 MiB raw input, 16 MiB canonical
+output, and 64 nested containers.
+
+Protocol owns only the encoding and identity wrappers. Complete per-phase game schemas await the
+game-side field and RNG inventory; the coverage contract and adapter identity, not this envelope,
+carry the completeness claim. A matching digest supports a same-start claim only with complete
+declared coverage, enforced compatibility, verified restore, and controlled external inputs.
+Prospective consumers are `sts2-game-mod`, `sts2-harness`, and `sts2-gateway`; adoption is
+unverified until each pins the digest and provides round-trip evidence. Engine capture/restore and
+the live supported-boundary matrix remain open. See
+[ADR 0036](docs/decisions/0036-exact-state-identity-contract.md) and the
+[conformance case](conformance/cases/exact-state-v1.json).

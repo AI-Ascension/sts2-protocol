@@ -1,0 +1,17 @@
+53873b9ff14d42c1e99a2b8099e80d961cc5db78a29e381c4fb5ab87ee296fc5  ../../conformance/cases/exact-state-v1.json
+393dc9bb5bb7fc00672ffba24e78768c242c5d1488e442e5882b68d00e7441fc  ../../conformance/fixtures/exact-state-v1/canonical-vectors.json
+e5b6921528bc91f636b2c42537573e86e288c9982b6275116a22fe58863da858  ../../conformance/fixtures/exact-state-v1/canonical-vectors.expected.json
+267d378a9ebefc8971b8411bb8b0567f194bc38e42e155bc597997fd89dec953  ../../conformance/fixtures/exact-state-v1/identity-vectors.expected.json
+3777ce521bbee30c68b9e25ee188e880cec22f7cdb15350936093b02c2471ab9  ../../schemas/exact-state-v1.schema.json
+354d482f26de07e60d36abf6301f5ab5b435a63a999545a76926e61ddf3379b7  ../../schemas/checkpoint-manifest-v1.schema.json
+6fa9760526de3d5aa0acef9f19e9aa1e9213a7059061542f2ada328facecd89e  ../../schemas/coverage-contract-v1.schema.json
+e7adc8690f0da932bc6df3a23910fcb5fa7fac63ba23a6efd6356913ab3b552d  manifest.json
+1b56dea0aefafe567c0e9cba332932f29408407c9a4349d71144549d8e525a2c  conformance.json
+3777ce521bbee30c68b9e25ee188e880cec22f7cdb15350936093b02c2471ab9  schema.json
+354d482f26de07e60d36abf6301f5ab5b435a63a999545a76926e61ddf3379b7  checkpoint-manifest.schema.json
+6fa9760526de3d5aa0acef9f19e9aa1e9213a7059061542f2ada328facecd89e  coverage-contract.schema.json
+69501506fc0856f910d495ab764c8b46e9cc0e9866819dcaa717b696f8c72986  coverage-contract.json
+55a0f5ad6a56405dc57354886428008c1c9c244e647120dc27d6ab7156ea9d23  golden/state-payload.json
+4e461e0062187d04dd294296618fc58443e32901fbfcdd271ffc0133d6963ab6  golden/state.canonical
+8897772bf100d553266835175577e453d6bed65d2d1bb84dd21f34c4c6b3b86e  golden/manifest.json
+790228e89c11f944c20904478ead139354348805b5db44b6fbe7327626fbb788  golden/receipt.json

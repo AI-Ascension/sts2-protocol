@@ -1,0 +1,29 @@
+{
+  "case_id": "CT-EXACT-STATE-V1-001",
+  "contract": "sts2.protocol/exact-state-v1",
+  "profile": "asc-jcs-state-v1",
+  "schema": "conformance/fixtures/exact-state-v1/canonical-vectors.json",
+  "fixtures": [
+    "conformance/fixtures/exact-state-v1/canonical-vectors.json",
+    "conformance/fixtures/exact-state-v1/canonical-vectors.expected.json",
+    "conformance/fixtures/exact-state-v1/identity-vectors.expected.json"
+  ],
+  "provenance": "Supplied synthetic vectors from the ascension-checkpoint-state-identity-metaprompt package; expected state digests are the package's independent Python/JavaScript witness output. Identity-vector checkpoint and blob values were derived with the same package witness. No value is a recorded game artifact.",
+  "standards": [
+    "restricted RFC 8785 JSON canonicalization (asc-jcs-state-v1)",
+    "FIPS 180-4 SHA-256 with the profile's domain separators"
+  ],
+  "setup": {
+    "live_runtime": false,
+    "network": false,
+    "credentials": false,
+    "proprietary_data": false
+  },
+  "oracle": [
+    "every positive vector canonicalizes to the recorded UTF-8 hex and exact-state digest",
+    "equivalence pairs share bytes and identity; distinction pairs differ",
+    "raw rejection vectors are refused before comparison",
+    "checkpoint and blob identities match the independent witness",
+    "identity namespaces are not interchangeable"
+  ]
+}

@@ -3,6 +3,7 @@
 mod coop_synchronization;
 mod descriptor;
 mod envelope;
+mod exact_state;
 mod identity;
 mod lifecycle;
 mod poc;
@@ -24,6 +25,13 @@ pub use descriptor::{
     ContractManifest, DigestAlgorithm, DigestDescriptor, Provenance, VersionProfile,
 };
 pub use envelope::{ErrorEnvelope, ErrorMetadata, ErrorOrigin, Retryability};
+pub use exact_state::{
+    BLOB_DIGEST_PREFIX, BlobDigest, CANONICAL_PROFILE, CHECKPOINT_MANIFEST_DOMAIN,
+    CHECKPOINT_MANIFEST_SCHEMA, CanonicalError, CanonicalValue, EXACT_CHECKPOINT_ID_PREFIX,
+    EXACT_STATE_DIGEST_PREFIX, EXACT_STATE_DOMAIN, EXACT_STATE_SCHEMA, ExactCheckpointId,
+    ExactStateDigest, IdentityError, MAX_CANONICAL_BYTES, MAX_DEPTH, MAX_INPUT_BYTES,
+    MAX_SAFE_INTEGER, blob_digest,
+};
 pub use identity::{
     CorrelationMetadata, IdentityMetadata, LineageMetadata, QualifiedId, SequenceMetadata,
 };

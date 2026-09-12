@@ -1,0 +1,134 @@
+{
+  "vectors": [
+    {
+      "name": "empty_object",
+      "canonical_hex": "7b7d",
+      "state_id": "asc-state:v1:sha256:ed8b0a1d26f8c81e13d5aa019b4a379f8d65caab3cde4c624fac7d38d1232e3e"
+    },
+    {
+      "name": "order_a",
+      "canonical_hex": "7b2261223a312c2262223a327d",
+      "state_id": "asc-state:v1:sha256:4fef3232f4c1f205363ff2ebefe0cab072f8ae3081ec36545c6cbebba24b5d83"
+    },
+    {
+      "name": "order_b",
+      "canonical_hex": "7b2261223a312c2262223a327d",
+      "state_id": "asc-state:v1:sha256:4fef3232f4c1f205363ff2ebefe0cab072f8ae3081ec36545c6cbebba24b5d83"
+    },
+    {
+      "name": "nested_order",
+      "canonical_hex": "7b2261223a747275652c227a223a5b7b2261223a312c2262223a327d2c335d7d",
+      "state_id": "asc-state:v1:sha256:8a035039801d0f3445cb49874952196f4747c23289f2b4fd1acb0d2cf6cc6ed3"
+    },
+    {
+      "name": "safe_max",
+      "canonical_hex": "7b2276616c7565223a393030373139393235343734303939317d",
+      "state_id": "asc-state:v1:sha256:b84367be6c07305b5149c96e9cca1f2bdc0e54ed0859866d09da843057fb7f05"
+    },
+    {
+      "name": "safe_min",
+      "canonical_hex": "7b2276616c7565223a2d393030373139393235343734303939317d",
+      "state_id": "asc-state:v1:sha256:9257a3028ea2d500ed8867108d565d4c0a78368c14f391dc23631c59ebd7f4b7"
+    },
+    {
+      "name": "uint64_max",
+      "canonical_hex": "7b2276616c7565223a7b226b696e64223a2275696e743634222c2276616c7565223a223138343436373434303733373039353531363135227d7d",
+      "state_id": "asc-state:v1:sha256:bc206ee9dc30c02de275cc0c36b5c68d172d5df2fa90ee7f26e3bed865928c1b"
+    },
+    {
+      "name": "uint64_adjacent",
+      "canonical_hex": "7b2276616c7565223a7b226b696e64223a2275696e743634222c2276616c7565223a223138343436373434303733373039353531363134227d7d",
+      "state_id": "asc-state:v1:sha256:b45d1477172e6a589e831544260ed0d66e3544317218755b8da2c339e2c59ed4"
+    },
+    {
+      "name": "float_pos_zero",
+      "canonical_hex": "7b2276616c7565223a7b226b696e64223a22666c6f617436345f62697473222c2276616c7565223a2230303030303030303030303030303030227d7d",
+      "state_id": "asc-state:v1:sha256:aa39a0e93f3a0c3800002602967fc3ef2794a41448a0bf4866c5572b070d1b18"
+    },
+    {
+      "name": "float_neg_zero",
+      "canonical_hex": "7b2276616c7565223a7b226b696e64223a22666c6f617436345f62697473222c2276616c7565223a2238303030303030303030303030303030227d7d",
+      "state_id": "asc-state:v1:sha256:7044bf48ace9a835bcbafb78db459cd70ea484981730ed8cf8c13750ea1c81db"
+    },
+    {
+      "name": "unicode",
+      "canonical_hex": "7b2274657874223a22e99baa20f09fa79920c3a9227d",
+      "state_id": "asc-state:v1:sha256:c1cceba2b243d35ce516372184ad0057957610af38f9e1cfb7777c3b96fcf1f5"
+    },
+    {
+      "name": "unicode_nfc",
+      "canonical_hex": "7b2274657874223a22c3a9227d",
+      "state_id": "asc-state:v1:sha256:81029eb09145fcc8d468302eea4554e8a3a3449184bb778046f8406011c09c60"
+    },
+    {
+      "name": "unicode_nfd",
+      "canonical_hex": "7b2274657874223a2265cc81227d",
+      "state_id": "asc-state:v1:sha256:7c04aada748e7679380a6fd32d6bbf5e7dd4598643e88430122bbad6b32a8727"
+    },
+    {
+      "name": "escape_controls",
+      "canonical_hex": "7b2274657874223a225c625c745c6e5c665c725c75303030305c75303031665c225c5c2f227d",
+      "state_id": "asc-state:v1:sha256:61e29b30f8429fe052c0a9ea4801214df93487c1d6de08cada4419b5742b68dd"
+    },
+    {
+      "name": "line_separators",
+      "canonical_hex": "7b2274657874223a22e280a8e280a9227d",
+      "state_id": "asc-state:v1:sha256:f0e7f0383f4aa1177b2aabe573a2913bc084838d73c4918df334ef0bf3311adc"
+    },
+    {
+      "name": "null_value",
+      "canonical_hex": "7b2276616c7565223a6e756c6c7d",
+      "state_id": "asc-state:v1:sha256:4a344c381bdd736152ebacd56eedc4aa364549f85a15b57d28d2f63653a54cf7"
+    },
+    {
+      "name": "absent_value",
+      "canonical_hex": "7b7d",
+      "state_id": "asc-state:v1:sha256:ed8b0a1d26f8c81e13d5aa019b4a379f8d65caab3cde4c624fac7d38d1232e3e"
+    },
+    {
+      "name": "false_value",
+      "canonical_hex": "7b2276616c7565223a66616c73657d",
+      "state_id": "asc-state:v1:sha256:9517c955ef2ac97635c08ed66fadb0ebdab1e51a0d675124ba6f8e4bed96a20f"
+    },
+    {
+      "name": "zero_value",
+      "canonical_hex": "7b2276616c7565223a307d",
+      "state_id": "asc-state:v1:sha256:6bae4e4af492ae9c7ecc15a60f01d71368456d847794f247546d39b73508aeba"
+    },
+    {
+      "name": "array_ab",
+      "canonical_hex": "7b2270696c65223a5b22636172645f61222c22636172645f62225d7d",
+      "state_id": "asc-state:v1:sha256:ce057cabf14ea625bdaca64a74831d206d63e363f3f65c814334adab83f220eb"
+    },
+    {
+      "name": "array_ba",
+      "canonical_hex": "7b2270696c65223a5b22636172645f62222c22636172645f61225d7d",
+      "state_id": "asc-state:v1:sha256:593bde074605dfd42f181fd60da809a434721724f895ae708045a7b70a99fa2f"
+    },
+    {
+      "name": "duplicates",
+      "canonical_hex": "7b2270696c65223a5b22636172645f61222c22636172645f61225d7d",
+      "state_id": "asc-state:v1:sha256:83485eb1b216c7597d4dc62f0052db9563fcaae189b6fadc0721168dcd8ec294"
+    },
+    {
+      "name": "hp_20",
+      "canonical_hex": "7b226870223a32302c22726e67223a7b226b696e64223a2275696e743634222c2276616c7565223a223733227d7d",
+      "state_id": "asc-state:v1:sha256:e3971b435aec16a6e8fb6d2ed3dd71447d578d6431d9738c927e50d1d1fb798c"
+    },
+    {
+      "name": "hp_21",
+      "canonical_hex": "7b226870223a32312c22726e67223a7b226b696e64223a2275696e743634222c2276616c7565223a223733227d7d",
+      "state_id": "asc-state:v1:sha256:d77345b853e41b0ab79060b88cb02b2fdeb8faed6711be49ad29a599a11e7223"
+    },
+    {
+      "name": "rng_74",
+      "canonical_hex": "7b226870223a32302c22726e67223a7b226b696e64223a2275696e743634222c2276616c7565223a223734227d7d",
+      "state_id": "asc-state:v1:sha256:d5e333d247ed412b1041d56dd84e0f0fdf2fa794bd98ae736f9bd1f1b187a6d8"
+    },
+    {
+      "name": "binary",
+      "canonical_hex": "7b226279746573223a7b22656e636f64696e67223a2262617365363475726c222c226b696e64223a226279746573222c226c656e677468223a332c2276616c7565223a2241502d41227d7d",
+      "state_id": "asc-state:v1:sha256:a4a1281274950779401a1a838610f0cf4c2d20eec6b0c41a76371db088f25b12"
+    }
+  ]
+}
