@@ -24,6 +24,19 @@
     "equivalence pairs share bytes and identity; distinction pairs differ",
     "raw rejection vectors are refused before comparison",
     "checkpoint and blob identities match the independent witness",
-    "identity namespaces are not interchangeable"
+    "identity namespaces are not interchangeable",
+    "the independent JavaScript witness reproduces the recorded bytes and identities"
+  ],
+  "validators": [
+    {
+      "language": "rust",
+      "path": "crates/protocol/src/exact_state.rs",
+      "test": "cargo test --package sts2-protocol --test exact_state_conformance"
+    },
+    {
+      "language": "javascript",
+      "path": "tools/exact-state/canonical.mjs",
+      "test": "node --test tools/exact-state/canonical.test.mjs"
+    }
   ]
 }

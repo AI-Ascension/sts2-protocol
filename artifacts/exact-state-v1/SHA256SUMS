@@ -1,4 +1,4 @@
-53873b9ff14d42c1e99a2b8099e80d961cc5db78a29e381c4fb5ab87ee296fc5  ../../conformance/cases/exact-state-v1.json
+a87259f6d9deba9d9043ab713a012094ee13bcf41fbbeddc155d626e5efe4cca  ../../conformance/cases/exact-state-v1.json
 393dc9bb5bb7fc00672ffba24e78768c242c5d1488e442e5882b68d00e7441fc  ../../conformance/fixtures/exact-state-v1/canonical-vectors.json
 e5b6921528bc91f636b2c42537573e86e288c9982b6275116a22fe58863da858  ../../conformance/fixtures/exact-state-v1/canonical-vectors.expected.json
 267d378a9ebefc8971b8411bb8b0567f194bc38e42e155bc597997fd89dec953  ../../conformance/fixtures/exact-state-v1/identity-vectors.expected.json

@@ -68,6 +68,15 @@ open until the game-side field and RNG inventory is complete against a real buil
 incomplete closed schema or an untyped bag would silently weaken coverage. The coverage contract and
 adapter identity, not this envelope, carry the completeness claim.
 
+## Independent witness
+
+`tools/exact-state/canonical.mjs` is an original, bounded JavaScript implementation of the same
+profile with its own strict parser and emitter. `node --test tools/exact-state/canonical.test.mjs`
+reproduces every recorded positive vector, checkpoint identifier, blob digest, equivalence and
+distinction pair, and raw rejection, so byte agreement is checked by two in-repository
+implementations rather than only by the package fixtures. The authoritative C#/native witness does
+not exist yet; writing the mapping twice does not by itself certify the game adapter.
+
 ## Consequences
 
 - Callers get exact canonical bytes and non-interchangeable identities without new game authority.

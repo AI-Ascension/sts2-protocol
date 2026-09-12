@@ -227,6 +227,11 @@ Protocol owns only the encoding and identity wrappers. Complete per-phase game s
 game-side field and RNG inventory; the coverage contract and adapter identity, not this envelope,
 carry the completeness claim. A matching digest supports a same-start claim only with complete
 declared coverage, enforced compatibility, verified restore, and controlled external inputs.
+Byte agreement is checked by two in-repository implementations: the Rust encoder and an original
+bounded JavaScript witness (`tools/exact-state/canonical.mjs`, `node --test
+tools/exact-state/canonical.test.mjs`). A C#/native witness is still required before the contract
+can be called cross-language certified.
+
 Prospective consumers are `sts2-game-mod`, `sts2-harness`, and `sts2-gateway`; adoption is
 unverified until each pins the digest and provides round-trip evidence. Engine capture/restore and
 the live supported-boundary matrix remain open. See
