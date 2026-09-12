@@ -65,8 +65,8 @@ fn serialized_consumer_evidence_registers_three_component_consumers() {
     for (consumer, (name, commit, tree)) in consumers.iter().zip([
         (
             "sts2-gateway",
-            "8940fba823a0893b31d1a96301831c182d37ed32",
-            "99db77111acec45f87ab3d47bb2d48c064614e49",
+            "fb50a327484bc44ff4539d266c8a5d6816db6a46",
+            "b8f22af409527c16614ae14f80ea8ff68e28886f",
         ),
         (
             "sts2-mcp-server",
