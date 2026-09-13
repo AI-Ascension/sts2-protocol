@@ -62,8 +62,9 @@ The future schema must make the producer declare snapshot lifetime, maximum reta
 the maximum page byte/text/item limits.  It must not promise retention based on wall-clock behavior
 that protocol does not own.
 
-A cursor is opaque and bound to all of: query kind, normalized filters, projection/detail level,
-content revision, locale, visibility scope, and (for live queries) the snapshot reference.  It is
+A cursor is opaque and bound to all of: negotiated profile and schema digest, query kind,
+normalized filters, projection/detail level, content revision, locale, visibility scope, and (for
+live queries) the snapshot reference.  It is
 not reusable across any changed binding.  Ordering is a producer-declared deterministic ordering
 for the bound revision/snapshot; a response declares whether it is final and whether a total count
 is known.  An empty page is therefore distinguishable from unavailable coverage and from a
@@ -95,11 +96,13 @@ evidence that a runtime can produce them today.
 | `GIQ-VALID-STATIC-TWO-PAGE` | Two pages share content, locale, scope, query, and cursor binding; the second is final and reports a known total. |
 | `GIQ-VALID-LIVE-DETAIL-PINNED` | A detail result uses the same `instance_ref` and `snapshot_ref` as its parent live observation. |
 | `GIQ-VALID-UTF8-BOUNDS` | Boundary UTF-8 text is accepted and its byte count, not character count, is reported. |
+| `GIQ-VALID-SOURCE-PROVENANCE` | A result identifies its producer-declared source and availability without exposing unavailable source data. |
 | `GIQ-INVALID-CROSS-LOCALE-CURSOR` | Reusing a cursor with another locale fails as `stale_cursor`. |
 | `GIQ-INVALID-CROSS-EPOCH-CURSOR` | Reusing a live cursor after an epoch change fails as `stale_cursor` or `stale_snapshot`, never with mixed results. |
 | `GIQ-INVALID-MIXED-GENERATION` | Combining a page and detail from different state generations is rejected. |
 | `GIQ-INVALID-AMBIGUOUS-DISPLAY-NAME` | A display name without a unique definition reference fails as `ambiguous_id`. |
 | `GIQ-INVALID-UNKNOWN-ENUM-VERSION` | Unknown entity kind or profile version fails explicitly. |
+| `GIQ-INVALID-INTEGER-BOUNDS` | Integer values below or above their declared bounds fail rather than wrapping, rounding, or being treated as missing. |
 | `GIQ-INVALID-OVERSIZED` | Item, page, byte, and text limits produce `result_limit_exceeded`; no truncated result is labelled complete. |
 | `GIQ-INVALID-MISSING-VS-EMPTY` | Missing, unavailable, null, zero, and empty values remain distinguishable according to the field contract. |
 
