@@ -12,9 +12,13 @@ identity. Static bindings name a content manifest, locale, and visibility scope.
 an instance fence and an immutable `snapshot_ref` with its state generation.
 
 Every response reports deterministic ordering, bounded item/page/text accounting, final-page and
-known-total semantics, coverage, and per-field availability. Available zero and empty values are
-not unavailable values; unavailable, redacted, unsupported, missing, and not-observable fields
-carry `null` and a reason. Each field names its producer source. An opaque cursor is bound to the
+known-total semantics, coverage, and per-field availability. Byte accounting is reproducible:
+canonical compact JSON is encoded as UTF-8; `item_bytes` is the largest encoded item object,
+`payload_bytes` is the encoded `items` array, `page_bytes` is the encoded page with its
+`accounting` member omitted, `text_bytes` is the sum of available `text` and `text_list` values,
+and `max_message_bytes` bounds the complete envelope. Available zero and empty values are not
+unavailable values; unavailable, redacted, unsupported, missing, and not-observable fields carry
+`null` and a reason. Each field names its producer source. An opaque cursor is bound to the
 normalized query, content revision, locale, scope, limits, and (when live) instance/snapshot
 fences. Reuse across any binding change is rejected as `stale_cursor`; a stale retained snapshot
 is rejected as `stale_snapshot`.

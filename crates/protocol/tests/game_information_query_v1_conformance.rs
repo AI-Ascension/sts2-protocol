@@ -7,7 +7,7 @@ use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
 
 const PROFILE: &str = "game-information-query-v1";
-const SCHEMA_DIGEST: &str = "e5ba81b0520687cf59db6a94aea3b38606e86300f6eb2b0e858f55704e62f76c";
+const SCHEMA_DIGEST: &str = "376845b0c86b4afcd2c79ffba753eb7e7e416f5410da26b4dae970cfee2221d9";
 const SOURCE_SCHEMA: &str = include_str!("../../../schemas/game-information-query-v1.schema.json");
 const ARTIFACT_SCHEMA: &str =
     include_str!("../../../artifacts/game-information-query-v1/schema.json");
@@ -63,6 +63,70 @@ const GOLDENS: &[(&str, &str)] = &[
         ),
     ),
 ];
+
+const ENTITY_KINDS: &[&str] = &[
+    "card",
+    "character",
+    "enemy",
+    "event",
+    "map_node",
+    "potion",
+    "power",
+    "relic",
+    "room",
+    "status",
+];
+const QUERY_KINDS: &[&str] = &["list", "search", "get", "detail", "availability"];
+const PROJECTIONS: &[&str] = &["summary", "standard", "full"];
+const DETAIL_LEVELS: &[&str] = &["summary", "standard", "full"];
+const FIELD_NAMES: &[&str] = &[
+    "amount",
+    "cost",
+    "description",
+    "display_name",
+    "flags",
+    "owner",
+    "position",
+    "rarity",
+    "source_id",
+    "tags",
+];
+const FIELD_KINDS: &[&str] = &[
+    "boolean",
+    "definition_ref",
+    "integer",
+    "instance_ref",
+    "text",
+    "text_list",
+];
+const AVAILABILITIES: &[&str] = &[
+    "available",
+    "unavailable",
+    "not_observable",
+    "redacted",
+    "unsupported",
+    "missing",
+];
+
+const AMBIGUOUS_ID: &str = "ambiguous_id";
+const INVALID_BOUNDS: &str = "invalid_bounds";
+const MALFORMED: &str = "malformed";
+const MIXED_GENERATION: &str = "mixed_generation";
+const MISSING_CAPABILITY: &str = "missing_capability";
+const READ_ONLY_VIOLATION: &str = "read_only_violation";
+const RESULT_LIMIT_EXCEEDED: &str = "result_limit_exceeded";
+const STALE_CURSOR: &str = "stale_cursor";
+const STALE_SNAPSHOT: &str = "stale_snapshot";
+const UNKNOWN_KIND: &str = "unknown_kind";
+const UNSUPPORTED_FIELD: &str = "unsupported_field";
+const UNSUPPORTED_PROJECTION: &str = "unsupported_projection";
+const UNSUPPORTED_VERSION: &str = "unsupported_version";
+
+#[derive(Clone)]
+struct SemanticContext {
+    capabilities: Value,
+    cursor_bindings: Vec<(String, Value)>,
+}
 
 fn payload(text: &str) -> &str {
     text.strip_suffix('\n').unwrap_or(text)
@@ -125,6 +189,12 @@ fn apply_mutations(mut value: Value, mutations: &[Value]) -> Value {
     value
 }
 
+mod game_information_query_v1_extra;
+mod game_information_query_v1_semantics;
+use game_information_query_v1_semantics::{
+    binding_value, canonical_bytes, semantic_rejection, text_bytes,
+};
+
 #[test]
 fn source_artifact_and_every_golden_are_schema_valid_and_canonical() {
     assert_eq!(SOURCE_SCHEMA, ARTIFACT_SCHEMA);
@@ -146,6 +216,18 @@ fn source_artifact_and_every_golden_are_schema_valid_and_canonical() {
             value["provenance"]["artifact"],
             "sts2-protocol/game-information-query-v1"
         );
+        let semantic = semantic_rejection(
+            &value,
+            value["query"]["binding"]
+                .get("mode")
+                .and_then(Value::as_str)
+                .unwrap_or("static"),
+        );
+        if value["kind"] == "error_response" {
+            assert_eq!(semantic, value["error"]["code"].as_str());
+        } else {
+            assert_eq!(semantic, None, "{name} semantic rejection");
+        }
     }
 }
 
@@ -165,8 +247,9 @@ fn static_two_page_and_live_detail_vectors_preserve_their_fences() {
     );
     assert_eq!(
         first_response["result"]["page"]["cursor_binding"],
-        second_response["result"]["page"]["cursor_binding"]
+        binding_value(&first_request["query"])
     );
+    assert!(second_response["result"]["page"]["cursor_binding"].is_null());
     assert!(
         !first_response["result"]["page"]["final_page"]
             .as_bool()
@@ -264,6 +347,7 @@ fn invalid_vectors_match_schema_expectations_and_typed_errors() {
         );
         if let Some(raw) = fixture["raw"].as_str() {
             assert!(raw.matches("\"protocol_version\"").count() > 1);
+            assert_eq!(fixture["expected_error"], MALFORMED);
             continue;
         }
         let base = fixture["base_fixture"].as_str().expect("base fixture");
@@ -280,6 +364,18 @@ fn invalid_vectors_match_schema_expectations_and_typed_errors() {
             schema_valid,
             fixture["schema_valid"].as_bool().expect("schema_valid"),
             "schema result for {}",
+            fixture["id"]
+        );
+        assert_eq!(
+            semantic_rejection(
+                &mutated,
+                fixture["context"]
+                    .as_str()
+                    .or_else(|| descriptor["context"].as_str())
+                    .unwrap_or("static"),
+            ),
+            fixture["expected_error"].as_str(),
+            "semantic result for {}",
             fixture["id"]
         );
         if fixture["expected_error"] == "mixed_generation" {
@@ -301,40 +397,4 @@ fn invalid_vectors_match_schema_expectations_and_typed_errors() {
             );
         }
     }
-}
-
-#[test]
-fn field_and_wire_vectors_are_present_and_inventory_is_exact() {
-    let case: Value = serde_json::from_str(CASE).expect("case JSON");
-    for vector in case["valid_vectors"].as_array().expect("valid vectors") {
-        if let Some(path) = vector["fixture"].as_str() {
-            let fixture: Value = serde_json::from_str(
-                &fs::read_to_string(
-                    Path::new(env!("CARGO_MANIFEST_DIR"))
-                        .join("../..")
-                        .join(path),
-                )
-                .expect("field fixture"),
-            )
-            .expect("field fixture JSON");
-            assert_eq!(fixture["id"], vector["id"]);
-        }
-    }
-    let manifest: Value = serde_json::from_str(MANIFEST).expect("manifest JSON");
-    assert_eq!(manifest["schema_digest"], SCHEMA_DIGEST);
-    assert_eq!(manifest["protocol_version"], PROFILE);
-    assert_eq!(manifest["checksums"], "SHA256SUMS");
-    assert_eq!(
-        manifest["goldens"].as_array().map(Vec::len),
-        Some(GOLDENS.len())
-    );
-    let root = artifact_root();
-    let mut checked = 0;
-    for line in CHECKSUMS.lines().filter(|line| !line.is_empty()) {
-        let (expected, path) = line.split_once("  ").expect("checksum columns");
-        let bytes = fs::read(root.join(path)).expect("inventory path");
-        assert_eq!(digest(&bytes), expected, "inventory digest for {path}");
-        checked += 1;
-    }
-    assert!(checked >= 12);
 }
