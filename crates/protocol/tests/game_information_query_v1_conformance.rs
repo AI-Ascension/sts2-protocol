@@ -192,7 +192,7 @@ fn apply_mutations(mut value: Value, mutations: &[Value]) -> Value {
 mod game_information_query_v1_extra;
 mod game_information_query_v1_semantics;
 use game_information_query_v1_semantics::{
-    binding_value, canonical_bytes, semantic_rejection, text_bytes,
+    binding_value, canonical_bytes, parse_unique_json, semantic_rejection, text_bytes,
 };
 
 #[test]
@@ -346,7 +346,11 @@ fn invalid_vectors_match_schema_expectations_and_typed_errors() {
             descriptor["id"]
         );
         if let Some(raw) = fixture["raw"].as_str() {
-            assert!(raw.matches("\"protocol_version\"").count() > 1);
+            assert!(
+                parse_unique_json(raw).is_err(),
+                "duplicate-key witness was accepted for {}",
+                fixture["id"]
+            );
             assert_eq!(fixture["expected_error"], MALFORMED);
             continue;
         }
@@ -378,6 +382,22 @@ fn invalid_vectors_match_schema_expectations_and_typed_errors() {
             "semantic result for {}",
             fixture["id"]
         );
+        if matches!(
+            fixture["expected_error"].as_str(),
+            Some(MISSING_CAPABILITY | UNSUPPORTED_FIELD)
+        ) {
+            let mut mismatched_code = mutated.clone();
+            mismatched_code["error"]["code"] = json!(STALE_CURSOR);
+            assert_eq!(
+                semantic_rejection(
+                    &mismatched_code,
+                    fixture["context"].as_str().unwrap_or("static"),
+                ),
+                Some(MALFORMED),
+                "error code must match request context for {}",
+                fixture["id"]
+            );
+        }
         if fixture["expected_error"] == "mixed_generation" {
             assert_ne!(
                 mutated["result"]["result_generation"],

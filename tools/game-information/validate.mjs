@@ -65,6 +65,132 @@ function readJson(path) {
   return JSON.parse(readFileSync(path, "utf8"));
 }
 
+function parseUniqueJson(text) {
+  let offset = 0;
+
+  const fail = (message) => {
+    throw new SyntaxError(`${message} at byte ${offset}`);
+  };
+  const skipWhitespace = () => {
+    while ([" ", "\t", "\r", "\n"].includes(text[offset])) offset += 1;
+  };
+  const parseString = () => {
+    const start = offset;
+    if (text[offset] !== "\"") fail("expected string");
+    offset += 1;
+    while (offset < text.length) {
+      const character = text[offset];
+      offset += 1;
+      if (character === "\"") {
+        try {
+          return JSON.parse(text.slice(start, offset));
+        } catch {
+          fail("invalid string");
+        }
+      }
+      if (character === "\\") {
+        if (offset >= text.length) fail("unterminated escape");
+        const escaped = text[offset];
+        offset += 1;
+        if (escaped === "u") {
+          const hex = text.slice(offset, offset + 4);
+          if (!/^[0-9a-fA-F]{4}$/.test(hex)) fail("invalid unicode escape");
+          offset += 4;
+        } else if (!"\"\\/bfnrt".includes(escaped)) {
+          fail("invalid escape");
+        }
+      } else if (character.charCodeAt(0) < 0x20) {
+        fail("control character in string");
+      }
+    }
+    fail("unterminated string");
+  };
+  const parseNumber = () => {
+    const match = text.slice(offset).match(
+      /^-?(?:0|[1-9][0-9]*)(?:\.[0-9]+)?(?:[eE][+-]?[0-9]+)?/,
+    );
+    if (!match) fail("expected value");
+    offset += match[0].length;
+  };
+  const parseValue = () => {
+    skipWhitespace();
+    switch (text[offset]) {
+      case "\"":
+        parseString();
+        return;
+      case "{":
+        parseObject();
+        return;
+      case "[":
+        parseArray();
+        return;
+      case "t":
+        if (!text.startsWith("true", offset)) fail("expected value");
+        offset += 4;
+        return;
+      case "f":
+        if (!text.startsWith("false", offset)) fail("expected value");
+        offset += 5;
+        return;
+      case "n":
+        if (!text.startsWith("null", offset)) fail("expected value");
+        offset += 4;
+        return;
+      default:
+        parseNumber();
+    }
+  };
+  const parseObject = () => {
+    offset += 1;
+    skipWhitespace();
+    const keys = new Set();
+    if (text[offset] === "}") {
+      offset += 1;
+      return;
+    }
+    while (true) {
+      skipWhitespace();
+      const key = parseString();
+      if (keys.has(key)) fail(`duplicate object member ${key}`);
+      keys.add(key);
+      skipWhitespace();
+      if (text[offset] !== ":") fail("expected object separator");
+      offset += 1;
+      parseValue();
+      skipWhitespace();
+      if (text[offset] === "}") {
+        offset += 1;
+        return;
+      }
+      if (text[offset] !== ",") fail("expected object member");
+      offset += 1;
+    }
+  };
+  const parseArray = () => {
+    offset += 1;
+    skipWhitespace();
+    if (text[offset] === "]") {
+      offset += 1;
+      return;
+    }
+    while (true) {
+      parseValue();
+      skipWhitespace();
+      if (text[offset] === "]") {
+        offset += 1;
+        return;
+      }
+      if (text[offset] !== ",") fail("expected array member");
+      offset += 1;
+    }
+  };
+
+  parseValue();
+  skipWhitespace();
+  if (offset !== text.length) fail("trailing input");
+  return JSON.parse(text);
+}
+
 export function canonical(value) {
   if (Array.isArray(value)) return `[${value.map(canonical).join(",")}]`;
   if (value !== null && typeof value === "object") {
@@ -276,17 +402,19 @@ function pageError(page, query, context) {
   const maxItemBytes = Math.max(0, ...page.items.map(byteLength));
   const payloadBytes = byteLength(page.items);
   const text = textBytes(page.items);
+  const accountingPage = Object.fromEntries(
+    Object.entries(page).filter(([key]) => key !== "accounting"),
+  );
+  const pageBytes = byteLength(accountingPage);
   if (page.items.length > page.limits.page_items || maxItemBytes > page.limits.item_bytes ||
-    payloadBytes > page.limits.page_bytes || text > page.limits.text_bytes) {
+    pageBytes > page.limits.page_bytes || text > page.limits.text_bytes) {
     return ERR.resultLimitExceeded;
   }
   if (!equal(page.limits, query.limits)) return ERR.malformed;
-  const accountingPage = Object.fromEntries(
-    Object.entries(page).filter(([key]) => key !== "accounting"));
   if (page.accounting.item_count !== page.items.length ||
     page.accounting.item_bytes !== maxItemBytes ||
     page.accounting.payload_bytes !== payloadBytes ||
-    page.accounting.page_bytes !== byteLength(accountingPage) ||
+    page.accounting.page_bytes !== pageBytes ||
     page.accounting.text_bytes !== text) return ERR.malformed;
   if (page.final_page === true) {
     if (page.next_cursor !== null) return ERR.malformed;
@@ -364,6 +492,7 @@ export function contextFor(name = "static") {
   };
   if (name === "no-live") capabilities.snapshot_policy.supports_live = false;
   if (name === "summary-only") capabilities.projections = ["summary"];
+  if (name === "no-tags") capabilities.fields = capabilities.fields.filter((field) => field !== "tags");
   if (name === "small-message") capabilities.max_message_bytes = 2560;
   return context;
 }
@@ -386,6 +515,11 @@ export function semanticRejection(value, context = "static") {
       return isObject(value.capabilities) && value.capabilities.profile === PROFILE ? null : ERR.malformed;
     case "error_response": {
       const code = value.error?.code;
+      const derived = value.query === null ? null : queryError(value.query, normalized);
+      if (derived === ERR.missingCapability || derived === ERR.unsupportedField) {
+        return derived === code ? code : ERR.malformed;
+      }
+      if (code === ERR.missingCapability || code === ERR.unsupportedField) return ERR.malformed;
       return typeof code === "string" && ERROR_CODES.has(code) ? code : ERR.malformed;
     }
     case "query_request": return queryError(value.query, normalized);
@@ -410,6 +544,12 @@ function validateGolden(name) {
     assert(page.accounting.item_count === page.items.length, `${name} item accounting`);
     assert(page.accounting.payload_bytes === byteLength(page.items), `${name} payload accounting`);
     assert(page.accounting.text_bytes === textBytes(page.items), `${name} text accounting`);
+    const pageWithoutAccounting = Object.fromEntries(
+      Object.entries(page).filter(([key]) => key !== "accounting"),
+    );
+    assert(page.accounting.page_bytes === byteLength(pageWithoutAccounting),
+      `${name} page accounting`);
+    assert(page.accounting.page_bytes <= page.limits.page_bytes, `${name} page limit`);
   }
   return value;
 }
@@ -456,8 +596,13 @@ function validateInvalidVectors(caseValue) {
     assert(fixture.id === descriptor.id, `${descriptor.id} fixture ID`);
     assert(fixture.expected_error === descriptor.expected_error, `${descriptor.id} error`);
     if (fixture.raw) {
-      assert((fixture.raw.match(/"protocol_version"/g) ?? []).length > 1,
-        `${descriptor.id} duplicate-key witness`);
+      let rejected = false;
+      try {
+        parseUniqueJson(fixture.raw);
+      } catch {
+        rejected = true;
+      }
+      assert(rejected, `${descriptor.id} duplicate-key witness was accepted`);
       assert(fixture.expected_error === ERR.malformed, `${descriptor.id} raw rejection`);
       continue;
     }
@@ -466,6 +611,12 @@ function validateInvalidVectors(caseValue) {
     const context = fixture.context ?? descriptor.context ?? "static";
     assert(semanticRejection(mutated, context) === fixture.expected_error,
       `${descriptor.id} semantic rejection`);
+    if ([ERR.missingCapability, ERR.unsupportedField].includes(fixture.expected_error)) {
+      const mismatchedCode = structuredClone(mutated);
+      mismatchedCode.error.code = ERR.staleCursor;
+      assert(semanticRejection(mismatchedCode, context) === ERR.malformed,
+        `${descriptor.id} error code must match request context`);
+    }
     if (descriptor.id.includes("CROSS-")) {
       assert(mutated.query.cursor !== null, `${descriptor.id} cursor`);
     }
@@ -487,7 +638,20 @@ export function validate() {
   const caseValue = readJson(casePath);
   assert(caseValue.profile === PROFILE, "case profile");
   const goldens = new Map(goldenNames.map((name) => [name, validateGolden(name)]));
-  assert(goldens.get("static-page-1-response").result.page.final_page === false, "first page");
+  const firstResponse = goldens.get("static-page-1-response");
+  const firstPage = firstResponse.result.page;
+  assert(firstPage.final_page === false, "first page");
+  assert(firstPage.accounting.page_bytes > firstPage.accounting.payload_bytes,
+    "full-page accounting includes page metadata");
+  const constrained = structuredClone(firstResponse);
+  constrained.query.limits.page_bytes = 800;
+  constrained.result.page.limits.page_bytes = 800;
+  assert(constrained.result.page.accounting.payload_bytes <= 800,
+    "payload remains within constrained page limit");
+  assert(constrained.result.page.accounting.page_bytes > 800,
+    "full page exceeds constrained page limit");
+  assert(semanticRejection(constrained, "static") === ERR.resultLimitExceeded,
+    "full-page byte limit is enforced");
   assert(goldens.get("static-page-2-response").result.page.final_page === true, "final page");
   const detailRequest = goldens.get("live-detail-request");
   const detailResponse = goldens.get("live-detail-response");

@@ -20,13 +20,13 @@ f3bf0953d26cc21c8168969dc1a8e4562ee9743e30ce4fc17321132cd5718230  ../../conforma
 92be24e57a47d672120d65c9bddccd49b3e02718515655f9873e55d8e83f62ff  ../../conformance/fixtures/game-information-query-v1/invalid/cross-scope-cursor.json
 e937825133c6a4a2928b22a09a2652456f021cb971c536b6358d7f4cfc6f90e9  ../../conformance/fixtures/game-information-query-v1/invalid/duplicate-key.json
 34a1b4b81982db12ca9dbcb642f16cf186e2836820f8ae8fe587d90b82b65d1a  ../../conformance/fixtures/game-information-query-v1/invalid/integer-bounds.json
-84b4a624e82063943436118077d88b558bf57728dda0e99d5cd5748241f43615  ../../conformance/fixtures/game-information-query-v1/invalid/missing-capability.json
+477dc22f689225031395ef81be28f2f1e7b1532fd13749dc23a0ff8e0803babc  ../../conformance/fixtures/game-information-query-v1/invalid/missing-capability.json
 f31c94bc57a8560b6c84da049655223df33664d50d254695da7f294a54c21c05  ../../conformance/fixtures/game-information-query-v1/invalid/missing-vs-empty.json
 4ad0ad4cdb40788d7739e04aff1564ee700b2825d9668a1468728e152bf5a58e  ../../conformance/fixtures/game-information-query-v1/invalid/mixed-generation.json
 dc551ae645fa56615d5a836d4f4039a953cd69d79f258ad1baa0ff61207e333b  ../../conformance/fixtures/game-information-query-v1/invalid/oversized.json
 f1e2fa506df864ac30c5937950bad5ba2e058d1279856c9086318a395fb7725a  ../../conformance/fixtures/game-information-query-v1/invalid/read-only-violation.json
 ba94881060c97824557967d9436a979e26909168958f5afd09302926c277144d  ../../conformance/fixtures/game-information-query-v1/invalid/unknown-enum-version.json
-7a459cdd5330615eeb01d29bac440b0f15c3b90abbd4910a96940440961f7661  ../../conformance/fixtures/game-information-query-v1/invalid/unsupported-field.json
+27698ba4989707d2cf9de9efc16a0f9ca25e6c0dce7b730a691e524aba563099  ../../conformance/fixtures/game-information-query-v1/invalid/unsupported-field.json
 076cd597ff46091652d17c079d586b3f3f0900885193e007ddc899c0c3fbee5f  ../../conformance/fixtures/game-information-query-v1/valid/empty-vs-unavailable.json
 5c398c2df5b5e26d4b9e442da96c060b81202f2f85f8ee1de7a1acb966127d36  ../../conformance/fixtures/game-information-query-v1/valid/source-provenance.json
 bdeceb283f38162afcb81e796c63c3586d3385b67b1ba701f1c2889b3e5b5e27  ../../conformance/fixtures/game-information-query-v1/valid/utf8-boundary.json

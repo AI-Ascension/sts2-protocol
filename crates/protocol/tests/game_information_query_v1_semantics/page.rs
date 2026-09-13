@@ -4,8 +4,12 @@ use super::super::*;
 use super::core::*;
 
 fn page_error(page: &Value, query: &Value, context: &SemanticContext) -> Option<&'static str> {
-    let object = page.as_object()?;
-    let items = object.get("items").and_then(Value::as_array)?;
+    let Some(object) = page.as_object() else {
+        return Some(MALFORMED);
+    };
+    let Some(items) = object.get("items").and_then(Value::as_array) else {
+        return Some(MALFORMED);
+    };
     if !valid_limit_object(&object["limits"]) || !object["accounting"].is_object() {
         return Some(MALFORMED);
     }
@@ -15,9 +19,12 @@ fn page_error(page: &Value, query: &Value, context: &SemanticContext) -> Option<
     let max_item_bytes = items.iter().map(canonical_bytes).max().unwrap_or(0);
     let payload_bytes = canonical_bytes(&object["items"]);
     let text_bytes = text_bytes(&object["items"]);
+    let mut page_without_accounting = object.clone();
+    page_without_accounting.remove("accounting");
+    let page_bytes = canonical_bytes(&Value::Object(page_without_accounting));
     if items.len() > object["limits"]["page_items"].as_u64().unwrap_or(0) as usize
         || max_item_bytes > object["limits"]["item_bytes"].as_u64().unwrap_or(0) as usize
-        || payload_bytes > object["limits"]["page_bytes"].as_u64().unwrap_or(0) as usize
+        || page_bytes > object["limits"]["page_bytes"].as_u64().unwrap_or(0) as usize
         || text_bytes > object["limits"]["text_bytes"].as_u64().unwrap_or(0) as usize
     {
         return Some(RESULT_LIMIT_EXCEEDED);
@@ -25,13 +32,10 @@ fn page_error(page: &Value, query: &Value, context: &SemanticContext) -> Option<
     if object["limits"] != query["limits"] {
         return Some(MALFORMED);
     }
-    let mut page_without_accounting = object.clone();
-    page_without_accounting.remove("accounting");
     if object["accounting"]["item_count"].as_u64() != Some(items.len() as u64)
         || object["accounting"]["item_bytes"].as_u64() != Some(max_item_bytes as u64)
         || object["accounting"]["payload_bytes"].as_u64() != Some(payload_bytes as u64)
-        || object["accounting"]["page_bytes"].as_u64()
-            != Some(canonical_bytes(&Value::Object(page_without_accounting)) as u64)
+        || object["accounting"]["page_bytes"].as_u64() != Some(page_bytes as u64)
         || object["accounting"]["text_bytes"].as_u64() != Some(text_bytes as u64)
     {
         return Some(MALFORMED);
@@ -103,7 +107,9 @@ fn page_error(page: &Value, query: &Value, context: &SemanticContext) -> Option<
         } else if !values_equal(&item["instance_ref"], &query["binding"]["instance_ref"]) {
             return Some(MALFORMED);
         }
-        let fields = item["fields"].as_array()?;
+        let Some(fields) = item["fields"].as_array() else {
+            return Some(MALFORMED);
+        };
         let mut previous = "";
         for field in fields {
             let Some(name) = field["name"].as_str() else {
@@ -212,10 +218,28 @@ pub(crate) fn semantic_rejection(value: &Value, context_name: &str) -> Option<&'
                 Some(MALFORMED)
             }
         }
-        Some("error_response") => value["error"]["code"]
-            .as_str()
-            .and_then(known_error_code)
-            .or(Some(MALFORMED)),
+        Some("error_response") => {
+            let Some(code) = value["error"]["code"].as_str() else {
+                return Some(MALFORMED);
+            };
+            let derived = if value["query"].is_null() {
+                None
+            } else {
+                query_error(&value["query"], &context)
+            };
+            if matches!(derived, Some(MISSING_CAPABILITY | UNSUPPORTED_FIELD)) {
+                let expected = derived.expect("capability or field error");
+                return if code == expected {
+                    Some(expected)
+                } else {
+                    Some(MALFORMED)
+                };
+            }
+            if matches!(code, MISSING_CAPABILITY | UNSUPPORTED_FIELD) {
+                return Some(MALFORMED);
+            }
+            known_error_code(code).or(Some(MALFORMED))
+        }
         Some("query_request") => query_error(&value["query"], &context),
         Some("query_response") => response_error(value, &context),
         _ => Some(UNKNOWN_KIND),
@@ -245,6 +269,19 @@ fn context_for(name: &str) -> SemanticContext {
     match name {
         "no-live" => {
             context.capabilities["snapshot_policy"]["supports_live"] = Value::Bool(false);
+        }
+        "no-tags" => {
+            context.capabilities["fields"] = json!([
+                "amount",
+                "cost",
+                "description",
+                "display_name",
+                "flags",
+                "owner",
+                "position",
+                "rarity",
+                "source_id"
+            ]);
         }
         "summary-only" => {
             context.capabilities["projections"] = json!(["summary"]);

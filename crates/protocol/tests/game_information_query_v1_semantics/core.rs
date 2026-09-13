@@ -1,6 +1,108 @@
 // SPDX-License-Identifier: MIT
 
 use super::super::*;
+use serde::de::{DeserializeSeed, Deserializer, MapAccess, SeqAccess, Visitor};
+use serde_json::Map;
+use std::fmt;
+
+struct UniqueValue;
+
+impl<'de> DeserializeSeed<'de> for UniqueValue {
+    type Value = Value;
+
+    fn deserialize<D>(self, deserializer: D) -> Result<Value, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        deserializer.deserialize_any(self)
+    }
+}
+
+impl<'de> Visitor<'de> for UniqueValue {
+    type Value = Value;
+
+    fn expecting(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        formatter.write_str("a JSON value with unique object members")
+    }
+
+    fn visit_bool<E>(self, value: bool) -> Result<Value, E> {
+        Ok(Value::Bool(value))
+    }
+
+    fn visit_i64<E>(self, value: i64) -> Result<Value, E> {
+        Ok(Value::Number(value.into()))
+    }
+
+    fn visit_u64<E>(self, value: u64) -> Result<Value, E> {
+        Ok(Value::Number(value.into()))
+    }
+
+    fn visit_f64<E>(self, value: f64) -> Result<Value, E>
+    where
+        E: serde::de::Error,
+    {
+        serde_json::Number::from_f64(value)
+            .map(Value::Number)
+            .ok_or_else(|| E::custom("non-finite JSON number"))
+    }
+
+    fn visit_str<E>(self, value: &str) -> Result<Value, E> {
+        Ok(Value::String(value.to_owned()))
+    }
+
+    fn visit_string<E>(self, value: String) -> Result<Value, E> {
+        Ok(Value::String(value))
+    }
+
+    fn visit_unit<E>(self) -> Result<Value, E> {
+        Ok(Value::Null)
+    }
+
+    fn visit_none<E>(self) -> Result<Value, E> {
+        Ok(Value::Null)
+    }
+
+    fn visit_some<D>(self, deserializer: D) -> Result<Value, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        UniqueValue.deserialize(deserializer)
+    }
+
+    fn visit_seq<A>(self, mut sequence: A) -> Result<Value, A::Error>
+    where
+        A: SeqAccess<'de>,
+    {
+        let mut values = Vec::new();
+        while let Some(value) = sequence.next_element_seed(UniqueValue)? {
+            values.push(value);
+        }
+        Ok(Value::Array(values))
+    }
+
+    fn visit_map<A>(self, mut map: A) -> Result<Value, A::Error>
+    where
+        A: MapAccess<'de>,
+    {
+        let mut values = Map::new();
+        while let Some(key) = map.next_key::<String>()? {
+            if values.contains_key(&key) {
+                return Err(<A::Error as serde::de::Error>::custom(format!(
+                    "duplicate object member {key}"
+                )));
+            }
+            values.insert(key, map.next_value_seed(UniqueValue)?);
+        }
+        Ok(Value::Object(values))
+    }
+}
+
+pub(crate) fn parse_unique_json(text: &str) -> Result<Value, Box<dyn std::error::Error>> {
+    let mut deserializer = serde_json::Deserializer::from_str(text);
+    let value = deserializer.deserialize_any(UniqueValue)?;
+    deserializer.end()?;
+    Ok(value)
+}
 
 pub(crate) fn canonical_bytes(value: &Value) -> usize {
     serde_json::to_vec(value)
@@ -195,7 +297,9 @@ pub(crate) fn binding_value(query: &Value) -> Value {
 }
 
 pub(super) fn query_error(query: &Value, context: &SemanticContext) -> Option<&'static str> {
-    let object = query.as_object()?;
+    let Some(object) = query.as_object() else {
+        return Some(MALFORMED);
+    };
     if !string_in(&object["query_kind"], QUERY_KINDS)
         || !string_in(&object["entity_kind"], ENTITY_KINDS)
     {
@@ -214,7 +318,9 @@ pub(super) fn query_error(query: &Value, context: &SemanticContext) -> Option<&'
     {
         return Some(UNSUPPORTED_PROJECTION);
     }
-    let fields = object.get("fields").and_then(Value::as_array)?;
+    let Some(fields) = object.get("fields").and_then(Value::as_array) else {
+        return Some(MALFORMED);
+    };
     let mut seen_fields = Vec::new();
     for field in fields {
         let Some(name) = field.as_str() else {
@@ -228,7 +334,9 @@ pub(super) fn query_error(query: &Value, context: &SemanticContext) -> Option<&'
         }
         seen_fields.push(name);
     }
-    let binding = object.get("binding").and_then(Value::as_object)?;
+    let Some(binding) = object.get("binding").and_then(Value::as_object) else {
+        return Some(MALFORMED);
+    };
     let mode = binding.get("mode").and_then(Value::as_str);
     if !matches!(mode, Some("static" | "live")) {
         return Some(MALFORMED);

@@ -35,6 +35,35 @@ fn accounting_is_reproducible_and_bounded() {
                 <= page["limits"]["text_bytes"].as_u64().unwrap()
         );
     }
+
+    let first_response = value("static-page-1-response");
+    let page = &first_response["result"]["page"];
+    assert!(
+        page["accounting"]["page_bytes"].as_u64().unwrap()
+            > page["accounting"]["payload_bytes"].as_u64().unwrap(),
+        "full-page accounting must include page metadata"
+    );
+    let mut constrained = first_response;
+    constrained["query"]["limits"]["page_bytes"] = json!(800);
+    constrained["result"]["page"]["limits"]["page_bytes"] = json!(800);
+    assert!(
+        constrained["result"]["page"]["accounting"]["payload_bytes"]
+            .as_u64()
+            .unwrap()
+            <= 800,
+        "payload remains within the constrained page limit"
+    );
+    assert!(
+        constrained["result"]["page"]["accounting"]["page_bytes"]
+            .as_u64()
+            .unwrap()
+            > 800,
+        "full page exceeds the constrained page limit"
+    );
+    assert_eq!(
+        semantic_rejection(&constrained, "static"),
+        Some(RESULT_LIMIT_EXCEEDED)
+    );
 }
 
 #[test]
