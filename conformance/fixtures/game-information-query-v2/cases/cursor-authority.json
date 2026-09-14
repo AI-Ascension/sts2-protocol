@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[{"path":"/cursors/0/producer_lease","value":"fixture:other-lease"}],"expected":"stale_cursor","golden":"live-list-page2-request","id":"cursor-authority","mutations":[],"recount":true,"schema_valid":true}

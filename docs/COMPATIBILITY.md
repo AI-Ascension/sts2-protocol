@@ -161,3 +161,15 @@ The campaign-continuation candidate in ADR 0012 adds `proceed`, `confirm_selecti
 It requires coordinated migration of game-mod, gateway, MCP and harness. Existing sessions
 using the previous digest must finish before the replacement stack starts; mixed revisions
 are rejected. The added vocabulary does not establish host support or campaign completion.
+
+## Game-information rest-read candidate registry
+
+| Profile | Canonical owner | Prospective producer / consumers | Status |
+| --- | --- | --- | --- |
+| `game-information-query-v2` | `sts2-protocol` | Producer `sts2-game-mod`; consumers `sts2-gateway`, `sts2-mcp-server` | Separate candidate; no admitted consumers, runtime or release claim |
+
+[ADR 0039](decisions/0039-game-information-rest-read-candidate.md) defines the closed rest-read
+successor and room-to-occurrence containment. V1 schemas, artifacts and goldens remain immutable.
+The separate manifest pins the new schema digest; two actual consumer validations are required
+before admission. Candidate schema/semantic tests cannot establish host membership, transport
+negotiation, native read-only behavior or MCP/harness integration.

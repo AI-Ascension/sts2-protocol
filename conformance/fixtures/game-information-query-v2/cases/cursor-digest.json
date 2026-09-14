@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[{"path":"/cursors/0/schema_digest","value":"0000000000000000000000000000000000000000000000000000000000000000"}],"expected":"stale_cursor","golden":"live-list-page2-request","id":"cursor-digest","mutations":[],"recount":true,"schema_valid":true}

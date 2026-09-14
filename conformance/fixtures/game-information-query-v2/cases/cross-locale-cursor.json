@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[],"expected":"stale_cursor","golden":"live-list-page2-request","id":"cross-locale-cursor","mutations":[{"path":"/query/binding/locale","value":"fr-FR"}],"recount":true,"schema_valid":true}

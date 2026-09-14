@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[],"expected":"stale_snapshot","golden":"live-detail-heal-response","id":"snapshot-stale","mutations":[{"path":"/query/binding/snapshot_ref/snapshot_id","value":"fixture:old-snapshot"}],"recount":true,"schema_valid":true}

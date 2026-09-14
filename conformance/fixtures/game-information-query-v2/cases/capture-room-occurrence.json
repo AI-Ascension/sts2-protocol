@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[{"path":"/rest/entries/4/instance_ref/entity_id","value":"fixture:room:1"}],"expected":"invalid_identity","golden":"live-detail-heal-response","id":"capture-room-occurrence","mutations":[],"recount":true,"schema_valid":true}

@@ -5,6 +5,7 @@ mod descriptor;
 mod envelope;
 mod exact_state;
 mod exact_state_diff;
+pub mod game_information_v2;
 mod identity;
 mod lifecycle;
 mod poc;

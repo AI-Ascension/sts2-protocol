@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[{"path":"/cursors/0/occurrence_revision","value":"fixture:old-revision"}],"expected":"stale_cursor","golden":"live-list-page2-request","id":"cursor-revision","mutations":[],"recount":true,"schema_valid":true}

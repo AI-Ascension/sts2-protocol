@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[],"expected":"invalid_identity","golden":"live-detail-heal-response","id":"target-occurrence-confusion","mutations":[{"path":"/query/target/instance_ref/entity_id","value":"fixture:room:1"}],"recount":true,"schema_valid":true}

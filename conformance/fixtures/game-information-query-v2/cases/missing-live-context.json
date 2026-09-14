@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[{"path":"/capabilities/rest_context","value":{"availability":"unsupported","reason":"source_unavailable","source":{"kind":"synthetic","ref":"fixture:owned-rest"},"value":null}}],"expected":"missing_capability","golden":"live-detail-heal-response","id":"missing-live-context","mutations":[],"recount":true,"schema_valid":true}

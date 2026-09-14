@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[{"path":"/capabilities/limits/page_items","value":33}],"expected":"result_limit_exceeded","golden":"live-detail-heal-response","id":"capability-limit-ceiling","mutations":[],"recount":true,"schema_valid":true}

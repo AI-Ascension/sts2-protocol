@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[],"expected":"malformed","golden":"live-detail-heal-response","id":"action-kind-drift","mutations":[{"path":"/result/page/items/0/fields/2/value/kind","value":"heal"}],"recount":true,"schema_valid":false}

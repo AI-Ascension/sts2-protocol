@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[],"expected":"stale_cursor","golden":"live-list-page2-request","id":"cross-parent-cursor","mutations":[{"path":"/query/parent_observation/state_generation","value":8}],"recount":true,"schema_valid":true}

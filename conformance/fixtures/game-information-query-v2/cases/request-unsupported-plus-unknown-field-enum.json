@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[],"expected":"malformed","golden":"live-detail-heal-request","id":"request-unsupported-plus-unknown-field-enum","mutations":[{"path":"/query/projection","value":"full"},{"path":"/query/fields","value":["future_field"]}],"recount":true,"schema_valid":false}

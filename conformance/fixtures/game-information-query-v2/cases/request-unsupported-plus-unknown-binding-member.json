@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[],"expected":"malformed","golden":"live-detail-heal-request","id":"request-unsupported-plus-unknown-binding-member","mutations":[{"path":"/query/projection","value":"full"},{"path":"/query/binding/extra","value":false}],"recount":true,"schema_valid":false}

@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[],"expected":"unsupported_version","golden":"live-detail-heal-response","id":"unknown-digest","mutations":[{"path":"/schema_digest","value":"0000000000000000000000000000000000000000000000000000000000000000"}],"recount":true,"schema_valid":true}

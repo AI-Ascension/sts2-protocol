@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[{"path":"/cursors/0/profile","value":"game-information-query-v1"}],"expected":"stale_cursor","golden":"live-list-page2-request","id":"cursor-profile","mutations":[],"recount":true,"schema_valid":true}

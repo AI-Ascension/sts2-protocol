@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[],"expected":"unsupported_field","golden":"static-get-response","id":"request-static-live-field","mutations":[{"path":"/kind","value":"query_request"},{"path":"/result","value":null},{"path":"/query/fields","value":["rest_action"]}],"recount":true,"schema_valid":false}
