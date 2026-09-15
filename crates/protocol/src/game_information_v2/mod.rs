@@ -5,6 +5,7 @@
 
 mod accounting;
 mod capture;
+mod numeric;
 mod page;
 mod parse;
 mod query;
@@ -177,7 +178,8 @@ impl Validator {
         Ok(value)
     }
 
-    /// Values must come from a duplicate-rejecting parser; prefer decode for untrusted bytes.
+    /// Values must contain normalized integers from an exact, duplicate-rejecting parser.
+    /// Use decode for untrusted bytes: a rounded caller Value cannot recover its raw number.
     pub fn validate(&self, value: &Value, context: &ValidationContext) -> Result {
         require(
             value["protocol_version"] == PROFILE && value["schema_digest"] == SCHEMA_DIGEST,

@@ -70,7 +70,7 @@ add("missing-null-member", response, "malformed",
   [{path: "/result/page/items/0/definition_ref/variant", remove: true}], [], false);
 add("duplicate-member", response, "malformed", [], [], true, {raw_replace: {
   from: '"epoch":1', to: '"epoch":1,"epoch":1'}});
-add("fractional-integer-token", response, "malformed", [], [], true, {raw_replace: {
+add("fractional-integer-token", response, null, [], [], true, {raw_replace: {
   from: '"epoch":1', to: '"epoch":1.0'}});
 add("request-raw-byte-bound", "live-list-page1-request", "result_limit_exceeded",
   [], [], true, {raw_prefix_spaces: 16384});
@@ -267,3 +267,62 @@ for (const [id, mutation] of [
   ["wrong-query-kind", mutate("/query/query_kind", "future_query")],
 ]) requestCase(`request-unsupported-plus-${id}`, "malformed",
   [mutate("/query/projection", "full"), mutation]);
+
+// Exact raw numeric spellings: declared outcomes are independent of production parsing.
+for (const [id, token, valid] of [
+  ["decimal-integral-epoch", "1.000", true], ["exponent-integral-epoch", "1e0", true],
+  ["scaled-integral-epoch", "100e-2", true], ["positive-exponent-epoch", "0.1e+1", true],
+  ["true-fraction", "1.5", false], ["rounded-near-integer", "1.0000000000000001", false],
+  ["rounded-safe-edge-fraction", "9007199254740991.1", false],
+  ["unsafe-decimal", "9007199254740992.0", false],
+  ["underflow", "1e-99999", false], ["overflow", "1e99999", false],
+  ["leading-zero", "01", false], ["missing-fraction", "1.", false],
+  ["missing-exponent", "1e+", false], ["double-negative", "--1", false],
+]) add(`numeric-${id}`, "live-list-page1-request", valid ? null : "malformed", [], [], valid,
+  {raw_replace: {from: '"epoch":1', to: `"epoch":${token}`}});
+for (const token of ["32.0", "3.2e1", "320e-1"])
+  add(`numeric-limit-${token}`, "live-list-page1-request", null, [], [], true,
+    {raw_replace: {from: '"page_items":32', to: `"page_items":${token}`}});
+
+const epochContextPaths = ["/authority/epoch", ...["/capabilities/rest_context/value", "/rest/context"].flatMap(
+  (base) => ["/binding/instance_ref/epoch", "/binding/snapshot_ref/instance_ref/epoch",
+    "/parent_observation/instance_ref/epoch", "/parent_observation/snapshot_ref/instance_ref/epoch"].map(
+    (path) => base + path)), ...Array.from({length: 9}, (_, i) => `/rest/entries/${i}/instance_ref/epoch`)];
+for (const [id, token, value] of [
+  ["safe-max-decimal", "9007199254740991.0", 9007199254740991],
+  ["safe-max-exponent", "90071992547409910e-1", 9007199254740991],
+  ["negative-zero", "-0.0", 0], ["huge-zero-exponent", "0e999999999999999999999", 0],
+]) add(`numeric-${id}`, "live-list-page1-request", null, [],
+  epochContextPaths.map((path) => mutate(path, value)), true,
+  {raw_replace: {from: '"epoch":1', to: `"epoch":${token}`, all: true}});
+
+// Full decoder coverage of narrower signed field bounds after exact normalization.
+for (const [id, value, token, valid] of [
+  ["i32-min-decimal", -2147483648, "-2147483648.0", true],
+  ["i32-max-exponent", 2147483647, "2147483647e0", true],
+  ["i32-below-min", -2147483649, "-2147483649.0", false],
+  ["i32-above-max", 2147483648, "2147483648e0", false],
+]) {
+  const item = {definition_ref: {content_manifest_id: "fixture:manifest", entity_kind: "card",
+    namespaced_id: "fixture:card:numeric", variant: null}, instance_ref: null,
+    fields: [{name: "amount", kind: "integer", availability: "available", value, unit: "count",
+      reason: null, source: {kind: "synthetic", ref: "fixture:owned-rest"}}]};
+  add(`numeric-${id}`, "static-classifications-response", valid ? null : "malformed",
+    [mutate("/query/entity_kind", "card"), mutate("/query/fields", ["amount"]),
+      mutate("/result/page/items", [item]), mutate("/result/page/total_count", 1)], [], valid,
+    {raw_replace: {from: `"value":${value}`, to: `"value":${token}`}});
+}
+for (const [id, token, valid] of [
+  ["generation-decimal", "7.0", true], ["generation-exponent", "70e-1", true],
+  ["generation-unsafe", "9007199254740992.0", false], ["generation-negative", "-1e0", false],
+]) add(`numeric-${id}`, "live-list-page1-request", valid ? null : "malformed", [], [], valid,
+  {raw_replace: {from: '"state_generation":7', to: `"state_generation":${token}`, all: true}});
+for (const [id, field, original, token, valid] of [
+  ["selector-required-decimal", "required_count", 1, "1.0", true],
+  ["selector-remaining-exponent", "remaining_count", 1, "10e-1", true],
+  ["selector-selected-negative-zero", "selected_count", 0, "-0e0", true],
+  ["selector-required-zero", "required_count", 1, "0.0", false],
+  ["selector-required-overflow", "required_count", 1, "2.57e2", false],
+  ["selector-selected-negative", "selected_count", 0, "-1.0", false],
+]) add(`numeric-${id}`, "live-detail-smith-response", valid ? null : "malformed", [], [], valid,
+  {raw_replace: {from: `"${field}":${original}`, to: `"${field}":${token}`}});

@@ -170,3 +170,14 @@ capture/action/selector relationships and canonical byte limits. Production code
 embedded standalone schema and accepts caller-owned inert capture evidence. These commands do not
 authenticate that evidence or substitute for two real consumer validators, negotiation, read-port
 spies, native observation or harness replay. The usual full repository gates remain required.
+
+The PR #50 numeric review repair accepts exact mathematical integer spellings such as
+`1.0` and `1e0` at the raw boundary. A lexical normalization pass preserves strings
+and rejects fractions and values outside the safe integer range without float rounding;
+the unchanged schema then applies each field's narrower bounds. The historical
+`fractional-integer-token` vector is corrected from rejection to acceptance, so the
+original case inventory is no longer claimed byte-identical. The Rust case runner now
+checks the actual raw variant after replacements using an independent Node 24
+`JSON.parse` source-reviver and BigInt reference before applying the unchanged schema.
+A rounded serde_json floating-point parse is not used as a normative numeric oracle.
+All evidence remains synthetic candidate conformance, not live consumer qualification.

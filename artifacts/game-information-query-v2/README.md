@@ -33,3 +33,14 @@ production read-port spies, MCP structured output, harness replay and exact-host
 thread/locale/generation behavior remain separate pending gates.
 
 See [ADR 0039](../../docs/decisions/0039-game-information-rest-read-candidate.md).
+
+The PR #50 numeric review repair accepts exact mathematical integer spellings such as
+`1.0` and `1e0` at the raw boundary. A lexical normalization pass preserves strings
+and rejects fractions and values outside the safe integer range without float rounding;
+the unchanged schema then applies each field's narrower bounds. The historical
+`fractional-integer-token` vector is corrected from rejection to acceptance, so the
+original case inventory is no longer claimed byte-identical. The Rust case runner now
+checks the actual raw variant after replacements using an independent Node 24
+`JSON.parse` source-reviver and BigInt reference before applying the unchanged schema.
+A rounded serde_json floating-point parse is not used as a normative numeric oracle.
+All evidence remains synthetic candidate conformance, not live consumer qualification.

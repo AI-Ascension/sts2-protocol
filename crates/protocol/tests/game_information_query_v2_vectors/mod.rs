@@ -2,6 +2,8 @@
 
 use serde_json::{Value, json};
 
+pub mod oracle;
+
 pub fn canonical(value: &Value) -> String {
     serde_json::to_string(value).expect("JSON value")
 }

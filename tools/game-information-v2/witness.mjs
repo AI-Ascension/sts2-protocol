@@ -120,6 +120,13 @@ export function witness(value, context) {
     const identity = canonical(item.definition_ref);
     assert.ok(identity > previous);
     previous = identity;
+    if (query.entity_kind !== "rest_option") {
+      assert.equal(item.definition_ref.entity_kind, query.entity_kind);
+      assert.equal(item.definition_ref.content_manifest_id, query.binding.content_manifest_id);
+      equal(item.instance_ref, live ? query.binding.instance_ref : null);
+      assert.ok(item.fields.every((field) => query.fields.includes(field.name)));
+      continue;
+    }
     const entry = context.rest.entries.find((candidate) => canonical(candidate.definition_ref) === identity);
     assert.ok(entry);
     equal(item.instance_ref, live ? entry.instance_ref : null);

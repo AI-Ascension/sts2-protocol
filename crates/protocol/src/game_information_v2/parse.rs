@@ -20,7 +20,7 @@ impl<'de> DeserializeSeed<'de> for Unique {
 impl<'de> Visitor<'de> for Unique {
     type Value = Value;
     fn expecting(&self, out: &mut fmt::Formatter<'_>) -> fmt::Result {
-        out.write_str("bounded JSON with unique members and integer numbers")
+        out.write_str("bounded JSON with unique members and normalized integers")
     }
     fn visit_bool<E>(self, value: bool) -> std::result::Result<Value, E> {
         Ok(Value::Bool(value))
@@ -60,7 +60,8 @@ impl<'de> Visitor<'de> for Unique {
 }
 
 pub(super) fn unique(bytes: &[u8]) -> Result<Value> {
-    let mut decoder = serde_json::Deserializer::from_slice(bytes);
+    let normalized = super::numeric::normalize(bytes)?;
+    let mut decoder = serde_json::Deserializer::from_slice(&normalized);
     let value = Unique
         .deserialize(&mut decoder)
         .map_err(|_| Rejection::Malformed)?;

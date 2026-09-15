@@ -153,6 +153,7 @@ fn explicit_positive_negative_vectors_compare_schema_and_semantic_outcomes() {
         jsonschema::validator_for(&serde_json::from_str::<Value>(SCHEMA).expect("schema JSON"))
             .expect("schema compilation");
     let validator = Validator::new().expect("production embedded schema");
+    let mut vectors = Vec::new();
     for path in case_index["cases"].as_array().expect("cases") {
         let path = path
             .as_str()
@@ -168,27 +169,42 @@ fn explicit_positive_negative_vectors_compare_schema_and_semantic_outcomes() {
         if case["recount"] == true {
             recount(&mut value);
         }
-        assert_eq!(
-            schema.is_valid(&value),
-            case["schema_valid"].as_bool().expect("schema expectation"),
-            "{id} schema expectation"
-        );
         let mut raw = canonical(&value);
         if case["raw_replace"].is_object() {
             let from = case["raw_replace"]["from"].as_str().expect("raw source");
             let to = case["raw_replace"]["to"].as_str().expect("raw replacement");
             assert!(raw.contains(from), "{id}: replacement exists");
-            raw = raw.replacen(from, to, 1);
+            raw = if case["raw_replace"]["all"] == true {
+                raw.replace(from, to)
+            } else {
+                raw.replacen(from, to, 1)
+            };
         }
         if let Some(spaces) = case["raw_prefix_spaces"].as_u64() {
             raw = " ".repeat(spaces as usize) + &raw;
         }
+        vectors.push((case, source, raw));
+    }
+    let raw: Vec<_> = vectors.iter().map(|(_, _, raw)| raw.clone()).collect();
+    let references = game_information_query_v2_vectors::oracle::exact_reference(&root(), &raw);
+    for ((case, source, raw), reference) in vectors.into_iter().zip(references) {
+        let id = case["id"].as_str().expect("case identity");
+        let exact: Option<Value> = reference
+            .canonical
+            .map(|raw| serde_json::from_str(&raw).expect("exact normalized reference"));
+        assert_eq!(reference.valid, exact.is_some(), "{id} exact oracle");
+        assert_eq!(
+            exact.as_ref().is_some_and(|value| schema.is_valid(value)),
+            case["schema_valid"].as_bool().expect("schema expectation"),
+            "{id} actual raw schema"
+        );
         let expected: Option<Rejection> =
             serde_json::from_value(case["expected"].clone()).expect("fixed rejection code");
-        let outcome = validator
-            .decode(raw.as_bytes(), &typed_context(source))
-            .err();
-        assert_eq!(outcome, expected, "{id}");
+        let outcome = validator.decode(raw.as_bytes(), &typed_context(source));
+        assert_eq!(outcome.as_ref().err().copied(), expected, "{id}");
+        if let Ok(decoded) = outcome {
+            assert_eq!(Some(decoded), exact, "{id} exact numeric value");
+        }
     }
 }
 

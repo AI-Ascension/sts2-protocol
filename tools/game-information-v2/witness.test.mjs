@@ -2,6 +2,7 @@
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 import test from "node:test";
+import {numericReference} from "./numeric-reference.mjs";
 import {PROFILE, accounting, canonical, witness} from "./witness.mjs";
 
 const root = new URL("../../", import.meta.url);
@@ -38,7 +39,16 @@ test("all declared positive capture variants agree with the independent witness"
     mutate(value, fixture.mutations);
     mutate(context, fixture.context_mutations);
     if (fixture.recount && value.result) value.result.page.accounting = accounting(value.result.page);
-    assert.doesNotThrow(() => witness(value, context), fixture.id);
+    let raw = canonical(value);
+    if (fixture.raw_replace) {
+      const {from, to, all} = fixture.raw_replace;
+      assert.ok(raw.includes(from), fixture.id);
+      raw = all ? raw.replaceAll(from, to) : raw.replace(from, to);
+    }
+    raw = " ".repeat(fixture.raw_prefix_spaces ?? 0) + raw;
+    const exact = numericReference(raw);
+    assert.equal(exact.valid, true, fixture.id);
+    assert.doesNotThrow(() => witness(JSON.parse(exact.canonical), context), fixture.id);
   }
 });
 
@@ -75,4 +85,16 @@ test("two pages cover all nine original IDs and preserve unavailable fields", ()
   assert.equal(second.result.page.coverage, "partial");
   assert.ok(items.every((item) => item.fields.find((field) => field.name === "rest_eligible").value === null));
   assert.ok(items.every((item) => item.fields.find((field) => field.name === "description").value === null));
+});
+
+test("exact numeric oracle distinguishes mathematical integers from rounded fractions", () => {
+  for (const [raw, canonical] of [
+    ["1.0", "1"], ["1e0", "1"], ["9007199254740991.0", "9007199254740991"],
+    ["90071992547409910e-1", "9007199254740991"], ["-2147483648.0", "-2147483648"],
+    ["2147483647e0", "2147483647"], ["-0e99999999999999", "0"],
+    ['"1.0 and 1e0"', '"1.0 and 1e0"'],
+  ]) assert.deepEqual(numericReference(raw), {valid: true, canonical}, raw);
+  for (const raw of ["1.0000000000000001", "9007199254740991.1", "9007199254740992.0",
+    "1e-99999", "1e99999", "01", "1.", "1e+", "--1"])
+    assert.deepEqual(numericReference(raw), {valid: false, canonical: null}, raw);
 });
