@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[],"expected":"malformed","golden":"live-detail-smith-response","id":"selector-extra-member","mutations":[{"path":"/result/page/items/0/fields/6/value/candidates","value":[]}],"recount":true,"schema_valid":false}

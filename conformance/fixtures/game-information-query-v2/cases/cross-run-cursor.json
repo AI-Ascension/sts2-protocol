@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[],"expected":"stale_cursor","golden":"live-list-page2-request","id":"cross-run-cursor","mutations":[{"path":"/query/binding/instance_ref/run_id","value":"fixture:other-run"}],"recount":true,"schema_valid":true}

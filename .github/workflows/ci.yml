@@ -60,6 +60,9 @@ jobs:
         with:
           node-version: '24.16.0'
 
+      - name: Verify game-information v2 candidate witness
+        run: node --test tools/game-information-v2/*.test.mjs
+
       - name: Verify recorded-run candidate
         run: |
           node --test tools/recorded-run/*.test.mjs

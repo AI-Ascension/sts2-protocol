@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[],"expected":"malformed","golden":"live-detail-heal-response","id":"unknown-total-with-count","mutations":[{"path":"/result/page/total_count_known","value":false}],"recount":true,"schema_valid":false}

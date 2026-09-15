@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[{"path":"/cursors/0/offset","value":4}],"expected":"invalid_identity","golden":"live-list-page2-response","id":"cursor-offset","mutations":[],"recount":true,"schema_valid":true}

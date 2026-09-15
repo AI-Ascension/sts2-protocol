@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[],"expected":"malformed","golden":"live-detail-heal-request","id":"request-unsupported-plus-wrong-scope","mutations":[{"path":"/query/projection","value":"full"},{"path":"/query/binding/visibility_scope","value":"public"}],"recount":true,"schema_valid":false}

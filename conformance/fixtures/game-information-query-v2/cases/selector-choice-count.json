@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[{"path":"/rest/entries/8/selected_choices","value":["fixture:choice:1"]}],"expected":"malformed","golden":"live-detail-heal-response","id":"selector-choice-count","mutations":[],"recount":true,"schema_valid":true}

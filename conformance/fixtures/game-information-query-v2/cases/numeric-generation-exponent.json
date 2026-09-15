@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[],"expected":null,"golden":"live-list-page1-request","id":"numeric-generation-exponent","mutations":[],"raw_replace":{"all":true,"from":"\"state_generation\":7","to":"\"state_generation\":70e-1"},"recount":true,"schema_valid":true}

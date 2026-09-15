@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[],"expected":null,"golden":"live-detail-smith-response","id":"numeric-selector-required-decimal","mutations":[],"raw_replace":{"from":"\"required_count\":1","to":"\"required_count\":1.0"},"recount":true,"schema_valid":true}

@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[],"expected":"unsupported_filter","golden":"static-list-response","id":"static-search-no-index","mutations":[{"path":"/query/query_kind","value":"search"},{"path":"/query/filters/display_name","value":"Fixture text"}],"recount":true,"schema_valid":true}

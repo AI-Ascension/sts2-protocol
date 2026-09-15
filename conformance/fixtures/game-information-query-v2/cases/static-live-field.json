@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[],"expected":"malformed","golden":"static-get-response","id":"static-live-field","mutations":[{"path":"/query/fields","value":["rest_action"]}],"recount":true,"schema_valid":false}

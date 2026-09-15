@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[],"expected":null,"golden":"live-detail-heal-response","id":"fractional-integer-token","mutations":[],"raw_replace":{"from":"\"epoch\":1","to":"\"epoch\":1.0"},"recount":true,"schema_valid":true}

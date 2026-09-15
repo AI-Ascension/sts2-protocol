@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[],"expected":"malformed","golden":"live-detail-heal-response","id":"nonrest-new-field","mutations":[{"path":"/result/page/items/0/definition_ref/entity_kind","value":"card"}],"recount":true,"schema_valid":false}

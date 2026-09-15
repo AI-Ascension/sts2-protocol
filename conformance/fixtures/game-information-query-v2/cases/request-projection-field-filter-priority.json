@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[],"expected":"unsupported_projection","golden":"live-detail-heal-request","id":"request-projection-field-filter-priority","mutations":[{"path":"/query/projection","value":"full"},{"path":"/query/fields","value":["amount"]},{"path":"/query/filters/display_name","value":"Fixture text"}],"recount":true,"schema_valid":false}

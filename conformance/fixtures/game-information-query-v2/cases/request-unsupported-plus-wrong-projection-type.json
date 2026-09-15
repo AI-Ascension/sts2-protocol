@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[],"expected":"malformed","golden":"live-detail-heal-request","id":"request-unsupported-plus-wrong-projection-type","mutations":[{"path":"/query/projection","value":"full"},{"path":"/query/projection","value":7}],"recount":true,"schema_valid":false}

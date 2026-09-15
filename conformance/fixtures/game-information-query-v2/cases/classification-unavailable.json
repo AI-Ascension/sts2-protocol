@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[],"expected":"malformed","golden":"live-detail-heal-response","id":"classification-unavailable","mutations":[{"path":"/result/page/items/0/fields/4/availability","value":"unsupported"}],"recount":true,"schema_valid":false}

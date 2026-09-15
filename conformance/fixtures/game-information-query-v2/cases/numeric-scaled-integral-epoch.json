@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[],"expected":null,"golden":"live-list-page1-request","id":"numeric-scaled-integral-epoch","mutations":[],"raw_replace":{"from":"\"epoch\":1","to":"\"epoch\":100e-2"},"recount":true,"schema_valid":true}

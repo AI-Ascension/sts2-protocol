@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[],"expected":"malformed","golden":"live-list-page1-response","id":"nonfinal-complete","mutations":[{"path":"/result/page/coverage","value":"complete"}],"recount":true,"schema_valid":true}

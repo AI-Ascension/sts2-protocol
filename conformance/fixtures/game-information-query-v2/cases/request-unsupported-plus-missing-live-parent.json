@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[],"expected":"malformed","golden":"live-detail-heal-request","id":"request-unsupported-plus-missing-live-parent","mutations":[{"path":"/query/projection","value":"full"},{"path":"/query/parent_observation","value":null}],"recount":true,"schema_valid":false}

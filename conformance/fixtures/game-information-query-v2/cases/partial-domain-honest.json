@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[{"path":"/rest/fully_classified","value":false}],"expected":null,"golden":"static-classifications-response","id":"partial-domain-honest","mutations":[{"path":"/result/page/coverage","value":"partial"}],"recount":true,"schema_valid":true}

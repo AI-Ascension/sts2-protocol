@@ -152,3 +152,32 @@ The focused native-completion cases exercise both Mend and Lift evidence alterna
 completion binds its completion identity to the nested observation state; numeric evidence still
 requires an actual HP or stat change. Missing identity, stale state, and native-only Heal evidence
 remain invalid. These in-memory variants preserve the checked-in schema and artifact bytes.
+
+## Game-information v2 candidate
+
+Run the production-boundary corpus and independent byte/capture witness:
+
+```sh
+cargo test --locked --offline -p sts2-protocol --test game_information_query_v2_conformance
+node --test tools/game-information-v2/witness.test.mjs
+(cd artifacts/game-information-query-v2 && sha256sum --strict -c SHA256SUMS)
+```
+
+The original nine-option corpus includes two live pages, exact occurrence detail, static definitions,
+selector boundaries, unavailable text/eligibility and explicit empty-array accounting. Negative
+vectors exercise raw duplicate members, integer grammar, schema closure, identity/cursor fencing,
+capture/action/selector relationships and canonical byte limits. Production code compiles only the
+embedded standalone schema and accepts caller-owned inert capture evidence. These commands do not
+authenticate that evidence or substitute for two real consumer validators, negotiation, read-port
+spies, native observation or harness replay. The usual full repository gates remain required.
+
+The PR #50 numeric review repair accepts exact mathematical integer spellings such as
+`1.0` and `1e0` at the raw boundary. A lexical normalization pass preserves strings
+and rejects fractions and values outside the safe integer range without float rounding;
+the unchanged schema then applies each field's narrower bounds. The historical
+`fractional-integer-token` vector is corrected from rejection to acceptance, so the
+original case inventory is no longer claimed byte-identical. The Rust case runner now
+checks the actual raw variant after replacements using an independent Node 24
+`JSON.parse` source-reviver and BigInt reference before applying the unchanged schema.
+A rounded serde_json floating-point parse is not used as a normative numeric oracle.
+All evidence remains synthetic candidate conformance, not live consumer qualification.

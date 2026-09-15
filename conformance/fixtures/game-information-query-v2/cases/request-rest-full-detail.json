@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[],"expected":"unsupported_projection","golden":"live-detail-heal-request","id":"request-rest-full-detail","mutations":[{"path":"/query/detail_level","value":"full"}],"recount":true,"schema_valid":false}

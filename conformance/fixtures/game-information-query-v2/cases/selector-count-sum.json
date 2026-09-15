@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[{"path":"/rest/entries/8/fields/6/value/remaining_count","value":0}],"expected":"malformed","golden":"live-detail-heal-response","id":"selector-count-sum","mutations":[],"recount":true,"schema_valid":true}

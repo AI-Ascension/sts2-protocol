@@ -1,0 +1,1 @@
+{"context":"default","context_mutations":[],"expected":null,"golden":"live-detail-smith-response","id":"numeric-selector-remaining-exponent","mutations":[],"raw_replace":{"from":"\"remaining_count\":1","to":"\"remaining_count\":10e-1"},"recount":true,"schema_valid":true}
