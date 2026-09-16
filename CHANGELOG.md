@@ -7,6 +7,11 @@ Semantic Versioning once a protocol artifact or repository release exists.
 
 ### Added
 
+- Add the bounded `game-information-content-manifest-v1` envelope and codec, with closed
+  success/error variants, safe error-reason tokens, producer-aligned identity/locale bounds,
+  typed manifest goldens, and 16 MiB UTF-8 byte refusal. The #83 owner-side producer integration
+  remains pending; the artifact carries no semantic inputs or localized text.
+
 - Candidate 3 corrects six independently reproduced recorded-run validation gaps,
   clarifies identity alias semantics, and adds record/allocation boundary probes.
   Candidate 2 bytes and original tooling remain preserved for historical validation.

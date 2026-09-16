@@ -71,6 +71,12 @@ jobs:
           digest="$(sha256sum schemas/game-information-lookup-binding-v1.schema.json | cut -d' ' -f1)"
           jq -e --arg digest "$digest" '.schema_digest == $digest' artifacts/game-information-lookup-binding-v1/manifest.json >/dev/null
 
+      - name: Verify game-information content manifest v1
+        run: |
+          node --test tools/game-information-content-manifest/*.test.mjs
+          cmp schemas/game-information-content-manifest-v1.schema.json artifacts/game-information-content-manifest-v1/schema.json
+          (cd artifacts/game-information-content-manifest-v1 && sha256sum --strict -c SHA256SUMS)
+
       - name: Verify game-information v1 and exact-state witnesses
         run: |
           node --test tools/game-information/*.test.mjs

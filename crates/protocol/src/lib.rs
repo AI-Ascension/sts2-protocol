@@ -5,6 +5,7 @@ mod descriptor;
 mod envelope;
 mod exact_state;
 mod exact_state_diff;
+mod game_information_content_manifest_v1;
 pub mod game_information_v2;
 mod identity;
 mod lifecycle;
@@ -36,6 +37,14 @@ pub use exact_state::{
 };
 pub use exact_state_diff::{
     DiffError, Difference, DifferenceKind, MAX_DIFF_DEPTH, MAX_DIFF_ENTRIES, describe_differences,
+};
+pub use game_information_content_manifest_v1::{
+    GAME_INFORMATION_CONTENT_MANIFEST_V1_ARTIFACT,
+    GAME_INFORMATION_CONTENT_MANIFEST_V1_MAX_MESSAGE_BYTES,
+    GAME_INFORMATION_CONTENT_MANIFEST_V1_PROTOCOL_VERSION,
+    GAME_INFORMATION_CONTENT_MANIFEST_V1_SCHEMA_DIGEST,
+    GAME_INFORMATION_CONTENT_MANIFEST_V1_SCHEMA_SOURCE, GameInformationContentManifestV1Codec,
+    GameInformationContentManifestV1CodecError,
 };
 pub use identity::{
     CorrelationMetadata, IdentityMetadata, LineageMetadata, QualifiedId, SequenceMetadata,
