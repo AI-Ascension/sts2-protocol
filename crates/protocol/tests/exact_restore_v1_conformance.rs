@@ -188,6 +188,24 @@ fn all_phase_goldens_are_closed_and_correlated_request_digests_match() {
     assert_eq!(frames[0]["payload"], frames[1]["payload"]);
     assert_ne!(frames[0]["message_id"], frames[1]["message_id"]);
     assert_ne!(frames[0]["correlation_id"], frames[1]["correlation_id"]);
+    let created_begin = frames
+        .iter()
+        .find(|frame| {
+            frame["kind"] == "exact_restore_begin_response"
+                && frame["correlation_id"] == frames[0]["message_id"]
+        })
+        .expect("first begin response");
+    assert_eq!(created_begin["payload"]["result"], "CREATED");
+    assert_eq!(created_begin["payload"]["state"], "STAGING");
+    let repeated_begin = frames
+        .iter()
+        .find(|frame| {
+            frame["kind"] == "exact_restore_begin_response"
+                && frame["correlation_id"] == frames[1]["message_id"]
+        })
+        .expect("repeated begin response");
+    assert_eq!(repeated_begin["payload"]["result"], "EXISTING");
+    assert_eq!(repeated_begin["payload"]["state"], "CLOSURE_VERIFIED");
     let mut requests = HashMap::new();
     for (index, frame) in frames.iter().enumerate() {
         assert!(
