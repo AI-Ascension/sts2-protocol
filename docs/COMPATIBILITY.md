@@ -176,7 +176,7 @@ before admission. Candidate schema/semantic tests cannot establish host membersh
 negotiation, native read-only behavior or MCP/harness integration.
 
 [ADR 0040](decisions/0040-game-information-lookup-binding-discovery-and-observation.md) defines the
-lookup-binding discovery and observation contract, its five golden responses, its twelve mutation
+lookup-binding discovery and observation contract, its six golden responses, its twelve mutation
 fixtures and the deterministic witness precedence. It records the retained-observation fence, the
 re-observation terminal code, and the fact that route and transport stay undecided. Candidate
 semantic tests cannot establish a live harness binding, transport negotiation or MCP integration.
