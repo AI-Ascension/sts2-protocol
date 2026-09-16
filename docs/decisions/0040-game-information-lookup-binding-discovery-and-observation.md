@@ -95,6 +95,7 @@ below.  They are requirements for this artifact, not evidence that a live runtim
 | `LBR-VALID-DISCOVERY-OBSERVED` | An observation is bound to the same `binding_id` and its generation satisfies the retained generation. |
 | `LBR-VALID-REOBSERVE-REQUIRED` | A stale retained observation is superseded under the same `binding_id` with no observation. |
 | `LBR-VALID-REOBSERVE-EXHAUSTED` | The terminal fail-closed state reports at least one attempt and no observation. |
+| `LBR-VALID-REOBSERVE-UNAVAILABLE` | The terminal code `reobserve_unavailable` is carried by an accepted `error_response` whose `observation_state` is `reobserve_exhausted`, with at least one attempt and no observation. |
 | `LBR-VALID-REOBSERVED` | A re-observation keeps `binding_id` and issues a new `observation_id`. |
 | `LBR-VALID-BINDING-IDENTITY-INPUT` | The declared identity input recomputes to the declared `binding_id`. |
 | `LBR-VALID-BINDING-IDENTITY-EPOCH` | A changed `authority_epoch` yields a different `binding_id`. |

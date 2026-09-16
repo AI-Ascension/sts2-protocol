@@ -71,6 +71,11 @@ jobs:
           digest="$(sha256sum schemas/game-information-lookup-binding-v1.schema.json | cut -d' ' -f1)"
           jq -e --arg digest "$digest" '.schema_digest == $digest' artifacts/game-information-lookup-binding-v1/manifest.json >/dev/null
 
+      - name: Verify game-information v1 and exact-state witnesses
+        run: |
+          node --test tools/game-information/*.test.mjs
+          node --test tools/exact-state/*.test.mjs
+
       - name: Verify recorded-run candidate
         run: |
           node --test tools/recorded-run/*.test.mjs

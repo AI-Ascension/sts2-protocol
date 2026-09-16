@@ -20,6 +20,7 @@ const goldenNames = [
   "observation-response",
   "reobserve-exhausted-response",
   "reobserve-required-response",
+  "reobserve-unavailable-response",
   "reobserved-response",
 ];
 
@@ -336,7 +337,7 @@ function validateIdentity(relative, id) {
 
 function validateValidVectors(caseDocument) {
   const vectors = caseDocument.valid_vectors;
-  assert(vectors.length === 7, `valid vectors: ${vectors.length}`);
+  assert(vectors.length === 8, `valid vectors: ${vectors.length}`);
   const identities = new Set();
   let goldens = 0;
   for (const vector of vectors) {

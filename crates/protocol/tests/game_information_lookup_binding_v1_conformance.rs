@@ -60,6 +60,12 @@ const GOLDENS: &[(&str, &str)] = &[
         ),
     ),
     (
+        "reobserve-unavailable-response",
+        include_str!(
+            "../../../artifacts/game-information-lookup-binding-v1/golden/reobserve-unavailable-response.json"
+        ),
+    ),
+    (
         "reobserved-response",
         include_str!(
             "../../../artifacts/game-information-lookup-binding-v1/golden/reobserved-response.json"
@@ -115,7 +121,7 @@ fn the_artifact_indexes_agree_with_the_pinned_digest() {
     assert_eq!(manifest["consumers"], case["consumers"]);
     assert_eq!(
         case["valid_vectors"].as_array().map(Vec::len),
-        Some(7),
+        Some(8),
         "valid vector count"
     );
     assert_eq!(
@@ -360,6 +366,34 @@ fn the_witness_precedence_is_deterministic() {
 #[test]
 fn the_terminal_reobserve_code_agrees_with_its_state() {
     let context = case_context();
+
+    let terminal_golden = golden("reobserve-unavailable-response");
+    assert_eq!(
+        terminal_golden["kind"], "error_response",
+        "the terminal code is carried by an error response"
+    );
+    assert_eq!(terminal_golden["error"]["code"], REOBSERVE_UNAVAILABLE);
+    assert_eq!(
+        terminal_golden["discovery"]["observation_state"],
+        "reobserve_exhausted"
+    );
+    assert!(
+        terminal_golden["observation"].is_null(),
+        "the terminal state carries no observation"
+    );
+    assert!(
+        terminal_golden["discovery"]["reobserve"]["attempts"]
+            .as_u64()
+            .unwrap()
+            >= 1,
+        "the terminal state records at least one attempt"
+    );
+    assert_eq!(
+        semantic_rejection(&terminal_golden, &context),
+        None,
+        "the checked-in terminal witness is accepted"
+    );
+
     let terminal = |state: &str| {
         let mut document = golden("reobserve-exhausted-response");
         document["kind"] = Value::from("error_response");
