@@ -64,17 +64,22 @@ each included item its unsigned 64-bit big-endian length and bytes. Order is the
 canonical payload, then distinct restore artifacts in first-reference order, excluding any
 restore-artifact alias of the canonical payload or an earlier restore artifact. The manifest is
 included separately once and is never deduplicated against blob bytes. A native receiver
-recomputes this digest from staged bytes. `request_digest` is SHA-256 over the RFC 8785 canonical
-encoding of the complete request frame. `receipt_digest` is SHA-256 over the RFC 8785 canonical
-encoding of the receipt object with `receipt_digest` omitted.
+recomputes this digest from staged bytes. Each response's `request_digest` is SHA-256 over the RFC
+8785 canonical encoding of the complete current request frame, including its message and
+correlation IDs; it is not the duplicate-begin identity. `receipt_digest` is SHA-256 over the RFC
+8785 canonical encoding of the receipt object with `receipt_digest` omitted.
 
 ## Operation behavior
 
-`begin` creates a new `STAGING` operation. A repeated identical begin returns `EXISTING` and the
-actual current operation state; it never resets staging or resumes a host effect. Conflicting reuse
-of an operation ID is rejected. Before accepting a closure, the native owner must establish that a
-restore adapter is available. A known unsupported adapter returns `REJECTED/no_restore_adapter`
-before staging or byte upload; it must not fabricate `UNKNOWN`.
+`begin` creates a new `STAGING` operation. A repeated begin with the same complete immutable
+payload returns `EXISTING` and the actual current operation state; message and correlation IDs are
+per request and do not change that identity. The immutable payload includes the operation and
+current owner, selected branch and metadata revision, checkpoint and closure digests, manifest and
+artifact references, compatibility, coverage, and boundary. Reusing the operation ID with any
+changed immutable payload is rejected as `operation_conflict`. A duplicate never resets staging or
+resumes a host effect. Before accepting a closure, the native owner must establish that a restore
+adapter is available. A known unsupported adapter returns `REJECTED/no_restore_adapter` before
+staging or byte upload; it must not fabricate `UNKNOWN`.
 
 Chunk offsets are contiguous and ordered. An identical duplicate at the same offset is idempotent;
 a changed duplicate, gap, overlap, bad digest, wrong size, wrong owner, or wrong phase is rejected.

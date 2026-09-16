@@ -194,6 +194,11 @@ fn all_phase_goldens_are_closed_and_correlated_request_digests_match() {
     let validator = validator();
     let frames = frames();
     assert_eq!(frames.len(), 25);
+    assert_eq!(frames[0]["kind"], "exact_restore_begin_request");
+    assert_eq!(frames[1]["kind"], "exact_restore_begin_request");
+    assert_eq!(frames[0]["payload"], frames[1]["payload"]);
+    assert_ne!(frames[0]["message_id"], frames[1]["message_id"]);
+    assert_ne!(frames[0]["correlation_id"], frames[1]["correlation_id"]);
     let mut requests = HashMap::new();
     for (index, frame) in frames.iter().enumerate() {
         assert!(
