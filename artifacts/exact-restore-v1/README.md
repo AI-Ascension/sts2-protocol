@@ -55,9 +55,11 @@ The aggregate includes the manifest exactly once, plus each distinct blob exactl
 deduplication is scoped to `canonical_payload` and `restore_artifacts`; even if a blob's bytes
 happen to equal the manifest bytes, both are counted. Arithmetic is overflow checked. The artifact
 list's request-frame size can impose a stricter effective limit, so the producer serializes and
-size-checks the complete begin frame before sending it. A receiver checks the encoded chunk length
-before decoding, then checks decoded raw length before allocating blob storage. Empty blobs use the
-canonical SHA-256 of zero bytes.
+size-checks the complete begin frame before sending it. `data_base64` uses canonical RFC 4648
+base64, including required padding and zero pad bits. A receiver checks the encoded chunk length
+and base64 form before decoding, then checks that the decoded chunk is non-empty and no larger than
+8,192 bytes before allocating blob storage. Empty blobs have no chunk requests and use the
+canonical SHA-256 of zero bytes in `finish_blob`.
 
 `closure_digest` is SHA-256 over the domain bytes `STS2/EXACT-RESTORE-CLOSURE/v1\0`, then for
 each included item its unsigned 64-bit big-endian length and bytes. Order is the manifest, the

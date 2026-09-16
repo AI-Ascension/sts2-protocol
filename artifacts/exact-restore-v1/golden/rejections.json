@@ -27,6 +27,13 @@
     "value": "NOT_FOUND"
   },
   {
+    "case": "empty_chunk_for_zero_length_blob",
+    "frame_index": 2,
+    "operation": "set",
+    "path": ["payload", "data_base64"],
+    "value": ""
+  },
+  {
     "case": "lookup_result_state_mismatch",
     "frame_index": 19,
     "operation": "set",

@@ -11,6 +11,9 @@ use serde::{Deserialize, Deserializer};
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
 
+#[path = "exact_restore_v1_conformance/limits.rs"]
+mod limits;
+
 const CONTRACT: &str = "sts2-exact-restore-v1";
 const FRAME_LIMIT: usize = 16_384;
 const RAW_CHUNK_LIMIT: usize = 8192;
@@ -135,20 +138,6 @@ fn canonical_json(value: &Value) -> Vec<u8> {
     // Contract values use ASCII keys and safe integers, so serde_json's sorted compact object
     // encoding is the RFC 8785 form for these deterministic vectors.
     serde_json::to_vec(value).expect("contract value serializes")
-}
-
-fn padded_base64_decoded_len(encoded: &str) -> Option<usize> {
-    if !encoded.len().is_multiple_of(4) {
-        return None;
-    }
-    let padding = if encoded.ends_with("==") {
-        2
-    } else if encoded.ends_with('=') {
-        1
-    } else {
-        0
-    };
-    Some(encoded.len() / 4 * 3 - padding)
 }
 
 #[test]
@@ -336,61 +325,4 @@ fn rejection_vectors_cover_closure_state_receipt_and_unknown_members() {
     wrong_owner_effect["payload"]["outcome"] = json!("STALE_OWNER");
     wrong_owner_effect["payload"]["host_effect"] = json!("may_have_started");
     assert!(validator.validate(&wrong_owner_effect).is_err());
-}
-
-#[test]
-fn full_frame_and_decoded_chunk_limits_apply_before_transfer() {
-    let validator = validator();
-    let mut chunk = frames()[2].clone();
-    let mut encoded = "AAAA".repeat(2730);
-    encoded.push_str("AAA=");
-    assert_eq!(encoded.len(), 10_924);
-    assert_eq!(padded_base64_decoded_len(&encoded), Some(RAW_CHUNK_LIMIT));
-    chunk["payload"]["data_base64"] = json!(encoded);
-    chunk["payload"]["total_bytes"] = json!(RAW_CHUNK_LIMIT);
-    let bytes = canonical_json(&chunk);
-    assert!(validator.validate(&chunk).is_ok());
-    assert!(bytes.len() <= FRAME_LIMIT);
-
-    let one_over = "AAAA".repeat(2731);
-    assert_eq!(one_over.len(), 10_924);
-    assert_eq!(
-        padded_base64_decoded_len(&one_over),
-        Some(RAW_CHUNK_LIMIT + 1)
-    );
-
-    let mut receipt = frames()[21].clone();
-    receipt["payload"]["expected_owner"]["session_id"] = json!("s".repeat(512));
-    receipt["payload"]["receipt"]["destination_owner"]["session_id"] = json!("s".repeat(512));
-    for key in [
-        "experiment_id",
-        "branch_id",
-        "run_id",
-        "episode_id",
-        "trajectory_id",
-    ] {
-        receipt["payload"]["receipt"]["branch"][key] = json!("b".repeat(512));
-    }
-    let response_bytes = canonical_json(&receipt);
-    assert!(validator.validate(&receipt).is_ok());
-    assert!(response_bytes.len() <= FRAME_LIMIT);
-
-    let mut oversized = frames()[0].clone();
-    oversized["payload"]["artifacts"] = json!(
-        (0..64)
-            .map(|_| {
-                json!({
-                    "role": "r".repeat(512),
-                    "digest": format!("sha256:{}", "a".repeat(64)),
-                    "size_bytes": 1,
-                    "codec": "c".repeat(512)
-                })
-            })
-            .collect::<Vec<_>>()
-    );
-    oversized["payload"]["artifact_reference_count"] = json!(64);
-    oversized["payload"]["distinct_blob_count"] = json!(1);
-    oversized["payload"]["aggregate_closure_bytes"] = json!(12);
-    assert!(validator.validate(&oversized).is_ok());
-    assert!(canonical_json(&oversized).len() > FRAME_LIMIT);
 }

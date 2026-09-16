@@ -2,7 +2,7 @@
   "frames": [
     {
       "contract": "sts2-exact-restore-v1",
-      "schema_digest": "35af1ac65350c438be04292d2b016a8f1b993aab93e512d0eef03f4dc982fa25",
+      "schema_digest": "2289d888c33eac46873408303c4423eab762e3f7bd6132ae8ae88d0d3b1858e4",
       "message_id": "00000001-6fef-4a1b-9d98-ef2e3def8f20",
       "correlation_id": "00000001-6fef-4a1b-9d98-ef2e3def8f20",
       "kind": "exact_restore_begin_request",
@@ -62,7 +62,7 @@
     },
     {
       "contract": "sts2-exact-restore-v1",
-      "schema_digest": "35af1ac65350c438be04292d2b016a8f1b993aab93e512d0eef03f4dc982fa25",
+      "schema_digest": "2289d888c33eac46873408303c4423eab762e3f7bd6132ae8ae88d0d3b1858e4",
       "message_id": "00000002-6fef-4a1b-9d98-ef2e3def8f20",
       "correlation_id": "00000002-6fef-4a1b-9d98-ef2e3def8f20",
       "kind": "exact_restore_begin_request",
@@ -122,7 +122,7 @@
     },
     {
       "contract": "sts2-exact-restore-v1",
-      "schema_digest": "35af1ac65350c438be04292d2b016a8f1b993aab93e512d0eef03f4dc982fa25",
+      "schema_digest": "2289d888c33eac46873408303c4423eab762e3f7bd6132ae8ae88d0d3b1858e4",
       "message_id": "00000003-6fef-4a1b-9d98-ef2e3def8f20",
       "correlation_id": "00000003-6fef-4a1b-9d98-ef2e3def8f20",
       "kind": "exact_restore_chunk_request",
@@ -150,7 +150,7 @@
     },
     {
       "contract": "sts2-exact-restore-v1",
-      "schema_digest": "35af1ac65350c438be04292d2b016a8f1b993aab93e512d0eef03f4dc982fa25",
+      "schema_digest": "2289d888c33eac46873408303c4423eab762e3f7bd6132ae8ae88d0d3b1858e4",
       "message_id": "00000004-6fef-4a1b-9d98-ef2e3def8f20",
       "correlation_id": "00000004-6fef-4a1b-9d98-ef2e3def8f20",
       "kind": "exact_restore_finish_blob_request",
@@ -175,7 +175,7 @@
     },
     {
       "contract": "sts2-exact-restore-v1",
-      "schema_digest": "35af1ac65350c438be04292d2b016a8f1b993aab93e512d0eef03f4dc982fa25",
+      "schema_digest": "2289d888c33eac46873408303c4423eab762e3f7bd6132ae8ae88d0d3b1858e4",
       "message_id": "00000005-6fef-4a1b-9d98-ef2e3def8f20",
       "correlation_id": "00000005-6fef-4a1b-9d98-ef2e3def8f20",
       "kind": "exact_restore_commit_request",
@@ -210,7 +210,7 @@
     },
     {
       "contract": "sts2-exact-restore-v1",
-      "schema_digest": "35af1ac65350c438be04292d2b016a8f1b993aab93e512d0eef03f4dc982fa25",
+      "schema_digest": "2289d888c33eac46873408303c4423eab762e3f7bd6132ae8ae88d0d3b1858e4",
       "message_id": "00000006-6fef-4a1b-9d98-ef2e3def8f20",
       "correlation_id": "00000006-6fef-4a1b-9d98-ef2e3def8f20",
       "kind": "exact_restore_commit_request",
@@ -245,7 +245,7 @@
     },
     {
       "contract": "sts2-exact-restore-v1",
-      "schema_digest": "35af1ac65350c438be04292d2b016a8f1b993aab93e512d0eef03f4dc982fa25",
+      "schema_digest": "2289d888c33eac46873408303c4423eab762e3f7bd6132ae8ae88d0d3b1858e4",
       "message_id": "00000007-6fef-4a1b-9d98-ef2e3def8f20",
       "correlation_id": "00000007-6fef-4a1b-9d98-ef2e3def8f20",
       "kind": "exact_restore_lookup_request",
@@ -268,7 +268,7 @@
     },
     {
       "contract": "sts2-exact-restore-v1",
-      "schema_digest": "35af1ac65350c438be04292d2b016a8f1b993aab93e512d0eef03f4dc982fa25",
+      "schema_digest": "2289d888c33eac46873408303c4423eab762e3f7bd6132ae8ae88d0d3b1858e4",
       "message_id": "00000008-6fef-4a1b-9d98-ef2e3def8f20",
       "correlation_id": "00000008-6fef-4a1b-9d98-ef2e3def8f20",
       "kind": "exact_restore_lookup_request",
@@ -292,7 +292,7 @@
     },
     {
       "contract": "sts2-exact-restore-v1",
-      "schema_digest": "35af1ac65350c438be04292d2b016a8f1b993aab93e512d0eef03f4dc982fa25",
+      "schema_digest": "2289d888c33eac46873408303c4423eab762e3f7bd6132ae8ae88d0d3b1858e4",
       "message_id": "00000009-6fef-4a1b-9d98-ef2e3def8f20",
       "correlation_id": "00000009-6fef-4a1b-9d98-ef2e3def8f20",
       "kind": "exact_restore_lookup_request",
@@ -315,7 +315,7 @@
     },
     {
       "contract": "sts2-exact-restore-v1",
-      "schema_digest": "35af1ac65350c438be04292d2b016a8f1b993aab93e512d0eef03f4dc982fa25",
+      "schema_digest": "2289d888c33eac46873408303c4423eab762e3f7bd6132ae8ae88d0d3b1858e4",
       "message_id": "0000000a-6fef-4a1b-9d98-ef2e3def8f20",
       "correlation_id": "0000000a-6fef-4a1b-9d98-ef2e3def8f20",
       "kind": "exact_restore_begin_request",
@@ -375,7 +375,7 @@
     },
     {
       "contract": "sts2-exact-restore-v1",
-      "schema_digest": "35af1ac65350c438be04292d2b016a8f1b993aab93e512d0eef03f4dc982fa25",
+      "schema_digest": "2289d888c33eac46873408303c4423eab762e3f7bd6132ae8ae88d0d3b1858e4",
       "message_id": "0000000b-6fef-4a1b-9d98-ef2e3def8f20",
       "correlation_id": "0000000b-6fef-4a1b-9d98-ef2e3def8f20",
       "kind": "exact_restore_chunk_request",
@@ -403,7 +403,7 @@
     },
     {
       "contract": "sts2-exact-restore-v1",
-      "schema_digest": "35af1ac65350c438be04292d2b016a8f1b993aab93e512d0eef03f4dc982fa25",
+      "schema_digest": "2289d888c33eac46873408303c4423eab762e3f7bd6132ae8ae88d0d3b1858e4",
       "message_id": "0000000c-6fef-4a1b-9d98-ef2e3def8f20",
       "correlation_id": "0000000c-6fef-4a1b-9d98-ef2e3def8f20",
       "kind": "exact_restore_commit_request",
@@ -438,7 +438,7 @@
     },
     {
       "contract": "sts2-exact-restore-v1",
-      "schema_digest": "35af1ac65350c438be04292d2b016a8f1b993aab93e512d0eef03f4dc982fa25",
+      "schema_digest": "2289d888c33eac46873408303c4423eab762e3f7bd6132ae8ae88d0d3b1858e4",
       "message_id": "00000020-6fef-4a1b-9d98-ef2e3def8f20",
       "correlation_id": "00000001-6fef-4a1b-9d98-ef2e3def8f20",
       "kind": "exact_restore_begin_response",
@@ -459,12 +459,12 @@
           "session_id": "session-example",
           "lease_expires_at_millis": 1900000000000
         },
-        "request_digest": "sha256:3c8d099c46b9d2c537fba21252a7275573560d5f5c14102799f65c14903e9ec7"
+        "request_digest": "sha256:af10fa4d0e91df41adc42305fe9aa99a31a685dc9273d2c1adc36338d16e7a15"
       }
     },
     {
       "contract": "sts2-exact-restore-v1",
-      "schema_digest": "35af1ac65350c438be04292d2b016a8f1b993aab93e512d0eef03f4dc982fa25",
+      "schema_digest": "2289d888c33eac46873408303c4423eab762e3f7bd6132ae8ae88d0d3b1858e4",
       "message_id": "00000021-6fef-4a1b-9d98-ef2e3def8f20",
       "correlation_id": "00000002-6fef-4a1b-9d98-ef2e3def8f20",
       "kind": "exact_restore_begin_response",
@@ -485,12 +485,12 @@
           "session_id": "session-example",
           "lease_expires_at_millis": 1900000000000
         },
-        "request_digest": "sha256:2dc647cf54647dcba31511e3a38fead2abe96840738b26cbccbe01db935be7d2"
+        "request_digest": "sha256:9482e53da1669fe72dd78439722785bb790bef888c77d99c7990e072ce913c40"
       }
     },
     {
       "contract": "sts2-exact-restore-v1",
-      "schema_digest": "35af1ac65350c438be04292d2b016a8f1b993aab93e512d0eef03f4dc982fa25",
+      "schema_digest": "2289d888c33eac46873408303c4423eab762e3f7bd6132ae8ae88d0d3b1858e4",
       "message_id": "00000022-6fef-4a1b-9d98-ef2e3def8f20",
       "correlation_id": "00000003-6fef-4a1b-9d98-ef2e3def8f20",
       "kind": "exact_restore_chunk_response",
@@ -511,14 +511,14 @@
           "session_id": "session-example",
           "lease_expires_at_millis": 1900000000000
         },
-        "request_digest": "sha256:90fb4ae7590f54e170f8b6249db257408954533359856f04f9da0a551f7d99e1",
+        "request_digest": "sha256:4087a2dda0fbed544b5516bd07c9457befc8d4b4a3b24eefd2d21b6e0d053958",
         "artifact_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
         "next_offset": 5
       }
     },
     {
       "contract": "sts2-exact-restore-v1",
-      "schema_digest": "35af1ac65350c438be04292d2b016a8f1b993aab93e512d0eef03f4dc982fa25",
+      "schema_digest": "2289d888c33eac46873408303c4423eab762e3f7bd6132ae8ae88d0d3b1858e4",
       "message_id": "00000023-6fef-4a1b-9d98-ef2e3def8f20",
       "correlation_id": "00000004-6fef-4a1b-9d98-ef2e3def8f20",
       "kind": "exact_restore_finish_blob_response",
@@ -539,7 +539,7 @@
           "session_id": "session-example",
           "lease_expires_at_millis": 1900000000000
         },
-        "request_digest": "sha256:78e93a7f836e43a4edc0c40c555b5e197e9232644db30b8738a3aa3416efc125",
+        "request_digest": "sha256:7340d3faeed3c5d2ae530c6fbd60200c4bb93b837995bd29bbdf3a41cca92743",
         "artifact_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
         "total_bytes": 5,
         "closure_state": "CLOSURE_VERIFIED"
@@ -547,7 +547,7 @@
     },
     {
       "contract": "sts2-exact-restore-v1",
-      "schema_digest": "35af1ac65350c438be04292d2b016a8f1b993aab93e512d0eef03f4dc982fa25",
+      "schema_digest": "2289d888c33eac46873408303c4423eab762e3f7bd6132ae8ae88d0d3b1858e4",
       "message_id": "00000024-6fef-4a1b-9d98-ef2e3def8f20",
       "correlation_id": "00000005-6fef-4a1b-9d98-ef2e3def8f20",
       "kind": "exact_restore_commit_response",
@@ -568,12 +568,12 @@
           "session_id": "session-example",
           "lease_expires_at_millis": 1900000000000
         },
-        "request_digest": "sha256:a78ce64a780392a5375f6cc22ca6b5e88895c1b836738e9eb9d93b9d166ea191"
+        "request_digest": "sha256:1630c92e931984745d8ab09b7e0ab3e080fec9951d1bf3095ec8f64bf8e90ae4"
       }
     },
     {
       "contract": "sts2-exact-restore-v1",
-      "schema_digest": "35af1ac65350c438be04292d2b016a8f1b993aab93e512d0eef03f4dc982fa25",
+      "schema_digest": "2289d888c33eac46873408303c4423eab762e3f7bd6132ae8ae88d0d3b1858e4",
       "message_id": "00000025-6fef-4a1b-9d98-ef2e3def8f20",
       "correlation_id": "00000006-6fef-4a1b-9d98-ef2e3def8f20",
       "kind": "exact_restore_commit_response",
@@ -594,12 +594,12 @@
           "session_id": "session-example",
           "lease_expires_at_millis": 1900000000000
         },
-        "request_digest": "sha256:61102a5861a312b73be13084b7455efb3a0d2a0022f30829dc1fe6c3d7ecf3eb"
+        "request_digest": "sha256:aa9b6fd3121283cdba00d1b4fe1a9d51824400323b0305020a331c55d40dcdb7"
       }
     },
     {
       "contract": "sts2-exact-restore-v1",
-      "schema_digest": "35af1ac65350c438be04292d2b016a8f1b993aab93e512d0eef03f4dc982fa25",
+      "schema_digest": "2289d888c33eac46873408303c4423eab762e3f7bd6132ae8ae88d0d3b1858e4",
       "message_id": "00000026-6fef-4a1b-9d98-ef2e3def8f20",
       "correlation_id": "00000007-6fef-4a1b-9d98-ef2e3def8f20",
       "kind": "exact_restore_lookup_response",
@@ -620,12 +620,12 @@
           "session_id": "session-example",
           "lease_expires_at_millis": 1900000000000
         },
-        "request_digest": "sha256:91074159e9606906dd1d56a2e27b6fbdfe42f1237349e66bebb8060d3264411d"
+        "request_digest": "sha256:3a8600f023572f4804650a8be48b47b592246aa81c67e5bbae1197400083d891"
       }
     },
     {
       "contract": "sts2-exact-restore-v1",
-      "schema_digest": "35af1ac65350c438be04292d2b016a8f1b993aab93e512d0eef03f4dc982fa25",
+      "schema_digest": "2289d888c33eac46873408303c4423eab762e3f7bd6132ae8ae88d0d3b1858e4",
       "message_id": "00000027-6fef-4a1b-9d98-ef2e3def8f20",
       "correlation_id": "00000008-6fef-4a1b-9d98-ef2e3def8f20",
       "kind": "exact_restore_lookup_response",
@@ -646,7 +646,7 @@
           "session_id": "session-example",
           "lease_expires_at_millis": 1900000000000
         },
-        "request_digest": "sha256:fa0cd1789fc4cf3ad5aaf3870c508958845f65ffebf31e33b3384b0729ec1ddd",
+        "request_digest": "sha256:b8ef85f937965a98682aa04587bb22b3bda5c10a2d9463935fa03c93941aa62f",
         "artifact_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
         "total_bytes": 10,
         "next_offset": 10,
@@ -655,7 +655,7 @@
     },
     {
       "contract": "sts2-exact-restore-v1",
-      "schema_digest": "35af1ac65350c438be04292d2b016a8f1b993aab93e512d0eef03f4dc982fa25",
+      "schema_digest": "2289d888c33eac46873408303c4423eab762e3f7bd6132ae8ae88d0d3b1858e4",
       "message_id": "00000028-6fef-4a1b-9d98-ef2e3def8f20",
       "correlation_id": "00000009-6fef-4a1b-9d98-ef2e3def8f20",
       "kind": "exact_restore_lookup_response",
@@ -676,12 +676,12 @@
           "session_id": "session-example",
           "lease_expires_at_millis": 1900000000000
         },
-        "request_digest": "sha256:034812130e8e6928067cc7a8ed3e62314d993c53c45a19e56d88f84c349c36fc"
+        "request_digest": "sha256:dd4cc217dd4b706082b2eedd2126d5d347fdbcd9537bd785d5317c7fdfcd3850"
       }
     },
     {
       "contract": "sts2-exact-restore-v1",
-      "schema_digest": "35af1ac65350c438be04292d2b016a8f1b993aab93e512d0eef03f4dc982fa25",
+      "schema_digest": "2289d888c33eac46873408303c4423eab762e3f7bd6132ae8ae88d0d3b1858e4",
       "message_id": "00000029-6fef-4a1b-9d98-ef2e3def8f20",
       "correlation_id": "00000007-6fef-4a1b-9d98-ef2e3def8f20",
       "kind": "exact_restore_lookup_response",
@@ -702,7 +702,7 @@
           "session_id": "session-example",
           "lease_expires_at_millis": 1900000000000
         },
-        "request_digest": "sha256:91074159e9606906dd1d56a2e27b6fbdfe42f1237349e66bebb8060d3264411d",
+        "request_digest": "sha256:3a8600f023572f4804650a8be48b47b592246aa81c67e5bbae1197400083d891",
         "receipt": {
           "operation_id": "c3ee424f-a65e-45a3-8c69-fde8d10cf0b4",
           "branch": {
@@ -747,7 +747,7 @@
     },
     {
       "contract": "sts2-exact-restore-v1",
-      "schema_digest": "35af1ac65350c438be04292d2b016a8f1b993aab93e512d0eef03f4dc982fa25",
+      "schema_digest": "2289d888c33eac46873408303c4423eab762e3f7bd6132ae8ae88d0d3b1858e4",
       "message_id": "0000002a-6fef-4a1b-9d98-ef2e3def8f20",
       "correlation_id": "0000000a-6fef-4a1b-9d98-ef2e3def8f20",
       "kind": "exact_restore_error_response",
@@ -766,7 +766,7 @@
           "session_id": "session-example",
           "lease_expires_at_millis": 1900000000000
         },
-        "request_digest": "sha256:54067a9b1dd157a949aa812cf136549e5809ec14c885063fbeb2d8edde341c92",
+        "request_digest": "sha256:9b5841d1df34e400947ff56a6abc50029c0bc298d328e6faca4ea32a61d998ef",
         "outcome": "REJECTED",
         "error_code": "no_restore_adapter",
         "host_effect": "not_started"
@@ -774,7 +774,7 @@
     },
     {
       "contract": "sts2-exact-restore-v1",
-      "schema_digest": "35af1ac65350c438be04292d2b016a8f1b993aab93e512d0eef03f4dc982fa25",
+      "schema_digest": "2289d888c33eac46873408303c4423eab762e3f7bd6132ae8ae88d0d3b1858e4",
       "message_id": "0000002b-6fef-4a1b-9d98-ef2e3def8f20",
       "correlation_id": "0000000b-6fef-4a1b-9d98-ef2e3def8f20",
       "kind": "exact_restore_error_response",
@@ -793,7 +793,7 @@
           "session_id": "session-example",
           "lease_expires_at_millis": 1900000000000
         },
-        "request_digest": "sha256:cb0d54e924801257cd886573d4a15db84acb05da9234a81651cd143ca28f5bd5",
+        "request_digest": "sha256:0844d9c0d91abe19b20be15269d831df9d86c8b0c0dd135c80f9d7e257633aa8",
         "outcome": "STALE_OWNER",
         "error_code": "owner_mismatch",
         "host_effect": "not_started"
@@ -801,7 +801,7 @@
     },
     {
       "contract": "sts2-exact-restore-v1",
-      "schema_digest": "35af1ac65350c438be04292d2b016a8f1b993aab93e512d0eef03f4dc982fa25",
+      "schema_digest": "2289d888c33eac46873408303c4423eab762e3f7bd6132ae8ae88d0d3b1858e4",
       "message_id": "0000002c-6fef-4a1b-9d98-ef2e3def8f20",
       "correlation_id": "0000000c-6fef-4a1b-9d98-ef2e3def8f20",
       "kind": "exact_restore_error_response",
@@ -820,7 +820,7 @@
           "session_id": "session-example",
           "lease_expires_at_millis": 1900000000000
         },
-        "request_digest": "sha256:83824d18a56a3138d7fdd4c3d024b4849d8930be137ab58b44ac10b0866ed53c",
+        "request_digest": "sha256:f3fb7204c03b763f9aded841e17b381aea61471a2ba4e72f2fe0b64e391b4c37",
         "outcome": "UNAVAILABLE",
         "error_code": "native_unavailable",
         "host_effect": "may_have_started"

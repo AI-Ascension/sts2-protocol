@@ -2,7 +2,7 @@
   "artifact": "sts2-protocol/exact-restore-v1",
   "protocol_version": "exact-restore-v1",
   "schema": "schema.json",
-  "schema_digest": "35af1ac65350c438be04292d2b016a8f1b993aab93e512d0eef03f4dc982fa25",
+  "schema_digest": "2289d888c33eac46873408303c4423eab762e3f7bd6132ae8ae88d0d3b1858e4",
   "limits": {
     "max_request_frame_bytes": 16384,
     "max_response_frame_bytes": 16384,
