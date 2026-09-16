@@ -63,6 +63,14 @@ jobs:
       - name: Verify game-information v2 candidate witness
         run: node --test tools/game-information-v2/*.test.mjs
 
+      - name: Verify game-information lookup-binding candidate witness
+        run: |
+          node --test tools/game-information-lookup-binding/*.test.mjs
+          cmp schemas/game-information-lookup-binding-v1.schema.json artifacts/game-information-lookup-binding-v1/schema.json
+          jq -e '.["$id"] == "sts2-game-information-lookup-binding-v1" and .["$schema"] == "https://json-schema.org/draft/2020-12/schema" and (.oneOf | length) == 3 and (.["$defs"] | length) == 18' schemas/game-information-lookup-binding-v1.schema.json >/dev/null
+          digest="$(sha256sum schemas/game-information-lookup-binding-v1.schema.json | cut -d' ' -f1)"
+          jq -e --arg digest "$digest" '.schema_digest == $digest' artifacts/game-information-lookup-binding-v1/manifest.json >/dev/null
+
       - name: Verify recorded-run candidate
         run: |
           node --test tools/recorded-run/*.test.mjs

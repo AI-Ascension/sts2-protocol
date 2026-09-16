@@ -167,9 +167,16 @@ are rejected. The added vocabulary does not establish host support or campaign c
 | Profile | Canonical owner | Prospective producer / consumers | Status |
 | --- | --- | --- | --- |
 | `game-information-query-v2` | `sts2-protocol` | Producer `sts2-game-mod`; consumers `sts2-gateway`, `sts2-mcp-server` | Separate candidate; no admitted consumers, runtime or release claim |
+| `game-information-lookup-binding-v1` | `sts2-protocol` | Producer `sts2-harness`; consumers `sts2-gateway`, `sts2-mcp-server` | Separate candidate; no admitted consumers, runtime or release claim |
 
 [ADR 0039](decisions/0039-game-information-rest-read-candidate.md) defines the closed rest-read
 successor and room-to-occurrence containment. V1 schemas, artifacts and goldens remain immutable.
 The separate manifest pins the new schema digest; two actual consumer validations are required
 before admission. Candidate schema/semantic tests cannot establish host membership, transport
 negotiation, native read-only behavior or MCP/harness integration.
+
+[ADR 0040](decisions/0040-game-information-lookup-binding-discovery-and-observation.md) defines the
+lookup-binding discovery and observation contract, its five golden responses, its twelve mutation
+fixtures and the deterministic witness precedence. It records the retained-observation fence, the
+re-observation terminal code, and the fact that route and transport stay undecided. Candidate
+semantic tests cannot establish a live harness binding, transport negotiation or MCP integration.
