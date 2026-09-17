@@ -7,6 +7,12 @@ use jsonschema::draft202012;
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
 
+#[path = "support/game_information_live_observation_bootstrap_v1_semantics.rs"]
+mod game_information_live_observation_bootstrap_v1_semantics;
+use game_information_live_observation_bootstrap_v1_semantics::{
+    response_request_error, semantic_error,
+};
+
 const PROFILE: &str = "game-information-live-observation-bootstrap-v1";
 const ARTIFACT: &str = "sts2-protocol/game-information-live-observation-bootstrap-v1";
 const SCHEMA_DIGEST: &str = "6041a282ffda8757af4e3eb6ab551e082f136fe53138ab8ac17db9fab52765c2";
@@ -117,125 +123,6 @@ fn value(text: &str) -> Value {
     serde_json::from_str(text).expect("JSON")
 }
 
-fn ref_key(reference: &Value) -> Value {
-    json!([
-        reference["instance_id"],
-        reference["run_id"],
-        reference["epoch"],
-        reference["entity_kind"],
-        reference["entity_id"]
-    ])
-}
-
-fn limits_within(response: &Value, request: &Value) -> bool {
-    [
-        "max_visible_entities",
-        "max_item_bytes",
-        "max_message_bytes",
-    ]
-    .into_iter()
-    .all(|field| {
-        response["limits"][field].as_u64().unwrap() <= request["limits"][field].as_u64().unwrap()
-    })
-}
-
-fn semantic_error(document: &Value) -> Option<&'static str> {
-    if document["kind"] == "error_response" {
-        return None;
-    }
-    if document["kind"] != "bootstrap_response" {
-        return None;
-    }
-    let parent = &document["parent_observation"];
-    if parent["instance_ref"] != parent["snapshot_ref"]["instance_ref"]
-        || parent["state_generation"] != parent["snapshot_ref"]["state_generation"]
-    {
-        return Some("invalid_binding");
-    }
-    let visible = document["visible_entities"].as_array()?;
-    let limit = document["limits"]["max_visible_entities"].as_u64()?;
-    if visible.len() as u64 > limit {
-        return Some("invalid_bounds");
-    }
-    let parent_ref = &parent["instance_ref"];
-    let scope = &document["scope"];
-    if scope["instance_id"] != parent_ref["instance_id"]
-        || scope["run_id"] != parent_ref["run_id"]
-        || scope["content_manifest_id"]
-            != document["selector"]["definition_ref"]["content_manifest_id"]
-    {
-        return Some("invalid_binding");
-    }
-    if document["owner_provenance"]
-        != json!({
-            "authority_epoch_owner": "sts2-harness",
-            "content_manifest_owner": "sts2-game-mod",
-            "instance_fence_owner": "sts2-gateway",
-            "instance_ref_epoch_owner": "sts2-game-mod",
-            "native_snapshot_owner": "sts2-game-mod",
-            "transport_lease_epoch_role": "fence_only"
-        })
-    {
-        return Some("invalid_binding");
-    }
-    let definition = &document["selector"]["definition_ref"];
-    let selector_ref = &document["selector"]["instance_ref"];
-    let mut keys = Vec::with_capacity(visible.len());
-    for entity in visible {
-        let reference = &entity["instance_ref"];
-        let entity_snapshot = &entity["snapshot_ref"];
-        for field in ["instance_id", "run_id", "epoch"] {
-            if reference[field] != parent_ref[field] {
-                return Some("invalid_binding");
-            }
-        }
-        if entity_snapshot["instance_ref"] != *reference
-            || entity_snapshot["snapshot_id"] != parent["snapshot_ref"]["snapshot_id"]
-        {
-            return Some("invalid_binding");
-        }
-        if entity_snapshot["state_generation"] != parent["state_generation"] {
-            return Some("stale_snapshot");
-        }
-        if entity["definition_ref"].is_object() && entity["definition_ref"] != *definition {
-            return Some("invalid_binding");
-        }
-        let key = ref_key(reference);
-        if keys.iter().any(|existing| existing == &key) {
-            return Some("invalid_binding");
-        }
-        keys.push(key);
-    }
-    if !visible
-        .iter()
-        .any(|entity| entity["instance_ref"] == *parent_ref)
-    {
-        return Some("invalid_binding");
-    }
-    if !selector_ref.is_null()
-        && (selector_ref != parent_ref
-            || visible
-                .iter()
-                .filter(|entity| entity["instance_ref"] == *selector_ref)
-                .count()
-                != 1)
-    {
-        return Some("invalid_binding");
-    }
-    let max_item_bytes = document["limits"]["max_item_bytes"].as_u64()?;
-    for entity in visible {
-        if serde_json::to_vec(entity).ok()?.len() as u64 > max_item_bytes {
-            return Some("invalid_bounds");
-        }
-    }
-    if serde_json::to_vec(document).ok()?.len() as u64
-        > document["limits"]["max_message_bytes"].as_u64()?
-    {
-        return Some("invalid_bounds");
-    }
-    None
-}
-
 #[test]
 fn source_artifact_and_goldens_are_schema_valid_and_canonical() {
     assert_eq!(SOURCE_SCHEMA, ARTIFACT_SCHEMA);
@@ -254,6 +141,27 @@ fn source_artifact_and_goldens_are_schema_valid_and_canonical() {
         assert_eq!(document["provenance"]["artifact"], ARTIFACT);
         assert_eq!(semantic_error(&document), None, "{name} semantic error");
     }
+}
+
+#[test]
+fn native_unavailable_is_explicit_and_carries_no_snapshot() {
+    let validator = schema_validator();
+    let request = value(GOLDENS[0].1);
+    let error = value(GOLDENS[2].1);
+    assert!(validator.is_valid(&error), "native unavailable schema");
+    assert_eq!(error["kind"], "error_response");
+    assert_eq!(error["error"]["code"], "not_observable");
+    assert_eq!(error["error"]["field"], "parent_observation");
+    assert_eq!(
+        error["error"]["reason"],
+        "native snapshot identity is unavailable"
+    );
+    assert_eq!(error["error"]["retryable"], true);
+    assert!(error["parent_observation"].is_null());
+    assert!(error["visible_entities"].is_null());
+    assert_eq!(error["selector"], request["selector"]);
+    assert_eq!(error["scope"], request["scope"]);
+    assert!(!error["correlation_id"].as_str().unwrap().is_empty());
 }
 
 #[test]
@@ -350,15 +258,76 @@ fn duplicate_definitions_keep_distinct_instances_and_bootstrap_the_query_v1_shap
 fn response_echoes_request_identity_and_never_expands_limits() {
     let request = value(GOLDENS[0].1);
     let response = value(GOLDENS[1].1);
-    for field in ["correlation_id", "scope", "selector", "limits"] {
-        assert_eq!(response[field], request[field], "response echoes {field}");
+    let validator = schema_validator();
+    assert!(validator.is_valid(&response));
+    assert_eq!(response_request_error(&response, &request), None);
+    for field in [
+        "max_visible_entities",
+        "max_item_bytes",
+        "max_message_bytes",
+    ] {
+        let mut expanded = response.clone();
+        let mut lower_request = request.clone();
+        let lower = request["limits"][field].as_u64().unwrap() - 1;
+        lower_request["limits"][field] = json!(lower);
+        expanded["limits"][field] = json!(request["limits"][field].as_u64().unwrap());
+        assert!(
+            validator.is_valid(&expanded),
+            "expanded {field} response remains structurally valid"
+        );
+        assert_eq!(
+            response_request_error(&expanded, &lower_request),
+            Some("invalid_bounds"),
+            "expanded {field} is rejected against request limits"
+        );
     }
-    let mut expanded = response.clone();
-    expanded["limits"]["max_visible_entities"] =
-        json!(request["limits"]["max_visible_entities"].as_u64().unwrap() + 1);
-    assert!(
-        !limits_within(&expanded, &request),
-        "expanded response limits are rejected"
+}
+
+#[test]
+fn actual_count_item_and_message_bytes_have_under_exact_and_over_cases() {
+    let validator = schema_validator();
+    let response = value(GOLDENS[1].1);
+    let visible = response["visible_entities"].as_array().unwrap();
+    let item_bytes = serde_json::to_vec(&visible[0]).unwrap().len() as u64;
+    assert!(validator.is_valid(&response));
+    assert_eq!(semantic_error(&response), None);
+
+    let mut exact = response.clone();
+    exact["limits"]["max_visible_entities"] = json!(visible.len());
+    exact["limits"]["max_item_bytes"] = json!(item_bytes);
+    let mut message_bytes = serde_json::to_vec(&exact).unwrap().len() as u64;
+    for _ in 0..8 {
+        exact["limits"]["max_message_bytes"] = json!(message_bytes);
+        message_bytes = serde_json::to_vec(&exact).unwrap().len() as u64;
+    }
+    exact["limits"]["max_message_bytes"] = json!(message_bytes);
+    assert!(validator.is_valid(&exact));
+    assert_eq!(semantic_error(&exact), None, "exact bounds are accepted");
+
+    let mut over = exact.clone();
+    over["limits"]["max_visible_entities"] = json!(visible.len() + 1);
+    over["limits"]["max_item_bytes"] = json!(item_bytes + 1);
+    over["limits"]["max_message_bytes"] = json!(message_bytes + 1);
+    assert!(validator.is_valid(&over));
+    assert_eq!(semantic_error(&over), None, "over bounds are accepted");
+
+    for field in ["max_item_bytes", "max_message_bytes"] {
+        let mut under = exact.clone();
+        under["limits"][field] = json!(under["limits"][field].as_u64().unwrap() - 1);
+        assert!(validator.is_valid(&under));
+        assert_eq!(
+            semantic_error(&under),
+            Some("invalid_bounds"),
+            "under {field} rejects actual encoded bytes"
+        );
+    }
+    let mut under_count = exact;
+    under_count["limits"]["max_visible_entities"] = json!(visible.len() - 1);
+    assert!(validator.is_valid(&under_count));
+    assert_eq!(
+        semantic_error(&under_count),
+        Some("invalid_bounds"),
+        "under count rejects visible entities"
     );
 }
 
