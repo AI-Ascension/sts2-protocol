@@ -168,6 +168,7 @@ are rejected. The added vocabulary does not establish host support or campaign c
 | --- | --- | --- | --- |
 | `game-information-query-v2` | `sts2-protocol` | Producer `sts2-game-mod`; consumers `sts2-gateway`, `sts2-mcp-server` | Separate candidate; no admitted consumers, runtime or release claim |
 | `game-information-lookup-binding-v1` | `sts2-protocol` | Producer `sts2-harness`; consumers `sts2-gateway`, `sts2-mcp-server` | Separate candidate; no admitted consumers, runtime or release claim |
+| `game-information-live-observation-bootstrap-v1` | `sts2-protocol` | Producer `sts2-game-mod`; consumers `sts2-gateway`, `sts2-harness`, `sts2-mcp-server` | Additive candidate; no native, route, runtime or release claim |
 
 [ADR 0039](decisions/0039-game-information-rest-read-candidate.md) defines the closed rest-read
 successor and room-to-occurrence containment. V1 schemas, artifacts and goldens remain immutable.
@@ -180,3 +181,9 @@ lookup-binding discovery and observation contract, its six golden responses, its
 fixtures and the deterministic witness precedence. It records the retained-observation fence, the
 re-observation terminal code, and the fact that route and transport stay undecided. Candidate
 semantic tests cannot establish a live harness binding, transport negotiation or MCP integration.
+
+[ADR 0041](decisions/0041-game-information-live-observation-bootstrap.md) defines the additive
+live-observation bootstrap candidate. It carries a trusted query-v1-shaped parent observation and
+bounded visible entity references so a consumer can select one exact occurrence before issuing the
+unchanged live query. It preserves the query-v1 and lookup-binding-v1 bytes and digests. Native
+extraction, route negotiation, consumer adoption and live agent reachability remain separate gates.
