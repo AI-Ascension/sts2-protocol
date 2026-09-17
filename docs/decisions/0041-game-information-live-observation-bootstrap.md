@@ -16,8 +16,11 @@ entity-scoped live query.
 
 The missing native values and the missing wire bootstrap are separate boundaries. The game-mod
 must still obtain native run, occurrence, snapshot, entity, and generation facts from one coherent
-host-thread read. This decision defines only an additive, transport-neutral serialization contract
-for carrying those facts after a route owner chooses a transport.
+host-thread read. The native snapshot and occurrence epoch are owner-local to that observed
+host surface; they do not claim persistence across restart or run replacement. Query-v1
+invalidation on restart, restore, content/profile/run change, or epoch change remains authoritative.
+This decision defines only an additive, transport-neutral serialization contract for carrying those
+facts after a route owner chooses a transport.
 
 ## Decision
 

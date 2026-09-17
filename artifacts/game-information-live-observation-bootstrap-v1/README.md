@@ -13,7 +13,9 @@ attested snapshot before forming an unchanged query-v1 live request. Wildcard, g
 process-local, and transport-lease identities are invalid substitutes for native references. The
 scope binds the gateway instance, native run, manifest, locale, and positive harness authority epoch.
 Owner labels describe responsibility and do not replace the authenticated gateway/lookup-binding
-fence.
+fence. Native occurrence and snapshot identities are owner-local to the observed host surface;
+restart, restore, content/profile/run replacement, or epoch change invalidates them, with no
+persistence claim across restart.
 
 Owner provenance is explicit: game-mod owns the native snapshot, content manifest, and occurrence
 epoch; gateway owns the authenticated instance fence; harness owns the authority epoch. The
