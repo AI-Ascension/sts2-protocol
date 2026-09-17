@@ -27,3 +27,11 @@ return to its client. MCP retains its own descriptor limit for serialized
 tool call to the Gateway request and response, without deriving wrapper
 overhead. `limit-examples.json` records representative bodyless capabilities,
 Runtime-v3 state, lookup-binding, and paged query values.
+
+A consumer requests this version with the exact
+`x-sts2-capabilities-version: sts2-gateway-negotiated-capabilities-v2` header on
+`GET /v1/instances/{instance_id}/negotiated-capabilities`. V1 remains the
+default for callers without the header. A Gateway that supports version
+negotiation returns HTTP 406 with
+`negotiated_capabilities_version_unsupported` for any other requested value;
+a legacy Gateway may ignore the header and return a strict v1 document.

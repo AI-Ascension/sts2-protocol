@@ -103,7 +103,7 @@
     },
     "offers": {
       "type": "array",
-      "maxItems": 14,
+      "maxItems": 15,
       "items": {
         "type": "object",
         "additionalProperties": false,
@@ -314,6 +314,25 @@
                 }
               }
             }
+          },
+          {
+            "if": {
+              "properties": {
+                "operation": {
+                  "const": "game_information.live_observation_bootstrap"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "revision": {
+                  "const": "game-information-live-observation-bootstrap-v1"
+                },
+                "required_scope": {
+                  "const": "read"
+                }
+              }
+            }
           }
         ]
       }
@@ -391,5 +410,32 @@
         }
       }
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "offers": {
+            "contains": {
+              "properties": {
+                "operation": {
+                  "const": "game_information.live_observation_bootstrap"
+                }
+              },
+              "required": [
+                "operation"
+              ]
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "lookup_binding_witness": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  ]
 }
