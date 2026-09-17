@@ -170,6 +170,15 @@ required_files = [
   "conformance/mutations/runtime-v4-expert-rest-action-v1/action-selection-requested-option-kind-mismatch.json",
   "crates/protocol/tests/runtime_v4_expert_rest_action_conformance/support.rs",
   "crates/protocol/tests/runtime_v4_expert_rest_action_conformance/semantics.rs",
+  "schemas/negotiated-capabilities-v2.schema.json",
+  "conformance/cases/negotiated-capabilities-v2.json",
+  "artifacts/negotiated-capabilities-v2/README.md",
+  "artifacts/negotiated-capabilities-v2/manifest.json",
+  "artifacts/negotiated-capabilities-v2/schema.json",
+  "artifacts/negotiated-capabilities-v2/SHA256SUMS",
+  "artifacts/negotiated-capabilities-v2/limit-examples.json",
+  "crates/protocol/tests/negotiated_capabilities_v2_conformance.rs",
+  "docs/decisions/0042-negotiated-capabilities-v2.md",
 ]
 ignored_directories = [
   ".git",
