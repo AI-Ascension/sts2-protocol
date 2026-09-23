@@ -155,9 +155,9 @@ The harness's Exo request and decision envelope is intentionally provider-owned.
 cross-repository producer, consumer, and conformance requirement; this keeps model policy out of
 the neutral protocol owner.
 
-The campaign-continuation candidate in ADR 0012 adds `proceed`, `confirm_selection`, and
-`cancel_selection` under digest
-`8e99cea36b7ede97532348fd8efe302ca79260895265a7bf14ddf7e006d8ff63`.
+The campaign-continuation candidate in ADR 0012 adds `proceed`, `confirm_selection`,
+`cancel_selection`, and `continue_run` under digest
+`daa216902d3211b9537924105b27e7718dd93dec82969a3c550131a27147c06b`.
 It requires coordinated migration of game-mod, gateway, MCP and harness. Existing sessions
 using the previous digest must finish before the replacement stack starts; mixed revisions
 are rejected. The added vocabulary does not establish host support or campaign completion.
