@@ -130,6 +130,10 @@ pub(super) enum Action {
     Proceed {},
     ConfirmSelection {},
     CancelSelection {},
+    ContinueRun {
+        #[serde(default, deserialize_with = "optional_identity")]
+        run_id: Option<String>,
+    },
 }
 
 impl From<Action> for RuntimeV3GameplayAction {
@@ -152,6 +156,7 @@ impl From<Action> for RuntimeV3GameplayAction {
             Action::Proceed {} => Self::Proceed,
             Action::ConfirmSelection {} => Self::ConfirmSelection,
             Action::CancelSelection {} => Self::CancelSelection,
+            Action::ContinueRun { run_id } => Self::ContinueRun { run_id },
         }
     }
 }

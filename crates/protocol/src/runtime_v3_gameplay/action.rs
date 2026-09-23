@@ -46,6 +46,10 @@ pub enum RuntimeV3GameplayAction {
     Proceed,
     ConfirmSelection,
     CancelSelection,
+    ContinueRun {
+        #[serde(skip_serializing_if = "Option::is_none")]
+        run_id: Option<String>,
+    },
 }
 
 /// Host-generated action identity plus its typed semantic payload.

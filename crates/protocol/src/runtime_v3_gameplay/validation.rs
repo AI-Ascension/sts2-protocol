@@ -122,6 +122,7 @@ impl RuntimeV3GameplayLegalAction {
             | RuntimeV3GameplayAction::ConfirmSelection
             | RuntimeV3GameplayAction::CancelSelection
             | RuntimeV3GameplayAction::SaveQuit => [None, None],
+            RuntimeV3GameplayAction::ContinueRun { run_id } => [run_id.as_deref(), None],
         };
         if identifiers
             .into_iter()

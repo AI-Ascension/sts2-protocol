@@ -202,6 +202,25 @@ where
     serde::Deserialize::deserialize(deserializer)
 }
 
+/// Deserializes a member that may be absent but, when present, must be a JSON string. Unlike
+/// `required_nullable`, an explicit `null` is rejected so the parser matches the schema's optional
+/// `#/$defs/identity` rule used by `continue_run.run_id`.
+fn optional_identity<'de, D>(deserializer: D) -> Result<Option<String>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+{
+    let value: serde_json::Value = serde::Deserialize::deserialize(deserializer)?;
+    match value {
+        serde_json::Value::String(value) => Ok(Some(value)),
+        serde_json::Value::Null => {
+            Err(serde::de::Error::custom("identity member must not be null"))
+        }
+        _ => Err(serde::de::Error::custom(
+            "identity member must be a JSON string",
+        )),
+    }
+}
+
 fn valid_text(value: &str) -> bool {
     !value.is_empty()
         && value.len() <= RUNTIME_V3_GAMEPLAY_MAX_TEXT_BYTES

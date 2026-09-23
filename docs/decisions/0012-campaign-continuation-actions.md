@@ -8,16 +8,22 @@ shops or rest sites, or explicit confirmation/cancellation of a card selection. 
 `skip_reward`, `event_choice`, or a fabricated card identifier would obscure the intended
 mutation and break receipt/replay semantics.
 
-Add argument-free `proceed`, `confirm_selection`, and `cancel_selection` actions. The
-game-mod remains the authoritative producer; gateway, MCP and harness are named consumers.
-Each action exists only in a current host-generated catalog and retains the enclosing
-instance/session/lease/generation/state/operation lifetime. JSON objects are closed and
-contain only `kind`. Unknown kinds, extra fields and stale digests fail closed.
+Add argument-free `proceed`, `confirm_selection`, and `cancel_selection` actions, plus a
+`continue_run` action that resumes a saved campaign run. The game-mod remains the authoritative
+producer; gateway, MCP and harness are named consumers. Each action exists only in a current
+host-generated catalog and retains the enclosing instance/session/lease/generation/state/operation
+lifetime. JSON objects are closed and contain only `kind`, except `continue_run`, which admits an
+optional `run_id` identity. Unknown kinds, extra fields and stale digests fail closed.
 
 `proceed` activates a currently available continuation control. `confirm_selection` commits
 the host's current selection. `cancel_selection` cancels it only when the host permits
 cancellation. The protocol does not decide where these are legal, which choices to make,
 or whether a transition settled. Existing action identity and settlement-witness rules apply.
+
+`continue_run` asks the host to resume a saved run. The host names the run with `run_id` only
+when the choice is not already determined, so the member is optional: an omitted `run_id` is
+admitted, while an explicit `null`, blank or non-identity `run_id` and any extra member are
+refused. The protocol does not decide which save is loaded or whether continuation is available.
 
 This changes the schema digest. It is an explicit incompatible artifact revision under the
 existing profile: every producer/consumer must migrate together. No mixed-digest session or
