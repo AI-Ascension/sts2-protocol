@@ -7,6 +7,11 @@ Semantic Versioning once a protocol artifact or repository release exists.
 
 ### Added
 
+- Add the `Check documentation links` CI step, denying broken intra-doc links with
+  `-D rustdoc::broken_intra_doc_links --document-private-items` to match the other Rust targets.
+  The gate is non-vacuous here: the workspace carries real intra-doc links in `crates/protocol/src/`,
+  and a broken link is invisible to compilation, Clippy, and policy checks alike.
+
 - Add the bounded `game-information-content-manifest-v1` envelope and codec, with closed
   success/error variants, safe error-reason tokens, producer-aligned identity/locale bounds,
   typed manifest goldens, and 16 MiB UTF-8 byte refusal. The #83 owner-side producer integration
