@@ -7,6 +7,16 @@ Semantic Versioning once a protocol artifact or repository release exists.
 
 ### Added
 
+- Tightened the `Check documentation links` step to also deny
+  `-D rustdoc::private_intra_doc_links -D rustdoc::redundant_explicit_links`, the two remaining
+  warn-by-default members of the doc-integrity class this gate exists for. The step previously
+  denied only `broken_intra_doc_links`, so it exited 0 and reported success while a private-item
+  link could print a warning on every run. Both lints are load-bearing here: a link to the
+  `pub(super)` `parse_raw` in `exact_state.rs` fails the tightened gate (exit 101) and passes the
+  old one (exit 0, `generated 1 warning`). No link was broken on the current revision, so this is a
+  latent gate gap rather than a repair; no source file changed. Follow-up to #63, whose acceptance
+  criteria recorded `private_intra_doc_links` as deliberately out of scope. Refs #65.
+
 - Add the `Check documentation links` CI step, denying broken intra-doc links with
   `-D rustdoc::broken_intra_doc_links --document-private-items` to match the other Rust targets.
   The gate is non-vacuous here: the workspace carries real intra-doc links in `crates/protocol/src/`,
