@@ -7,6 +7,11 @@ Semantic Versioning once a protocol artifact or repository release exists.
 
 ### Added
 
+- The `Check documentation links` step now also denies `rustdoc::private_intra_doc_links` and
+  `rustdoc::redundant_explicit_links` (Refs #65). Both are warn-by-default and were previously
+  invisible to a gate that always passes `--document-private-items`, so a link that breaks for
+  every reader without that flag could pass with `success`. No link needed repairing.
+
 - Add the `Check documentation links` CI step, denying broken intra-doc links with
   `-D rustdoc::broken_intra_doc_links --document-private-items` to match the other Rust targets.
   The gate is non-vacuous here: the workspace carries real intra-doc links in `crates/protocol/src/`,

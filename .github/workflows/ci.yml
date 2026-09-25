@@ -98,7 +98,12 @@ jobs:
         run: cargo clippy --workspace --all-targets --all-features --locked -- -D warnings
 
       - name: Check documentation links
-        run: RUSTDOCFLAGS="-D rustdoc::broken_intra_doc_links --document-private-items" cargo doc --workspace --no-deps --locked
+        # Deny the two warn-by-default private-link lints as well. The step always passes
+        # `--document-private-items`, so `rustdoc::private_intra_doc_links` — whose
+        # diagnostic is precisely "this link resolves only because you passed
+        # --document-private-items, but will break without" — can never be observed by
+        # this gate unless it is denied here.
+        run: RUSTDOCFLAGS="-D rustdoc::broken_intra_doc_links -D rustdoc::private_intra_doc_links -D rustdoc::redundant_explicit_links --document-private-items" cargo doc --workspace --no-deps --locked
 
       - name: Run Rust tests
         run: cargo test --workspace --all-targets --all-features --locked
