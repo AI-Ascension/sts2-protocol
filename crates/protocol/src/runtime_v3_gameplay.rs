@@ -40,8 +40,12 @@ pub const RUNTIME_V3_GAMEPLAY_MAX_GENERATION: u64 = 9_007_199_254_740_991;
 pub const RUNTIME_V3_GAMEPLAY_MAX_LEGAL_ACTIONS: usize = 256;
 /// Maximum number of player-visible cards or enemies in one observation.
 pub const RUNTIME_V3_GAMEPLAY_MAX_ENTITIES: usize = 256;
-/// Maximum text/identity field length in bytes.
-pub const RUNTIME_V3_GAMEPLAY_MAX_TEXT_BYTES: usize = 512;
+/// Maximum character length of a `#/$defs/text` or `#/$defs/identity` field.
+///
+/// This counts Unicode scalar values, not bytes, because JSON Schema's `maxLength` counts
+/// characters. A byte bound would refuse a 512-character non-ASCII name that the schema admits, and
+/// the parser and the schema it is written against must never disagree about what is valid.
+pub const RUNTIME_V3_GAMEPLAY_MAX_TEXT_CHARACTERS: usize = 512;
 /// Maximum character length of one host-supplied offered-entry attribute.
 ///
 /// This counts Unicode scalar values, not bytes, because JSON Schema's `maxLength` counts
@@ -199,7 +203,7 @@ pub struct RuntimeV3GameplayObservation {
 
 pub(crate) fn valid_identity(value: &str) -> bool {
     !value.is_empty()
-        && value.len() <= RUNTIME_V3_GAMEPLAY_MAX_TEXT_BYTES
+        && value.len() <= RUNTIME_V3_GAMEPLAY_MAX_TEXT_CHARACTERS
         && value
             .bytes()
             .all(|byte| byte.is_ascii_alphanumeric() || b"._:/-".contains(&byte))
@@ -234,7 +238,7 @@ where
 
 pub(crate) fn valid_text(value: &str) -> bool {
     !value.is_empty()
-        && value.len() <= RUNTIME_V3_GAMEPLAY_MAX_TEXT_BYTES
+        && value.chars().count() <= RUNTIME_V3_GAMEPLAY_MAX_TEXT_CHARACTERS
         && !value.chars().any(char::is_control)
 }
 

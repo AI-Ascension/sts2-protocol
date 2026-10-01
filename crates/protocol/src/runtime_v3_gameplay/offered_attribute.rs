@@ -13,9 +13,8 @@ use super::{RUNTIME_V3_GAMEPLAY_MAX_OFFERED_ATTRIBUTE_CHARACTERS, RuntimeV3Gamep
 ///
 /// The schema counts these attributes in characters (`maxLength`) and rejects control characters,
 /// so this counts characters too. Every offered attribute is bounded this way rather than by
-/// [`super::RUNTIME_V3_GAMEPLAY_MAX_TEXT_BYTES`] because that constant is a byte bound for the fields that
-/// were already in the contract, and adopting it here would make the parser stricter than the
-/// schema it is written against.
+/// [`super::RUNTIME_V3_GAMEPLAY_MAX_TEXT_CHARACTERS`] because that constant is the bound the schema
+/// itself declares for every character-counted string it owns.
 pub(crate) fn valid_offered_attribute(value: &str) -> bool {
     !value.is_empty()
         && value.chars().count() <= RUNTIME_V3_GAMEPLAY_MAX_OFFERED_ATTRIBUTE_CHARACTERS
