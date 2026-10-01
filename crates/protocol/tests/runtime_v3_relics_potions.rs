@@ -7,64 +7,22 @@
 //! not say so: every affected object is `additionalProperties: false`, so the whole observation was
 //! refused, not trimmed. Each case is checked against both the schema and the parser, because a
 //! disagreement in either direction is a real defect.
+//!
+//! The rule that an optional member is absent rather than `null` has its own cases in
+//! `runtime_v3_absence_is_not_null.rs`.
+
+mod support {
+    pub mod runtime_v3_parity {
+        include!("support/runtime_v3_parity.rs");
+    }
+}
 
 use serde_json::{Value, json};
 use sts2_protocol::{
     RUNTIME_V3_GAMEPLAY_MAX_ENTITIES, RuntimeV3GameplayAction, RuntimeV3GameplayMessage,
     RuntimeV3GameplayPotionTargetMode,
 };
-
-const BELT: &str = include_str!(
-    "../../../artifacts/runtime-v3-gameplay/golden/state-response-described-belt.json"
-);
-const RESPONSE: &str =
-    include_str!("../../../artifacts/runtime-v3-gameplay/golden/state-response.json");
-const SCHEMA: &str = include_str!("../../../schemas/runtime-v3-gameplay.schema.json");
-
-fn validator() -> jsonschema::Validator {
-    let schema: Value = serde_json::from_str(SCHEMA).expect("schema is JSON");
-    jsonschema::draft202012::options()
-        .build(&schema)
-        .expect("schema compiles as Draft 2020-12")
-}
-
-fn base() -> Value {
-    serde_json::from_str(RESPONSE).expect("golden is JSON")
-}
-
-fn rust_accepts(value: &Value) -> bool {
-    serde_json::from_value::<RuntimeV3GameplayMessage>(value.clone())
-        .is_ok_and(|message| message.validate().is_ok())
-}
-
-/// Asserts the schema and the parser reach the same verdict, which is the property under test.
-fn assert_parity(document: &Value, expected: bool, context: &str) {
-    let by_schema = validator().is_valid(document);
-    let by_rust = rust_accepts(document);
-    assert_eq!(
-        by_schema, expected,
-        "schema disagreed with the expectation for {context}: {document}"
-    );
-    assert_eq!(
-        by_schema, by_rust,
-        "schema and parser disagreed for {context}: schema={by_schema} rust={by_rust}"
-    );
-}
-
-/// The player object of `document`, so a case can vary only the belt.
-fn player_of(document: &Value) -> &Value {
-    &document["observation"]["player"]
-}
-
-fn with_player(player: Value) -> Value {
-    let mut document = base();
-    document["observation"]["player"] = player;
-    document
-}
-
-fn full_player() -> Value {
-    player_of(&serde_json::from_str::<Value>(BELT).expect("belt golden is JSON")).clone()
-}
+use support::runtime_v3_parity::{BELT, assert_parity, base, full_player, with_player};
 
 #[test]
 fn the_belt_golden_is_admitted_by_the_schema_and_the_parser_alike() {

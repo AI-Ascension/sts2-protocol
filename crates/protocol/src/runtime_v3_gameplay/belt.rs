@@ -10,6 +10,33 @@
 
 use serde::{Deserialize, Serialize};
 
+/// Deserializes a member that may be absent but, when present, must carry a value of `T`.
+///
+/// A plain `Option<T>` cannot express this. `#[serde(default)]` supplies absence, and serde's
+/// derived `Option` handling supplies `None` for an explicit JSON `null` too, so the parser would
+/// accept `"relics": null` where the schema's optional-array rule refuses it. Absence and an
+/// explicit null are different statements, and the schema already distinguishes them, so the parser
+/// must as well or the two disagree about the same document.
+///
+/// This is the opposite rule from `required_nullable`, which admits a `null` because its member is
+/// required on the wire; here the member is not required at all, so `null` may not stand in for
+/// silence.
+pub(crate) fn absent_unless<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+    T: serde::de::DeserializeOwned,
+{
+    let value = <serde_json::Value as serde::Deserialize>::deserialize(deserializer)?;
+    if value.is_null() {
+        return Err(serde::de::Error::custom(
+            "member must be absent rather than null",
+        ));
+    }
+    serde_json::from_value(value)
+        .map(Some)
+        .map_err(serde::de::Error::custom)
+}
+
 /// A relic the player currently holds.
 ///
 /// A relic changes the rules for the run, so an observation that omits them reasons about a
@@ -23,7 +50,11 @@ pub struct RuntimeV3GameplayRelic {
     /// What the relic does, when the host carries its own text.
     ///
     /// Absence means the host said nothing, which is not the same as a relic that does nothing.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        deserialize_with = "absent_unless",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub description: Option<String>,
 }
 
@@ -54,13 +85,29 @@ pub enum RuntimeV3GameplayPotionTargetMode {
 pub struct RuntimeV3GameplayPotion {
     pub potion_id: String,
     pub name: String,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        deserialize_with = "absent_unless",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub slot: Option<u8>,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        deserialize_with = "absent_unless",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub usable: Option<bool>,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        deserialize_with = "absent_unless",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub target_mode: Option<RuntimeV3GameplayPotionTargetMode>,
     /// What the potion does, when the host carries its own text.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        deserialize_with = "absent_unless",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub description: Option<String>,
 }

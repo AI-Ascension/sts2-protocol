@@ -61,11 +61,33 @@ different object and follows the same rule rather than inventing a second one. `
 names the potion being thrown away and has no target, so requiring a nullable member there would
 be a field no producer could fill with a value.
 
+### Optional means absent, not null
+
+The rule above is only enforced if absence and an explicit JSON `null` are told apart, and serde's
+derived `Option<T>` cannot do that on its own: `#[serde(default)]` supplies absence, and the
+derived `Option` handling supplies `None` for `"relics": null` too. A plain optional member would
+therefore admit nine documents the schema refuses — `player.relics`, `player.potions`,
+`player.potion_slots`, `player.max_potion_slots`, `Relic.description`, `Potion.slot`,
+`Potion.usable`, `Potion.target_mode`, `Potion.description`, and `Card.description` — and the two
+would disagree about the same message in a direction that silently widens what the parser takes.
+
+Each of these members uses a strict optional deserializer that refuses `null` and requires absence
+instead, so `null` cannot stand in for silence. This is the same rule `continue_run.run_id`
+already applies through `optional_identity`, and the same one `play_card` and `use_potion` apply
+through `required_nullable` — with the difference that theirs is required-but-nullable, which is a
+different statement from these, which are absent-or-valued.
+
+Two conformance cases hold this in place, because a defect in either direction is a real defect:
+`use_potion_requires_its_target_member_even_when_the_schema_could_omit_it` (the schema listed only
+`kind` and `potion_id` while the parser required `target_id`, so the schema admitted a document the
+parser refused) and `an_explicit_null_on_any_optional_member_is_refused`. Both were verified
+negatively by reverting the fix and observing the failure.
+
 ## Consequences
 
 - `RUNTIME_V3_GAMEPLAY_SCHEMA_DIGEST` moves from
   `843e2e546116c8011f378d271406ac2fb4ec0e4c2dedd32dee46cc1500315ad5` to
-  `03816c3ef8bdba036dd65dd1063bfaf1128cb331f4d0e9267b378c54bf5a1959`. Every producer and consumer
+  `0ae1d4d1525162da3059c028dcdb70df1d4d2dcf9620c5edd9b543e5f04aacc2`. Every producer and consumer
   pin moves with it: the `sts2-game-mod` mirror, `sts2-harness` `runtime_v3_parse.rs` and
   `runtime_v3_wire.rs`, the `negotiated-capabilities-v2` artifact (whose own digest also moves),
   the runtime-v3 goldens, `SHA256SUMS`, and `docs/COMPATIBILITY.md`. A reader pinned to the old
