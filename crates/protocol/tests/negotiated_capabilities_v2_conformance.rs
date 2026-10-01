@@ -9,7 +9,7 @@ use sha2::{Digest, Sha256};
 
 const PROFILE: &str = "sts2-gateway-negotiated-capabilities-v2";
 const ARTIFACT: &str = "sts2-gateway/negotiated-capabilities-v2";
-const SCHEMA_DIGEST: &str = "47f254a74dfbfc493d49cdcee0cd0b6eadd8273eee1f3cd6a4efa028a18edf0d";
+const SCHEMA_DIGEST: &str = "57367c814b9eb0254d7ec89454cd7892160056015eb1716f23b68f2c017e46fe";
 const SOURCE_SCHEMA: &str = include_str!("../../../schemas/negotiated-capabilities-v2.schema.json");
 const ARTIFACT_SCHEMA: &str =
     include_str!("../../../artifacts/negotiated-capabilities-v2/schema.json");

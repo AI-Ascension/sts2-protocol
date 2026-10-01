@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 mod action;
+mod belt;
 mod message;
 mod metadata;
 mod offered_attribute;
@@ -14,12 +15,16 @@ pub use action::{
     RuntimeV3GameplayRecoveryKind, RuntimeV3GameplayStatus, RuntimeV3GameplayTransitionWitness,
     RuntimeV3GameplayWaitOutcome,
 };
+pub use belt::{
+    RuntimeV3GameplayPotion, RuntimeV3GameplayPotionTargetMode, RuntimeV3GameplayRelic,
+};
 pub use message::{
     RuntimeV3GameplayActionResult, RuntimeV3GameplayMessage, RuntimeV3GameplayMessageKind,
 };
 pub use metadata::{
     RuntimeV3GameplayContext, RuntimeV3GameplayMetadata, RuntimeV3GameplayProvenance,
 };
+pub(crate) use offered_attribute::valid_offered_attribute;
 pub(crate) use offered_entry::validate_choices;
 pub use offered_entry::{RuntimeV3GameplayChoice, RuntimeV3GameplayOfferedEntry};
 
@@ -33,7 +38,7 @@ pub const RUNTIME_V3_GAMEPLAY_SCHEMA_SOURCE: &str = "schemas/runtime-v3-gameplay
 pub const RUNTIME_V3_GAMEPLAY_GENERATOR: &str = "hand-authored";
 /// Filled after the normative schema is written and hashed.
 pub const RUNTIME_V3_GAMEPLAY_SCHEMA_DIGEST: &str =
-    "843e2e546116c8011f378d271406ac2fb4ec0e4c2dedd32dee46cc1500315ad5";
+    "03816c3ef8bdba036dd65dd1063bfaf1128cb331f4d0e9267b378c54bf5a1959";
 /// Maximum exact JSON-safe generation and lease epoch.
 pub const RUNTIME_V3_GAMEPLAY_MAX_GENERATION: u64 = 9_007_199_254_740_991;
 /// Maximum number of actions in one complete host-generated catalog.
@@ -90,6 +95,13 @@ pub struct RuntimeV3GameplayCard {
     pub name: String,
     pub cost: u8,
     pub upgraded: bool,
+    /// The host's own card text, when it carries it.
+    ///
+    /// Absence means the host said nothing, which is different from a card with an empty effect.
+    /// A decision that turns on what a card does cannot be made without it, so a host that knows
+    /// it should say it; a host that does not is unaffected.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub description: Option<String>,
 }
 
 /// A bounded player-visible enemy description.
@@ -115,6 +127,19 @@ pub struct RuntimeV3GameplayPlayer {
     pub deck: Vec<RuntimeV3GameplayCard>,
     pub discard: Vec<RuntimeV3GameplayCard>,
     pub exhaust: Vec<RuntimeV3GameplayCard>,
+    /// Relics the host disclosed. Absent means it disclosed none, which is not the same as an
+    /// empty list: an empty list is the host saying it has none.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub relics: Option<Vec<RuntimeV3GameplayRelic>>,
+    /// Potions the host disclosed. Absent and empty are distinct for the same reason.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub potions: Option<Vec<RuntimeV3GameplayPotion>>,
+    /// How many potion slots are currently occupied.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub potion_slots: Option<u8>,
+    /// How many potion slots the player has in total.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub max_potion_slots: Option<u8>,
 }
 
 /// State-specific player-visible details. No host object, save, RNG, or unrevealed result is

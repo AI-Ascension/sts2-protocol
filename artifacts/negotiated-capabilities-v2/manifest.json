@@ -2,7 +2,7 @@
   "artifact": "sts2-gateway/negotiated-capabilities-v2",
   "protocol_version": "sts2-gateway-negotiated-capabilities-v2",
   "schema": "schema.json",
-  "schema_digest": "47f254a74dfbfc493d49cdcee0cd0b6eadd8273eee1f3cd6a4efa028a18edf0d",
+  "schema_digest": "57367c814b9eb0254d7ec89454cd7892160056015eb1716f23b68f2c017e46fe",
   "provenance": {
     "source": "schemas/negotiated-capabilities-v2.schema.json",
     "generator": "hand-authored",

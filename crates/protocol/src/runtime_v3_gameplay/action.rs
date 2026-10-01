@@ -20,6 +20,14 @@ pub enum RuntimeV3GameplayAction {
         #[serde(deserialize_with = "required_nullable")]
         target_id: Option<String>,
     },
+    UsePotion {
+        potion_id: String,
+        #[serde(deserialize_with = "required_nullable")]
+        target_id: Option<String>,
+    },
+    DiscardPotion {
+        potion_id: String,
+    },
     EndTurn,
     ChooseReward {
         reward_id: String,

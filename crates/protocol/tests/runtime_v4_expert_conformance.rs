@@ -63,6 +63,6 @@ fn runtime_v4_expert_checksum_inventory_is_closed_and_v3_is_unchanged() {
     }
     assert_eq!(
         RUNTIME_V3_GAMEPLAY_SCHEMA_DIGEST,
-        "843e2e546116c8011f378d271406ac2fb4ec0e4c2dedd32dee46cc1500315ad5"
+        "03816c3ef8bdba036dd65dd1063bfaf1128cb331f4d0e9267b378c54bf5a1959"
     );
 }

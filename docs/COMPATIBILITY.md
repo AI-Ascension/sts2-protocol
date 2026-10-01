@@ -157,7 +157,7 @@ the neutral protocol owner.
 
 The campaign-continuation candidate in ADR 0012 adds `proceed`, `confirm_selection`,
 `cancel_selection`, and `continue_run` under digest
-`843e2e546116c8011f378d271406ac2fb4ec0e4c2dedd32dee46cc1500315ad5`.
+`03816c3ef8bdba036dd65dd1063bfaf1128cb331f4d0e9267b378c54bf5a1959`.
 It requires coordinated migration of game-mod, gateway, MCP and harness. Existing sessions
 using the previous digest must finish before the replacement stack starts; mixed revisions
 are rejected. The added vocabulary does not establish host support or campaign completion.

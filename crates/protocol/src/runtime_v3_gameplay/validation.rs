@@ -2,12 +2,57 @@
 
 use super::*;
 
+impl RuntimeV3GameplayRelic {
+    fn validate(&self) -> Result<(), RuntimeV3GameplayValidationError> {
+        if !valid_identity(&self.relic_id) {
+            return Err(RuntimeV3GameplayValidationError::InvalidIdentity);
+        }
+        if !valid_offered_attribute(&self.name) {
+            return Err(RuntimeV3GameplayValidationError::InvalidText);
+        }
+        if self
+            .description
+            .as_deref()
+            .is_some_and(|value| !valid_offered_attribute(value))
+        {
+            return Err(RuntimeV3GameplayValidationError::InvalidText);
+        }
+        Ok(())
+    }
+}
+
+impl RuntimeV3GameplayPotion {
+    fn validate(&self) -> Result<(), RuntimeV3GameplayValidationError> {
+        if !valid_identity(&self.potion_id) {
+            return Err(RuntimeV3GameplayValidationError::InvalidIdentity);
+        }
+        if !valid_offered_attribute(&self.name) {
+            return Err(RuntimeV3GameplayValidationError::InvalidText);
+        }
+        if self
+            .description
+            .as_deref()
+            .is_some_and(|value| !valid_offered_attribute(value))
+        {
+            return Err(RuntimeV3GameplayValidationError::InvalidText);
+        }
+        Ok(())
+    }
+}
+
 impl RuntimeV3GameplayCard {
     fn validate(&self) -> Result<(), RuntimeV3GameplayValidationError> {
         if !valid_identity(&self.card_id) {
             return Err(RuntimeV3GameplayValidationError::InvalidIdentity);
         }
         if !valid_text(&self.name) {
+            return Err(RuntimeV3GameplayValidationError::InvalidText);
+        }
+        if self
+            .description
+            .as_deref()
+            .is_some_and(|value| !valid_offered_attribute(value))
+        {
             return Err(RuntimeV3GameplayValidationError::InvalidText);
         }
         Ok(())
@@ -43,6 +88,23 @@ impl RuntimeV3GameplayPlayer {
             for card in cards {
                 card.validate()?;
             }
+        }
+        if let Some(relics) = &self.relics {
+            if relics.len() > RUNTIME_V3_GAMEPLAY_MAX_ENTITIES {
+                return Err(RuntimeV3GameplayValidationError::CollectionBounds);
+            }
+            for relic in relics {
+                relic.validate()?;
+            }
+        }
+        let Some(potions) = &self.potions else {
+            return Ok(());
+        };
+        if potions.len() > RUNTIME_V3_GAMEPLAY_MAX_ENTITIES {
+            return Err(RuntimeV3GameplayValidationError::CollectionBounds);
+        }
+        for potion in potions {
+            potion.validate()?;
         }
         Ok(())
     }
@@ -113,6 +175,13 @@ impl RuntimeV3GameplayLegalAction {
             } => [Some(character_id.as_str()), None],
             RuntimeV3GameplayAction::PlayCard { card_id, target_id } => {
                 [Some(card_id.as_str()), target_id.as_deref()]
+            }
+            RuntimeV3GameplayAction::UsePotion {
+                potion_id,
+                target_id,
+            } => [Some(potion_id.as_str()), target_id.as_deref()],
+            RuntimeV3GameplayAction::DiscardPotion { potion_id } => {
+                [Some(potion_id.as_str()), None]
             }
             RuntimeV3GameplayAction::EndTurn
             | RuntimeV3GameplayAction::SkipReward

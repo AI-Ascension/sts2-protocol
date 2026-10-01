@@ -389,7 +389,7 @@
           "const": "runtime-v3-gameplay"
         },
         "schema_digest": {
-          "const": "843e2e546116c8011f378d271406ac2fb4ec0e4c2dedd32dee46cc1500315ad5"
+          "const": "03816c3ef8bdba036dd65dd1063bfaf1128cb331f4d0e9267b378c54bf5a1959"
         },
         "configured_state_probe": {
           "const": true
