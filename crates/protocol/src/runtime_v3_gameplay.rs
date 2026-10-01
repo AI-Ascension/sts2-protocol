@@ -3,6 +3,8 @@
 mod action;
 mod message;
 mod metadata;
+mod offered_attribute;
+mod offered_entry;
 mod shape;
 mod validation;
 mod wire;
@@ -18,6 +20,8 @@ pub use message::{
 pub use metadata::{
     RuntimeV3GameplayContext, RuntimeV3GameplayMetadata, RuntimeV3GameplayProvenance,
 };
+pub(crate) use offered_entry::validate_choices;
+pub use offered_entry::{RuntimeV3GameplayChoice, RuntimeV3GameplayOfferedEntry};
 
 /// Versioned fair-play semantic gameplay profile.
 pub const RUNTIME_V3_GAMEPLAY_PROTOCOL_VERSION: &str = "runtime-v3-gameplay";
@@ -29,7 +33,7 @@ pub const RUNTIME_V3_GAMEPLAY_SCHEMA_SOURCE: &str = "schemas/runtime-v3-gameplay
 pub const RUNTIME_V3_GAMEPLAY_GENERATOR: &str = "hand-authored";
 /// Filled after the normative schema is written and hashed.
 pub const RUNTIME_V3_GAMEPLAY_SCHEMA_DIGEST: &str =
-    "daa216902d3211b9537924105b27e7718dd93dec82969a3c550131a27147c06b";
+    "843e2e546116c8011f378d271406ac2fb4ec0e4c2dedd32dee46cc1500315ad5";
 /// Maximum exact JSON-safe generation and lease epoch.
 pub const RUNTIME_V3_GAMEPLAY_MAX_GENERATION: u64 = 9_007_199_254_740_991;
 /// Maximum number of actions in one complete host-generated catalog.
@@ -38,6 +42,13 @@ pub const RUNTIME_V3_GAMEPLAY_MAX_LEGAL_ACTIONS: usize = 256;
 pub const RUNTIME_V3_GAMEPLAY_MAX_ENTITIES: usize = 256;
 /// Maximum text/identity field length in bytes.
 pub const RUNTIME_V3_GAMEPLAY_MAX_TEXT_BYTES: usize = 512;
+/// Maximum character length of one host-supplied offered-entry attribute.
+///
+/// This counts Unicode scalar values, not bytes, because JSON Schema's `maxLength` counts
+/// characters. Binding it to characters is what keeps the schema and this parser accepting exactly
+/// the same strings: a byte bound here would refuse a 512-character non-ASCII name that the schema
+/// admits, and the two must never disagree about what is valid.
+pub const RUNTIME_V3_GAMEPLAY_MAX_OFFERED_ATTRIBUTE_CHARACTERS: usize = 512;
 
 /// Player-visible lifecycle state. Unknown host states must not be coerced into one of these.
 #[derive(Clone, Copy, Debug, Eq, PartialEq, serde::Deserialize, serde::Serialize)]
@@ -120,19 +131,19 @@ pub enum RuntimeV3GameplayState {
         enemies: Vec<RuntimeV3GameplayEnemy>,
     },
     Reward {
-        options: Vec<String>,
+        options: Vec<RuntimeV3GameplayChoice>,
     },
     Shop {
         items: Vec<RuntimeV3GameplayShopItem>,
     },
     Event {
-        choices: Vec<String>,
+        choices: Vec<RuntimeV3GameplayChoice>,
     },
     Rest {
         options: Vec<String>,
     },
     Selection {
-        choices: Vec<String>,
+        choices: Vec<RuntimeV3GameplayChoice>,
     },
     Victory,
     Defeat {
@@ -186,7 +197,7 @@ pub struct RuntimeV3GameplayObservation {
     pub state: RuntimeV3GameplayState,
 }
 
-fn valid_identity(value: &str) -> bool {
+pub(crate) fn valid_identity(value: &str) -> bool {
     !value.is_empty()
         && value.len() <= RUNTIME_V3_GAMEPLAY_MAX_TEXT_BYTES
         && value
@@ -221,7 +232,7 @@ where
     }
 }
 
-fn valid_text(value: &str) -> bool {
+pub(crate) fn valid_text(value: &str) -> bool {
     !value.is_empty()
         && value.len() <= RUNTIME_V3_GAMEPLAY_MAX_TEXT_BYTES
         && !value.chars().any(char::is_control)
@@ -236,6 +247,10 @@ pub enum RuntimeV3GameplayValidationError {
     InvalidText,
     GenerationBounds,
     CollectionBounds,
+    /// Two entries in one offered set carry the same identity.
+    DuplicateChoice,
+    /// A disclosed entry tried to disclose contents of its own.
+    OfferedDisclosureTooDeep,
     ObservationShape,
     ActionShape,
     DuplicateAction,
@@ -253,6 +268,10 @@ impl std::fmt::Display for RuntimeV3GameplayValidationError {
             Self::InvalidText => "runtime-v3-gameplay visible text is invalid",
             Self::GenerationBounds => "runtime-v3-gameplay generation is outside the bound",
             Self::CollectionBounds => "runtime-v3-gameplay collection exceeds its bound",
+            Self::DuplicateChoice => "runtime-v3-gameplay offered identities must be unique",
+            Self::OfferedDisclosureTooDeep => {
+                "runtime-v3-gameplay disclosed contents are bounded to one level"
+            }
             Self::ObservationShape => "runtime-v3-gameplay observation is invalid",
             Self::ActionShape => "runtime-v3-gameplay action is invalid",
             Self::DuplicateAction => "runtime-v3-gameplay action IDs must be unique",

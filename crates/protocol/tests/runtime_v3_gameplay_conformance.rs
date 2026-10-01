@@ -27,6 +27,12 @@ const GOLDENS: &[(&str, &str)] = &[
         "dispatch-action-settled",
         include_str!("../../../artifacts/runtime-v3-gameplay/golden/dispatch-action-settled.json"),
     ),
+    (
+        "state-response-described-offer",
+        include_str!(
+            "../../../artifacts/runtime-v3-gameplay/golden/state-response-described-offer.json"
+        ),
+    ),
 ];
 
 fn payload(text: &str) -> &str {
@@ -96,6 +102,7 @@ fn runtime_v3_gameplay_checksum_inventory_covers_contract_inputs() {
         "golden/state-response.json",
         "golden/dispatch-action-request.json",
         "golden/dispatch-action-settled.json",
+        "golden/state-response-described-offer.json",
     ] {
         assert_eq!(checksum_for(CHECKSUMS, path).len(), 64, "{path}");
     }

@@ -42,19 +42,19 @@ pub(super) enum State {
         enemies: Vec<RuntimeV3GameplayEnemy>,
     },
     Reward {
-        options: Vec<String>,
+        options: Vec<RuntimeV3GameplayChoice>,
     },
     Shop {
         items: Vec<RuntimeV3GameplayShopItem>,
     },
     Event {
-        choices: Vec<String>,
+        choices: Vec<RuntimeV3GameplayChoice>,
     },
     Rest {
         options: Vec<String>,
     },
     Selection {
-        choices: Vec<String>,
+        choices: Vec<RuntimeV3GameplayChoice>,
     },
     Victory {},
     Defeat {
