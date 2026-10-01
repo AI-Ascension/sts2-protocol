@@ -157,10 +157,45 @@ the neutral protocol owner.
 
 The campaign-continuation candidate in ADR 0012 adds `proceed`, `confirm_selection`,
 `cancel_selection`, and `continue_run` under digest
-`daa216902d3211b9537924105b27e7718dd93dec82969a3c550131a27147c06b`.
+`843e2e546116c8011f378d271406ac2fb4ec0e4c2dedd32dee46cc1500315ad5`.
 It requires coordinated migration of game-mod, gateway, MCP and harness. Existing sessions
 using the previous digest must finish before the replacement stack starts; mixed revisions
 are rejected. The added vocabulary does not establish host support or campaign completion.
+
+## Described offered-entry candidate
+
+`state.reward.options`, `state.event.choices`, and `state.selection.choices` move from a list of
+identity strings to a list whose element is *either* the bare identity the host already emitted
+*or* an object naming that identity plus whatever the host actually supplied about it: `name`,
+`cost`, `upgraded`, `rarity`, `description`, and the reward-disclosure `contents`. The bare form
+stays valid, so this is additive and no conforming producer is invalidated; one list may mix both
+forms where the host disclosed some entries and not others.
+
+Three properties are load-bearing and are enforced rather than documented:
+
+- **Nothing is defaulted.** Every attribute is independently omittable and an omitted attribute
+  stays omitted after a round trip. Absence is representable and distinct from a plausible value,
+  and an explicit `null` is refused rather than accepted as a second spelling of absent. A rarity is
+  never derived from a generation pool or weight; the host supplies the value it holds or the
+  attribute is absent.
+- **Disclosure is bounded to one level.** A disclosed element carries the same attributes but no
+  `contents` of its own, so `#/$defs/disclosed_entry` omits the member entirely and the parser
+  refuses a second level with `OfferedDisclosureTooDeep`. Neither side silently drops a deeper
+  nesting a producer tried to build.
+- **The schema and the parser agree.** Offered attributes are bounded in Unicode characters
+  (`maxLength`) rather than UTF-8 bytes, because a byte bound here would refuse a 512-character
+  non-ASCII name the schema admits. `crates/protocol/tests/runtime_v3_offered_entry.rs` asserts
+  both verdicts for every accepted and refused case.
+
+`state.rest.options` and `state.map.options` deliberately stay identity-only: no producer discloses
+those sets, and widening a member nobody populates would be capacity without a producer. Uniqueness
+of offered identities stays a `validate()` rule (`DuplicateChoice`), consistent with every other
+array in this contract, none of which carries `uniqueItems`.
+
+This moves the schema digest, so it requires the same coordinated migration described above and
+the `sts2-game-mod` mirror must be re-pinned in the same change. It establishes a contract shape
+only: it does not populate any offer, attach any consumer, or evidence native, provider or
+deployment behaviour.
 
 ## Game-information rest-read candidate registry
 
