@@ -216,3 +216,29 @@ fn a_control_character_is_still_refused_at_any_length() {
         "a control character in visible_seed",
     );
 }
+
+/// The character bound above is only half of `#/$defs/text`. The same definition also carries
+/// `minLength: 1`, and `valid_text` enforces it with `!value.is_empty()`. Before this case, no
+/// test passed an empty string to a text field, so dropping that guard left the whole suite green
+/// while the parser began accepting documents the schema refuses. Every entry below is a real
+/// field that uses `#/$defs/text`, not a synthetic helper.
+#[test]
+fn an_empty_text_field_is_still_refused_by_the_schema_and_the_parser_alike() {
+    assert_parity(&combat_with_enemy(""), false, "an empty enemy name");
+    assert_parity(&shop_with_item(""), false, "an empty shop item name");
+    assert_parity(&combat_with_hand_card(""), false, "an empty card name");
+    assert_parity(&combat_with_seed(""), false, "an empty visible_seed");
+}
+
+/// `#/$defs/identity` reaches non-emptiness through its own pattern rather than through
+/// `minLength`: `^[A-Za-z0-9_.:/-]{1,512}$` requires at least one character. `valid_identity`
+/// guards that with its own `!value.is_empty()`, which is a separate line of defense from the one
+/// in `valid_text` and was equally unpinned. `enemy_id` is a non-nullable identity, so it is the
+/// field used here; `visible_seed` is a text field and is already covered by the case above.
+#[test]
+fn an_empty_identity_field_is_still_refused_by_the_schema_and_the_parser_alike() {
+    let document = combat_with_enemy("a valid enemy");
+    let mut empty_enemy_id = document.clone();
+    empty_enemy_id["observation"]["state"]["enemies"][0]["enemy_id"] = json!("");
+    assert_parity(&empty_enemy_id, false, "an empty enemy_id identity");
+}
