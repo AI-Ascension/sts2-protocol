@@ -2,9 +2,9 @@
   "matrix_version": 2,
   "consumers": {
     "game-core": {"repository": "AI-Ascension/sts2-game-core", "commit": "5070070784d6b62dabf535a230bcdb46a054e3ef", "artifact_root": "protocol-artifact", "tier": "required"},
-    "game-mod": {"repository": "AI-Ascension/sts2-game-mod", "commit": "ee9441b9e4dddebd09943ef3ed7f5ec7d72a35e4", "artifact_root": "protocol-artifact", "tier": "required"},
-    "gateway": {"repository": "AI-Ascension/sts2-gateway", "commit": "8bd102fea27f528179edb0f02be95ad73dec48dc", "artifact_root": "protocol-artifact", "tier": "required"},
-    "mcp-server": {"repository": "AI-Ascension/sts2-mcp-server", "commit": "f0226ce2660df098c97d77e923ff4de5b3269e92", "artifact_root": "protocol-artifact", "tier": "required"},
+    "game-mod": {"repository": "AI-Ascension/sts2-game-mod", "commit": "e7454d4a4d37e22b5766d87f70e505649dab74ea", "artifact_root": "protocol-artifact", "tier": "required"},
+    "gateway": {"repository": "AI-Ascension/sts2-gateway", "commit": "34464acc443fe4f683581668cdacd249d09f76cd", "artifact_root": "protocol-artifact", "tier": "required"},
+    "mcp-server": {"repository": "AI-Ascension/sts2-mcp-server", "commit": "f7db2d4ac5346a9124fff0f1e121fc3a7979d3f4", "artifact_root": "protocol-artifact", "tier": "required"},
     "harness": {"repository": "AI-Ascension/sts2-harness", "commit": "9b665b0845a10061cf96104f50eefdb7055ecf83", "artifact_root": "protocol-artifact", "tier": "required"}
   },
   "profiles": [
