@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 
 mod action;
+mod belt;
+mod entities;
 mod message;
 mod metadata;
 mod offered_attribute;
@@ -14,12 +16,18 @@ pub use action::{
     RuntimeV3GameplayRecoveryKind, RuntimeV3GameplayStatus, RuntimeV3GameplayTransitionWitness,
     RuntimeV3GameplayWaitOutcome,
 };
+pub(crate) use belt::absent_unless;
+pub use belt::{
+    RuntimeV3GameplayPotion, RuntimeV3GameplayPotionTargetMode, RuntimeV3GameplayRelic,
+};
+pub use entities::{RuntimeV3GameplayCard, RuntimeV3GameplayEnemy, RuntimeV3GameplayPlayer};
 pub use message::{
     RuntimeV3GameplayActionResult, RuntimeV3GameplayMessage, RuntimeV3GameplayMessageKind,
 };
 pub use metadata::{
     RuntimeV3GameplayContext, RuntimeV3GameplayMetadata, RuntimeV3GameplayProvenance,
 };
+pub(crate) use offered_attribute::valid_offered_attribute;
 pub(crate) use offered_entry::validate_choices;
 pub use offered_entry::{RuntimeV3GameplayChoice, RuntimeV3GameplayOfferedEntry};
 
@@ -33,7 +41,7 @@ pub const RUNTIME_V3_GAMEPLAY_SCHEMA_SOURCE: &str = "schemas/runtime-v3-gameplay
 pub const RUNTIME_V3_GAMEPLAY_GENERATOR: &str = "hand-authored";
 /// Filled after the normative schema is written and hashed.
 pub const RUNTIME_V3_GAMEPLAY_SCHEMA_DIGEST: &str =
-    "843e2e546116c8011f378d271406ac2fb4ec0e4c2dedd32dee46cc1500315ad5";
+    "0ae1d4d1525162da3059c028dcdb70df1d4d2dcf9620c5edd9b543e5f04aacc2";
 /// Maximum exact JSON-safe generation and lease epoch.
 pub const RUNTIME_V3_GAMEPLAY_MAX_GENERATION: u64 = 9_007_199_254_740_991;
 /// Maximum number of actions in one complete host-generated catalog.
@@ -80,41 +88,6 @@ pub enum RuntimeV3GameplayEnemyIntent {
     Buff,
     Debuff,
     Unknown,
-}
-
-/// A bounded player-visible card description; draw order and unrevealed outcomes are absent.
-#[derive(Clone, Debug, Eq, PartialEq, serde::Deserialize, serde::Serialize)]
-#[serde(deny_unknown_fields)]
-pub struct RuntimeV3GameplayCard {
-    pub card_id: String,
-    pub name: String,
-    pub cost: u8,
-    pub upgraded: bool,
-}
-
-/// A bounded player-visible enemy description.
-#[derive(Clone, Debug, Eq, PartialEq, serde::Deserialize, serde::Serialize)]
-#[serde(deny_unknown_fields)]
-pub struct RuntimeV3GameplayEnemy {
-    pub enemy_id: String,
-    pub name: String,
-    pub hp: u16,
-    pub max_hp: u16,
-    pub intent: RuntimeV3GameplayEnemyIntent,
-}
-
-/// Player-visible resources and known card contents.
-#[derive(Clone, Debug, Eq, PartialEq, serde::Deserialize, serde::Serialize)]
-#[serde(deny_unknown_fields)]
-pub struct RuntimeV3GameplayPlayer {
-    pub hp: u16,
-    pub max_hp: u16,
-    pub energy: u8,
-    pub gold: u32,
-    pub hand: Vec<RuntimeV3GameplayCard>,
-    pub deck: Vec<RuntimeV3GameplayCard>,
-    pub discard: Vec<RuntimeV3GameplayCard>,
-    pub exhaust: Vec<RuntimeV3GameplayCard>,
 }
 
 /// State-specific player-visible details. No host object, save, RNG, or unrevealed result is
