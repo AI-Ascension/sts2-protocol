@@ -41,7 +41,7 @@ fn schema_bundle_and_manifest_are_pinned_and_exhaustive() -> TestResult {
         .iter()
         .filter_map(Value::as_str)
         .collect();
-    let expected_case: Vec<_> = VECTORS.iter().copied().collect();
+    let expected_case: Vec<_> = VECTORS.to_vec();
     assert_eq!(case_vectors, expected_case);
     let manifest_vectors: Vec<_> = manifest["goldens"]
         .as_array()
