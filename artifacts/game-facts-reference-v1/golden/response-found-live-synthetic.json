@@ -1,0 +1,28 @@
+{
+  "protocol_version": "game-facts-reference-v1",
+  "schema_digest": "3065a2ff96e6e5af628b3d5cb43b8f2db4232ae4c4dc71324b973419908a2985",
+  "provenance": { "artifact": "sts2-protocol/game-facts-reference-v1", "source": "schemas/game-facts-reference-v1.schema.json", "generator": "hand-authored" },
+  "correlation_id": "live-query-1",
+  "kind": "query_response",
+  "query": {
+    "rules_reference_version": 2,
+    "rule_ids": ["damage.synthetic_modifier_ordering"],
+    "binding": { "mode": "live", "content_manifest_id": "content-manifest-fixture", "locale": "en", "visibility_scope": "player", "instance_ref": { "instance_id": "instance-1", "run_id": "run-1", "epoch": 7, "entity_kind": "room", "entity_id": "room-1" }, "snapshot_ref": { "snapshot_id": "snapshot-1", "instance_ref": { "instance_id": "instance-1", "run_id": "run-1", "epoch": 7, "entity_kind": "room", "entity_id": "room-1" }, "state_generation": 5 } },
+    "scope": { "instance_id": "instance-1", "run_id": "run-1", "authority_epoch": 8, "content_manifest_id": "content-manifest-fixture", "locale": "en" },
+    "parent_observation": { "instance_ref": { "instance_id": "instance-1", "run_id": "run-1", "epoch": 7, "entity_kind": "room", "entity_id": "room-1" }, "snapshot_ref": { "snapshot_id": "snapshot-1", "instance_ref": { "instance_id": "instance-1", "run_id": "run-1", "epoch": 7, "entity_kind": "room", "entity_id": "room-1" }, "state_generation": 5 }, "state_generation": 5 }
+  },
+  "result": {
+    "producer_version": "game-facts-reference-producer-v1",
+    "rules_reference_version": 2,
+    "inventory_binding": { "build_id": "build-fixture", "mode_id": "standard", "manifest": { "catalog_generation": 7, "adapter_compatibility": "adapter-fixture", "content_set_revision": "content-fixture", "localized_text_revision": "locale-fixture", "inventory_revision": "inventory-fixture" } },
+    "results": [{ "kind": "found", "rule_id": "damage.synthetic_modifier_ordering", "evidence_status": "proposed", "inputs": [
+      { "name": "base_damage", "unit": "damage", "applicability": "required", "observation": { "availability": "available", "value": { "kind": "integer", "value": 12 }, "reason": null }, "source_ref": { "kind": "synthetic", "ref": "fixture.damage" } },
+      { "name": "multiplier_numerator", "unit": "multiplier", "applicability": "required", "observation": { "availability": "available", "value": { "kind": "integer", "value": 3 }, "reason": null }, "source_ref": { "kind": "synthetic", "ref": "fixture.multiplier.numerator" } },
+      { "name": "multiplier_denominator", "unit": "multiplier", "applicability": "required", "observation": { "availability": "available", "value": { "kind": "integer", "value": 2 }, "reason": null }, "source_ref": { "kind": "synthetic", "ref": "fixture.multiplier.denominator" } },
+      { "name": "hit_count", "unit": "count", "applicability": "required", "observation": { "availability": "available", "value": { "kind": "integer", "value": 2 }, "reason": null }, "source_ref": { "kind": "synthetic", "ref": "fixture.hit-count" } }
+    ] }],
+    "unsupported_combinations": []
+  },
+  "capabilities": null,
+  "error": null
+}

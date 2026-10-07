@@ -5,6 +5,7 @@ mod descriptor;
 mod envelope;
 mod exact_state;
 mod exact_state_diff;
+pub mod game_facts_reference_v1;
 mod game_information_content_manifest_v1;
 pub mod game_information_v2;
 mod identity;
@@ -37,6 +38,17 @@ pub use exact_state::{
 };
 pub use exact_state_diff::{
     DiffError, Difference, DifferenceKind, MAX_DIFF_DEPTH, MAX_DIFF_ENTRIES, describe_differences,
+};
+pub use game_facts_reference_v1::{
+    Applicability, AuthenticatedScope, Availability, Binding, BindingMode, Capabilities,
+    EntityKind, ErrorBody, ErrorCode, EvidenceStatus, ExpiryBehavior,
+    GAME_FACTS_REFERENCE_V1_ARTIFACT, GAME_FACTS_REFERENCE_V1_MAX_MESSAGE_BYTES,
+    GAME_FACTS_REFERENCE_V1_PROFILE, GAME_FACTS_REFERENCE_V1_SCHEMA,
+    GAME_FACTS_REFERENCE_V1_SCHEMA_DIGEST, GameFactsProvenance, GameFactsReferenceV1Codec,
+    GameFactsReferenceV1Rejection, InstanceRef, InventoryBinding, InventoryManifest, Message,
+    MessageKind, Observation, ParentObservation, Query, QueryResult, QueryResultEntry, RuleInput,
+    SnapshotInvalidator, SnapshotPolicy, SnapshotRef, SourceKind, SourceRef, Unit,
+    UnsupportedCombination, UnsupportedReason, Value, validate_response_against_request,
 };
 pub use game_information_content_manifest_v1::{
     GAME_INFORMATION_CONTENT_MANIFEST_V1_ARTIFACT,

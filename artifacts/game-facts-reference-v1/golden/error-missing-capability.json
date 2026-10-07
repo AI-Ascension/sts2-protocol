@@ -1,0 +1,11 @@
+{
+  "protocol_version": "game-facts-reference-v1",
+  "schema_digest": "3065a2ff96e6e5af628b3d5cb43b8f2db4232ae4c4dc71324b973419908a2985",
+  "provenance": { "artifact": "sts2-protocol/game-facts-reference-v1", "source": "schemas/game-facts-reference-v1.schema.json", "generator": "hand-authored" },
+  "correlation_id": "missing-inventory-1",
+  "kind": "error_response",
+  "query": null,
+  "result": null,
+  "capabilities": null,
+  "error": { "code": "missing_capability", "field": null, "reason": "No owner-supported inventory is declared for this fixture.", "retryable": false }
+}

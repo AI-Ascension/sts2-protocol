@@ -32,6 +32,11 @@ const LIVE_FIELDS: &[&str] = &[
 ];
 type Result<T = ()> = std::result::Result<T, Rejection>;
 
+/// Parses bounded-profile JSON with unique members and exact integer normalization.
+pub(crate) fn decode_unique_exact_json(input: &[u8]) -> Result<Value> {
+    parse::unique(input)
+}
+
 /// Fixed, bounded protocol rejection without input contents or paths.
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
