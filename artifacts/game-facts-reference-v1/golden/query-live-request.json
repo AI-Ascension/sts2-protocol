@@ -1,0 +1,28 @@
+{
+  "protocol_version": "game-facts-reference-v1",
+  "schema_digest": "3065a2ff96e6e5af628b3d5cb43b8f2db4232ae4c4dc71324b973419908a2985",
+  "provenance": { "artifact": "sts2-protocol/game-facts-reference-v1", "source": "schemas/game-facts-reference-v1.schema.json", "generator": "hand-authored" },
+  "correlation_id": "live-query-1",
+  "kind": "query_request",
+  "query": {
+    "rules_reference_version": 2,
+    "rule_ids": ["resource.fixed_card_cost"],
+    "binding": {
+      "mode": "live",
+      "content_manifest_id": "content-manifest-fixture",
+      "locale": "en",
+      "visibility_scope": "player",
+      "instance_ref": { "instance_id": "instance-1", "run_id": "run-1", "epoch": 7, "entity_kind": "room", "entity_id": "room-1" },
+      "snapshot_ref": { "snapshot_id": "snapshot-1", "instance_ref": { "instance_id": "instance-1", "run_id": "run-1", "epoch": 7, "entity_kind": "room", "entity_id": "room-1" }, "state_generation": 5 }
+    },
+    "scope": { "instance_id": "instance-1", "run_id": "run-1", "authority_epoch": 8, "content_manifest_id": "content-manifest-fixture", "locale": "en" },
+    "parent_observation": {
+      "instance_ref": { "instance_id": "instance-1", "run_id": "run-1", "epoch": 7, "entity_kind": "room", "entity_id": "room-1" },
+      "snapshot_ref": { "snapshot_id": "snapshot-1", "instance_ref": { "instance_id": "instance-1", "run_id": "run-1", "epoch": 7, "entity_kind": "room", "entity_id": "room-1" }, "state_generation": 5 },
+      "state_generation": 5
+    }
+  },
+  "result": null,
+  "capabilities": null,
+  "error": null
+}

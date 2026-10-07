@@ -1,0 +1,20 @@
+{
+  "profile": "game-facts-reference-v1",
+  "schema": "schemas/game-facts-reference-v1.schema.json",
+  "artifact": "artifacts/game-facts-reference-v1",
+  "candidate_only": true,
+  "consumer_adoption": [],
+  "vectors": [
+    "capabilities-live-synthetic.json",
+    "capabilities-static-only.json",
+    "error-invalid-binding.json",
+    "error-missing-capability.json",
+    "error-stale-snapshot.json",
+    "error-unknown-id.json",
+    "query-live-request.json",
+    "query-static-request.json",
+    "response-found-live-synthetic.json",
+    "response-found-static.json",
+    "response-unsupported-field.json"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "protocol_version": "game-facts-reference-v1",
+  "schema_digest": "3065a2ff96e6e5af628b3d5cb43b8f2db4232ae4c4dc71324b973419908a2985",
+  "provenance": { "artifact": "sts2-protocol/game-facts-reference-v1", "source": "schemas/game-facts-reference-v1.schema.json", "generator": "hand-authored" },
+  "correlation_id": "static-query-1",
+  "kind": "query_request",
+  "query": {
+    "rules_reference_version": 2,
+    "rule_ids": ["resource.fixed_card_cost"],
+    "binding": {
+      "mode": "static",
+      "content_manifest_id": "content-manifest-fixture",
+      "locale": "en",
+      "visibility_scope": null,
+      "instance_ref": null,
+      "snapshot_ref": null
+    },
+    "scope": null,
+    "parent_observation": null
+  },
+  "result": null,
+  "capabilities": null,
+  "error": null
+}
