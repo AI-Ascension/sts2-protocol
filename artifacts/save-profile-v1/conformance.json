@@ -1,0 +1,691 @@
+{
+  "profile": "save-profile-v1",
+  "schema_digest": "e8600af4bcdc87ec0921a02ecfba8f1249b702f7ee45eaace09dcaac3ac9d662",
+  "evidence": "synthetic-contract-only",
+  "requirement": "AI-Ascension/sts2-gateway#51 and AI-Ascension/sts2-game-mod#78",
+  "max_message_bytes": 65536,
+  "max_slots": 32,
+  "max_integer": 9007199254740991,
+  "intent_digest_domain": "sts2-save-profile-v1-intent followed by one NUL byte",
+  "intent_digests": {
+    "operation-select-a": "147cbd2536671cfd24487ac48f5b157c77a9d6bc9f59433f5ab80e84c84e24c5",
+    "operation-create-a": "fa9ead7048dc3717da7deeb765042c865c65365efa51cec78fed0f1ed5e853b3",
+    "operation-create-b": "e04134f3e7624bf919ee4276e9cb5dc320a3a04ea7e38911fe150df7df2f485b"
+  },
+  "valid_vectors": [
+    "create-blocked-readback.json",
+    "create-cancelled-reservation.json",
+    "create-created-pending.json",
+    "create-observed-request.json",
+    "create-observed-settled.json",
+    "create-reserved.json",
+    "create-settled.json",
+    "create-unattached-request.json",
+    "create-unknown-allocation.json",
+    "discovery-active-response.json",
+    "discovery-empty-response.json",
+    "discovery-request.json",
+    "discovery-response.json",
+    "discovery-unavailable-response.json",
+    "error-unbound-response.json",
+    "error-unsupported-capability.json",
+    "lookup-not-found-response.json",
+    "lookup-request.json",
+    "lookup-settled-response.json",
+    "lookup-unknown-response.json",
+    "select-accepted.json",
+    "select-blocked.json",
+    "select-cancelled.json",
+    "select-rejected.json",
+    "select-request.json",
+    "select-settled.json",
+    "select-unknown.json"
+  ],
+  "invalid_mutations": [
+    {
+      "name": "unknown-top-level",
+      "base": "discovery-request.json",
+      "path": "/unexpected",
+      "remove": false,
+      "value": true
+    },
+    {
+      "name": "unsupported-profile",
+      "base": "discovery-request.json",
+      "path": "/protocol_version",
+      "remove": false,
+      "value": "save-profile-v2"
+    },
+    {
+      "name": "unsupported-schema-digest",
+      "base": "discovery-request.json",
+      "path": "/schema_digest",
+      "remove": false,
+      "value": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+      "name": "unknown-message-kind",
+      "base": "discovery-request.json",
+      "path": "/kind",
+      "remove": false,
+      "value": "success_response"
+    },
+    {
+      "name": "destructive-operation-is-absent",
+      "base": "select-request.json",
+      "path": "/request/intent/mutation/kind",
+      "remove": false,
+      "value": "reset"
+    },
+    {
+      "name": "missing-explicit-null",
+      "base": "discovery-request.json",
+      "path": "/result",
+      "remove": true,
+      "value": null
+    },
+    {
+      "name": "path-is-not-opaque",
+      "base": "discovery-request.json",
+      "path": "/request/binding/profile/launch_binding_id",
+      "remove": false,
+      "value": "/private/root"
+    },
+    {
+      "name": "zero-process-profile",
+      "base": "discovery-request.json",
+      "path": "/request/binding/profile/process_profile_id",
+      "remove": false,
+      "value": 0
+    },
+    {
+      "name": "unsafe-integer-namespace",
+      "base": "discovery-request.json",
+      "path": "/request/binding/profile/user_data_namespace_id",
+      "remove": false,
+      "value": 9007199254740992
+    },
+    {
+      "name": "foreign-allocation-discovery",
+      "base": "discovery-response.json",
+      "path": "/result/observation/binding/allocation_id",
+      "remove": false,
+      "value": 43
+    },
+    {
+      "name": "foreign-instance-discovery-request",
+      "base": "discovery-request.json",
+      "path": "/request/binding/instance_id",
+      "remove": false,
+      "value": "instance-other"
+    },
+    {
+      "name": "foreign-instance-selection-admission",
+      "base": "select-request.json",
+      "path": "/request/intent/mutation/admission/binding/instance_id",
+      "remove": false,
+      "value": "instance-other"
+    },
+    {
+      "name": "foreign-instance-creation-admission",
+      "base": "create-observed-request.json",
+      "path": "/request/intent/mutation/admission/observation/binding/instance_id",
+      "remove": false,
+      "value": "instance-other"
+    },
+    {
+      "name": "foreign-instance-allocation-receipt",
+      "base": "create-settled.json",
+      "path": "/result/receipt/allocation/binding/instance_id",
+      "remove": false,
+      "value": "instance-other"
+    },
+    {
+      "name": "missing-current-slot",
+      "base": "discovery-empty-response.json",
+      "path": "/result/observation/current_slot",
+      "remove": true,
+      "value": null
+    },
+    {
+      "name": "unlisted-current-slot",
+      "base": "discovery-response.json",
+      "path": "/result/observation/current_slot",
+      "remove": false,
+      "value": "slot-foreign"
+    },
+    {
+      "name": "duplicate-slot-id",
+      "base": "discovery-response.json",
+      "path": "/result/observation/slots/1/slot_id",
+      "remove": false,
+      "value": "slot-a"
+    },
+    {
+      "name": "unsorted-slot-id",
+      "base": "discovery-response.json",
+      "path": "/result/observation/slots/0/slot_id",
+      "remove": false,
+      "value": "slot-z"
+    },
+    {
+      "name": "slot-capacity",
+      "base": "discovery-response.json",
+      "path": "/result/observation/slots",
+      "remove": false,
+      "value": [
+        {
+          "slot_id": "slot-00",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-01",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-02",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-03",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-04",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-05",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-06",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-07",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-08",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-09",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-10",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-11",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-12",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-13",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-14",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-15",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-16",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-17",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-18",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-19",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-20",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-21",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-22",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-23",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-24",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-25",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-26",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-27",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-28",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-29",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-30",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-31",
+          "status": "available"
+        },
+        {
+          "slot_id": "slot-32",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "name": "active-run-is-not-inactive",
+      "base": "select-request.json",
+      "path": "/request/intent/mutation/admission/active_run",
+      "remove": false,
+      "value": "active"
+    },
+    {
+      "name": "unavailable-run-is-not-inactive",
+      "base": "select-request.json",
+      "path": "/request/intent/mutation/admission/active_run",
+      "remove": false,
+      "value": "unavailable"
+    },
+    {
+      "name": "selection-generation-exhausted",
+      "base": "select-request.json",
+      "path": "/request/intent/mutation/admission/fence/owner/observation_generation",
+      "remove": false,
+      "value": 9007199254740991
+    },
+    {
+      "name": "origin-does-not-follow-current-lease",
+      "base": "select-request.json",
+      "path": "/request/intent/origin/lease_epoch",
+      "remove": false,
+      "value": 2
+    },
+    {
+      "name": "settled-needs-witness",
+      "base": "select-settled.json",
+      "path": "/result/receipt/witness",
+      "remove": false,
+      "value": null
+    },
+    {
+      "name": "settled-needs-readback",
+      "base": "select-settled.json",
+      "path": "/result/receipt/readback",
+      "remove": false,
+      "value": null
+    },
+    {
+      "name": "settled-needs-target-slot",
+      "base": "select-settled.json",
+      "path": "/result/receipt/readback/current_slot",
+      "remove": false,
+      "value": "slot-a"
+    },
+    {
+      "name": "settled-cannot-have-active-run",
+      "base": "select-settled.json",
+      "path": "/result/receipt/readback/active_run",
+      "remove": false,
+      "value": "active"
+    },
+    {
+      "name": "settled-cannot-have-unavailable-run",
+      "base": "select-settled.json",
+      "path": "/result/receipt/readback/active_run",
+      "remove": false,
+      "value": "unavailable"
+    },
+    {
+      "name": "settled-slot-is-busy",
+      "base": "select-settled.json",
+      "path": "/result/receipt/readback/slots/1/status",
+      "remove": false,
+      "value": "in_use"
+    },
+    {
+      "name": "selection-capability-missing",
+      "base": "select-settled.json",
+      "path": "/result/receipt/readback/capabilities/selection",
+      "remove": false,
+      "value": false
+    },
+    {
+      "name": "witness-wrong-operation",
+      "base": "select-settled.json",
+      "path": "/result/receipt/witness/operation_id",
+      "remove": false,
+      "value": "operation-foreign"
+    },
+    {
+      "name": "witness-wrong-intent",
+      "base": "select-settled.json",
+      "path": "/result/receipt/witness/intent_digest",
+      "remove": false,
+      "value": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    },
+    {
+      "name": "witness-wrong-owner",
+      "base": "select-settled.json",
+      "path": "/result/receipt/witness/owner/producer_incarnation",
+      "remove": false,
+      "value": "producer-other"
+    },
+    {
+      "name": "witness-wrong-kind",
+      "base": "select-settled.json",
+      "path": "/result/receipt/witness/kind",
+      "remove": false,
+      "value": "disposable_profile_ready"
+    },
+    {
+      "name": "readback-wrong-baseline-shape",
+      "base": "select-settled.json",
+      "path": "/result/receipt/readback/fence/baseline/digest",
+      "remove": false,
+      "value": "not-a-digest"
+    },
+    {
+      "name": "receipt-rewrites-original-request",
+      "base": "select-unknown.json",
+      "path": "/result/receipt/intent/mutation/slot_id",
+      "remove": false,
+      "value": "slot-a"
+    },
+    {
+      "name": "unknown-without-uncertainty",
+      "base": "select-unknown.json",
+      "path": "/result/receipt/reason",
+      "remove": false,
+      "value": null
+    },
+    {
+      "name": "accepted-is-not-settled",
+      "base": "select-accepted.json",
+      "path": "/result/receipt/readback",
+      "remove": false,
+      "value": {
+        "binding": {
+          "instance_id": "instance-a",
+          "profile": {
+            "process_profile_id": 17,
+            "user_data_namespace_id": 23,
+            "launch_binding_id": "launch-binding-a"
+          },
+          "allocation_id": 41
+        },
+        "fence": {
+          "owner": {
+            "process_generation_id": "process-a",
+            "producer_incarnation": "producer-a",
+            "observation_generation": 8
+          },
+          "baseline": {
+            "identity": "baseline-b",
+            "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          }
+        },
+        "host_compatibility": "synthetic-host-v1",
+        "capabilities": {
+          "selection": true,
+          "disposable_readback": true
+        },
+        "active_run": "inactive",
+        "slots": [
+          {
+            "slot_id": "slot-a",
+            "status": "available"
+          },
+          {
+            "slot_id": "slot-b",
+            "status": "available"
+          }
+        ],
+        "current_slot": "slot-b"
+      }
+    },
+    {
+      "name": "cancelled-cannot-hide-uncertainty",
+      "base": "select-cancelled.json",
+      "path": "/result/receipt/reason",
+      "remove": false,
+      "value": "outcome_unavailable"
+    },
+    {
+      "name": "create-profile-and-admission-disagree",
+      "base": "create-observed-request.json",
+      "path": "/request/intent/mutation/profile/user_data_namespace_id",
+      "remove": false,
+      "value": 24
+    },
+    {
+      "name": "unattached-does-not-accept-host-assertion",
+      "base": "create-unattached-request.json",
+      "path": "/request/intent/mutation/admission/active_run",
+      "remove": false,
+      "value": "inactive"
+    },
+    {
+      "name": "allocation-foreign-owner",
+      "base": "create-settled.json",
+      "path": "/result/receipt/allocation/owner",
+      "remove": false,
+      "value": "mod"
+    },
+    {
+      "name": "allocation-wrong-operation",
+      "base": "create-settled.json",
+      "path": "/result/receipt/allocation/operation_id",
+      "remove": false,
+      "value": "operation-other"
+    },
+    {
+      "name": "allocation-wrong-profile",
+      "base": "create-settled.json",
+      "path": "/result/receipt/allocation/binding/profile/process_profile_id",
+      "remove": false,
+      "value": 18
+    },
+    {
+      "name": "allocation-wrong-launch-binding",
+      "base": "create-settled.json",
+      "path": "/result/receipt/allocation/binding/profile/launch_binding_id",
+      "remove": false,
+      "value": "launch-binding-other"
+    },
+    {
+      "name": "reserved-is-not-created",
+      "base": "create-settled.json",
+      "path": "/result/receipt/allocation/status",
+      "remove": false,
+      "value": "reserved"
+    },
+    {
+      "name": "create-needs-allocation",
+      "base": "create-settled.json",
+      "path": "/result/receipt/allocation",
+      "remove": false,
+      "value": null
+    },
+    {
+      "name": "directory-is-not-readback",
+      "base": "create-settled.json",
+      "path": "/result/receipt/readback",
+      "remove": false,
+      "value": null
+    },
+    {
+      "name": "created-readback-wrong-allocation",
+      "base": "create-settled.json",
+      "path": "/result/receipt/readback/binding/allocation_id",
+      "remove": false,
+      "value": 43
+    },
+    {
+      "name": "created-readback-capability-missing",
+      "base": "create-settled.json",
+      "path": "/result/receipt/readback/capabilities/disposable_readback",
+      "remove": false,
+      "value": false
+    },
+    {
+      "name": "created-requires-selected-profile",
+      "base": "create-settled.json",
+      "path": "/result/receipt/readback/current_slot",
+      "remove": false,
+      "value": null
+    },
+    {
+      "name": "create-cannot-reuse-existing-allocation",
+      "base": "create-observed-settled.json",
+      "path": "/result/receipt/allocation/binding/allocation_id",
+      "remove": false,
+      "value": 41
+    },
+    {
+      "name": "unknown-allocation-cannot-be-accepted",
+      "base": "create-unknown-allocation.json",
+      "path": "/result/receipt/status",
+      "remove": false,
+      "value": "accepted"
+    },
+    {
+      "name": "unknown-allocation-cannot-be-blocked",
+      "base": "create-blocked-readback.json",
+      "path": "/result/receipt/allocation/status",
+      "remove": false,
+      "value": "unknown"
+    },
+    {
+      "name": "cancelled-cannot-retain-created-effect",
+      "base": "create-cancelled-reservation.json",
+      "path": "/result/receipt/allocation/status",
+      "remove": false,
+      "value": "created"
+    },
+    {
+      "name": "lookup-cannot-cross-instance",
+      "base": "lookup-request.json",
+      "path": "/scope/instance_id",
+      "remove": false,
+      "value": "instance-foreign"
+    },
+    {
+      "name": "lookup-cannot-cross-caller",
+      "base": "lookup-request.json",
+      "path": "/scope/caller_id",
+      "remove": false,
+      "value": "caller-foreign"
+    },
+    {
+      "name": "lookup-cannot-cross-session",
+      "base": "lookup-request.json",
+      "path": "/scope/session_id",
+      "remove": false,
+      "value": "session-foreign"
+    },
+    {
+      "name": "lookup-cannot-rewrite-origin",
+      "base": "lookup-unknown-response.json",
+      "path": "/result/receipt/intent/origin/lease_epoch",
+      "remove": false,
+      "value": 2
+    },
+    {
+      "name": "not-found-must-match-operation",
+      "base": "lookup-not-found-response.json",
+      "path": "/result/operation_id",
+      "remove": false,
+      "value": "operation-foreign"
+    },
+    {
+      "name": "not-found-must-match-origin",
+      "base": "lookup-not-found-response.json",
+      "path": "/result/origin/lease_epoch",
+      "remove": false,
+      "value": 2
+    },
+    {
+      "name": "lookup-must-match-original-intent",
+      "base": "lookup-settled-response.json",
+      "path": "/request/intent_digest",
+      "remove": false,
+      "value": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    {
+      "name": "not-found-must-match-intent",
+      "base": "lookup-not-found-response.json",
+      "path": "/result/intent_digest",
+      "remove": false,
+      "value": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    {
+      "name": "unknown-enum-is-rejected",
+      "base": "select-accepted.json",
+      "path": "/result/receipt/status",
+      "remove": false,
+      "value": "success"
+    }
+  ],
+  "response_pairs": [
+    {
+      "request": "discovery-request.json",
+      "response": "discovery-response.json"
+    },
+    {
+      "request": "select-request.json",
+      "response": "select-settled.json"
+    },
+    {
+      "request": "create-unattached-request.json",
+      "response": "create-settled.json"
+    },
+    {
+      "request": "create-observed-request.json",
+      "response": "create-observed-settled.json"
+    },
+    {
+      "request": "lookup-request.json",
+      "response": "lookup-settled-response.json"
+    },
+    {
+      "request": "lookup-request.json",
+      "response": "lookup-not-found-response.json"
+    }
+  ]
+}
