@@ -248,3 +248,17 @@ Schema validity proves nothing about coverage, restorability, or honest handle i
 from the trusted producer, the coverage contract, and a verified restore. See
 [ADR 0037](docs/decisions/0037-public-checkpoint-reference-contract.md) and the
 [conformance case](conformance/cases/exact-checkpoint-reference-v1.json).
+
+## Save-profile owner-binding candidate
+
+The independent [save-profile-v1 bundle](artifacts/save-profile-v1/README.md) carries exact
+instance, approved numeric process-profile/namespace, allocation, producer-generation and logical
+slot identities. Its pure codec validates closed discovery, immutable operation intent, separate
+current recovery scope, explicit uncertainty, and operation-linked settlement readback. A fresh
+directory reservation or creation is not profile completion. The schema, synthetic goldens,
+semantic cases and exact checksum inventory are local contract evidence only.
+
+[ADR 0047](docs/decisions/0047-save-profile-v1-owner-binding.md) records owner responsibilities and
+the upstream-first rollout. Game-mod production extraction/selection, Gateway durable launch
+composition, MCP/Harness adoption and native profile-preservation evidence remain unverified;
+the bundle has no adopted consumers and does not change existing profile bytes.
