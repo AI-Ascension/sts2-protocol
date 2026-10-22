@@ -7,6 +7,11 @@ Semantic Versioning once a protocol artifact or repository release exists.
 
 ### Added
 
+- Add the independent `save-profile-v1` candidate schema, bounded pure codec, canonical goldens,
+  and operation/owner/allocation conformance. Original operation scope and intent digest remain
+  fixed across read-only recovery; a directory alone cannot settle profile readiness. No consumer
+  is admitted and no native, launch, save or transport behavior is added. See ADR 0047.
+
 - The `Check documentation links` step now also denies `rustdoc::private_intra_doc_links` and
   `rustdoc::redundant_explicit_links` (Refs #65). Both are warn-by-default and were previously
   invisible to a gate that always passes `--document-private-items`, so a link that breaks for
