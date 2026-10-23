@@ -1,0 +1,6 @@
+{
+  "profile": "save-profile-v1",
+  "evidence": "synthetic-candidate-only",
+  "requirements": ["closed-schema", "unique-members", "safe-exact-integers", "bounded-codec", "owner-identity-join", "baseline-free-discovery", "intent-bound-newer-selection", "new-allocation-readback", "same-operation-read-only-lookup", "lease-rotation", "distinct-outcomes", "independent-intent-hashes", "complete-inventory"],
+  "runner": "crates/protocol/tests/save_profile_v1_conformance.rs"
+}

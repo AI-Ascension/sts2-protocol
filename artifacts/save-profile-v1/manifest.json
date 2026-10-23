@@ -1,0 +1,45 @@
+{
+  "artifact": "sts2-protocol/save-profile-v1",
+  "owner": "sts2-protocol",
+  "status": "candidate",
+  "consumers": [],
+  "prospective_consumers": [
+    "sts2-game-mod",
+    "sts2-gateway",
+    "sts2-harness",
+    "sts2-mcp-server"
+  ],
+  "schema_digest": "6e57edffbedec9df4f0b5bb794e7bd89790aaa1b0e2f6d021a21cc73a163190b",
+  "provenance": {
+    "license": "MIT",
+    "generator": "tools/save-profile/generate.mjs",
+    "source": "original-synthetic",
+    "requirement": "AI-Ascension/sts2-protocol#97"
+  },
+  "golden_files": [
+    "golden/create_disposable-accepted.json",
+    "golden/create_disposable-blocked.json",
+    "golden/create_disposable-cancelled.json",
+    "golden/create_disposable-lookup.json",
+    "golden/create_disposable-not_found.json",
+    "golden/create_disposable-rejected.json",
+    "golden/create_disposable-request.json",
+    "golden/create_disposable-request_error.json",
+    "golden/create_disposable-settled.json",
+    "golden/create_disposable-uncertain.json",
+    "golden/create_disposable-unknown.json",
+    "golden/discover-empty.json",
+    "golden/discover-request.json",
+    "golden/select-accepted.json",
+    "golden/select-blocked.json",
+    "golden/select-cancelled.json",
+    "golden/select-lookup.json",
+    "golden/select-not_found.json",
+    "golden/select-rejected.json",
+    "golden/select-request.json",
+    "golden/select-request_error.json",
+    "golden/select-settled.json",
+    "golden/select-uncertain.json",
+    "golden/select-unknown.json"
+  ]
+}

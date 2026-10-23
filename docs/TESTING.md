@@ -181,3 +181,13 @@ checks the actual raw variant after replacements using an independent Node 24
 `JSON.parse` source-reviver and BigInt reference before applying the unchanged schema.
 A rounded serde_json floating-point parse is not used as a normative numeric oracle.
 All evidence remains synthetic candidate conformance, not live consumer qualification.
+
+## Save-profile candidate
+
+`cargo test --locked --offline -p sts2-protocol --test save_profile_v1_conformance` and
+`node --test tools/save-profile/*.test.mjs` exercise the independent inert `save-profile-v1`
+artifact. Run alongside all foundation gates. Tests bind exact owner/allocation identities, newer
+original-intent settlement, discovery without a baseline, read-only recovery with lease rotation,
+duplicate/unknown/unsafe-number rejection, canonical goldens and complete checksums. Fixed intent
+hashes have independent Rust/Node witnesses. Hosted CI runs both. Native authoritative readback,
+consumer adoption, transport and filesystem safety remain unverified by these synthetic tests.
