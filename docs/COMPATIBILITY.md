@@ -222,3 +222,13 @@ live-observation bootstrap candidate. It carries a trusted query-v1-shaped paren
 bounded visible entity references so a consumer can select one exact occurrence before issuing the
 unchanged live query. It preserves the query-v1 and lookup-binding-v1 bytes and digests. Native
 extraction, route negotiation, consumer adoption and live agent reachability remain separate gates.
+
+## Save-profile candidate
+
+`save-profile-v1` is an independent additive candidate owned by Protocol, with prospective Mod,
+Gateway, MCP and Harness consumers and no adoption claim. [ADR 0047](decisions/0047-save-profile-v1-candidate.md)
+records closed encoding, exact owner/allocation/slot separation, baseline-free discovery and retained
+intent recovery across lease rotation. Existing profiles and artifacts are unchanged. Consumers must
+pin the new schema digest and prove producer/consumer conformance before negotiation; native profile
+readback, durable allocation/operation ledgers, directory preservation, host-thread selection and
+end-to-end Harness validation remain owner work. Original feature trackers remain open.

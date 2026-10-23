@@ -16,6 +16,7 @@ mod runtime_v2;
 mod runtime_v3_gameplay;
 mod runtime_v4_expert;
 mod runtime_v4_expert_rest_action;
+pub mod save_profile_v1;
 mod seeded_run;
 mod serialization;
 mod visible_map;

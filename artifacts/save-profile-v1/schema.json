@@ -1,0 +1,480 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "sts2-save-profile-v1",
+  "title": "Inert save-profile-v1 candidate",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_version",
+        "schema_digest",
+        "kind",
+        "owner",
+        "current_lease_id"
+      ],
+      "properties": {
+        "protocol_version": {
+          "const": "save-profile-v1"
+        },
+        "schema_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "kind": {
+          "const": "discover_request"
+        },
+        "owner": {
+          "$ref": "#/$defs/owner"
+        },
+        "current_lease_id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,95}$"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_version",
+        "schema_digest",
+        "kind",
+        "observation"
+      ],
+      "properties": {
+        "protocol_version": {
+          "const": "save-profile-v1"
+        },
+        "schema_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "kind": {
+          "const": "discover_response"
+        },
+        "observation": {
+          "$ref": "#/$defs/observation"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_version",
+        "schema_digest",
+        "kind",
+        "intent",
+        "intent_digest"
+      ],
+      "properties": {
+        "protocol_version": {
+          "const": "save-profile-v1"
+        },
+        "schema_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "kind": {
+          "const": "operation_request"
+        },
+        "intent": {
+          "$ref": "#/$defs/intent"
+        },
+        "intent_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_version",
+        "schema_digest",
+        "kind",
+        "intent",
+        "intent_digest",
+        "current_lease_id"
+      ],
+      "properties": {
+        "protocol_version": {
+          "const": "save-profile-v1"
+        },
+        "schema_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "kind": {
+          "const": "lookup_request"
+        },
+        "intent": {
+          "$ref": "#/$defs/intent"
+        },
+        "intent_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "current_lease_id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,95}$"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_version",
+        "schema_digest",
+        "kind",
+        "intent",
+        "intent_digest",
+        "current_lease_id",
+        "status",
+        "allocation_stage",
+        "observation",
+        "witness",
+        "reason"
+      ],
+      "properties": {
+        "protocol_version": {
+          "const": "save-profile-v1"
+        },
+        "schema_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "kind": {
+          "const": "operation_result"
+        },
+        "intent": {
+          "$ref": "#/$defs/intent"
+        },
+        "intent_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "current_lease_id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,95}$"
+        },
+        "status": {
+          "enum": [
+            "accepted",
+            "settled",
+            "rejected",
+            "cancelled",
+            "blocked",
+            "unknown"
+          ]
+        },
+        "allocation_stage": {
+          "enum": [
+            "reserved",
+            "directory_created",
+            "native_ready"
+          ]
+        },
+        "observation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/observation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "witness": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/witness"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "enum": [
+                "active_run",
+                "stale_baseline",
+                "unsupported_slot",
+                "unknown_directory",
+                "denied",
+                "conflict",
+                "unavailable",
+                "not_applied",
+                "uncertain"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_version",
+        "schema_digest",
+        "kind",
+        "intent",
+        "intent_digest",
+        "current_lease_id",
+        "outcome"
+      ],
+      "properties": {
+        "protocol_version": {
+          "const": "save-profile-v1"
+        },
+        "schema_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "kind": {
+          "const": "lookup_result"
+        },
+        "intent": {
+          "$ref": "#/$defs/intent"
+        },
+        "intent_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "current_lease_id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,95}$"
+        },
+        "outcome": {
+          "enum": [
+            "not_found",
+            "request_error",
+            "uncertain"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "owner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "instance_id",
+        "approved_process_profile",
+        "process_namespace",
+        "allocation_id",
+        "process_generation",
+        "mod_incarnation",
+        "mod_generation"
+      ],
+      "properties": {
+        "instance_id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,95}$"
+        },
+        "approved_process_profile": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "process_namespace": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,95}$"
+        },
+        "allocation_id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,95}$"
+        },
+        "process_generation": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "mod_incarnation": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,95}$"
+        },
+        "mod_generation": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      }
+    },
+    "intent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation_id",
+        "action",
+        "scope",
+        "owner",
+        "original_lease_id",
+        "expected_generation",
+        "baseline",
+        "slot_id",
+        "prior_allocation_id"
+      ],
+      "properties": {
+        "operation_id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,95}$"
+        },
+        "action": {
+          "enum": [
+            "select",
+            "create_disposable"
+          ]
+        },
+        "scope": {
+          "enum": [
+            "select_profile",
+            "create_disposable_profile"
+          ]
+        },
+        "owner": {
+          "$ref": "#/$defs/owner"
+        },
+        "original_lease_id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,95}$"
+        },
+        "expected_generation": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "baseline": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "slot_id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,95}$"
+        },
+        "prior_allocation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,95}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "owner",
+        "generation",
+        "baseline",
+        "selected_slot_id",
+        "slots",
+        "native_ready",
+        "active_run"
+      ],
+      "properties": {
+        "owner": {
+          "$ref": "#/$defs/owner"
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "baseline": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "selected_slot_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,95}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "slots": {
+          "type": "array",
+          "maxItems": 32,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,95}$"
+          }
+        },
+        "native_ready": {
+          "type": "boolean"
+        },
+        "active_run": {
+          "type": "boolean"
+        }
+      }
+    },
+    "witness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation_id",
+        "intent_digest",
+        "slot_id",
+        "allocation_id",
+        "generation"
+      ],
+      "properties": {
+        "operation_id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,95}$"
+        },
+        "intent_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "slot_id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,95}$"
+        },
+        "allocation_id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,95}$"
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      }
+    }
+  }
+}
