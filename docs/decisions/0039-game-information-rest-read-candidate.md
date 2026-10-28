@@ -100,7 +100,7 @@ and separately authorized exact-host evidence remain pending.
 At this decision's original acceptance, locked `jsonschema = 0.55.0`, with default
 features disabled, moved from test-only to production use in the existing neutral
 crate without changing package versions, resolvers, installation or the lockfile
-graph. The current manifest and lockfile pin 0.59.0 with default features disabled.
+graph. The current manifest and lockfile pin 0.60.1 with default features disabled.
 The validator compiles only embedded standalone repository-owned schema bytes.
 It accepts no caller schema and performs no remote or filesystem resolution.
 Its capture and cursor inputs are caller-owned inert evidence: the authenticated
